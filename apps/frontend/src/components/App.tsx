@@ -11,13 +11,13 @@ export default function App() {
 		<BrowserRouter>
 			<NavDisplay>
 				<Navbar />
-				<Routes>
-					<Route path="/" element={<Home />} />
-					<Route path="/sign-in" element={<Auth />} />
-					<Route path="/sign-up" element={<Auth />} />
-					<Route path="*" element={<NotFound />} />
-				</Routes>
 			</NavDisplay>
+			<Routes>
+				<Route path="/" element={<Home />} />
+				<Route path="/sign-in" element={<Auth />} />
+				<Route path="/sign-up" element={<Auth />} />
+				<Route path="*" element={<NotFound />} />
+			</Routes>
 		</BrowserRouter>
 	);
 }
