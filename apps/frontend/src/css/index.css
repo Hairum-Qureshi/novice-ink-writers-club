@@ -1,8 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Lusitana:wght@400;700&display=swap");
 
 @import "tailwindcss";
 
 @theme {
-    --font-dancing-script: 'Dancing Script', cursive;
-    --color-novice-ink: #FFD602;
+	--font-dancing-script: "Dancing Script", cursive;
+    --font-lusitana: "Lusitana", serif;
+	--color-novice-ink-yellow: #ffd602;
 }
