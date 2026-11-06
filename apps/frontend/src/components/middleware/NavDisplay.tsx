@@ -7,7 +7,10 @@ export default function NavDisplay({
 }) {
 	const location = useLocation();
 	const isAuthPage =
-		location.pathname === "/sign-in" || location.pathname === "/sign-up" || location.pathname === "/forgot-password";
+		location.pathname === "/sign-in" ||
+		location.pathname === "/sign-up" ||
+		location.pathname === "/forgot-password" ||
+		location.pathname === "/verify-email";
 
 	return <>{!isAuthPage ? children : null}</>;
 }
