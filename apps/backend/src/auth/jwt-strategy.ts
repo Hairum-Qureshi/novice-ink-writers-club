@@ -26,7 +26,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const [user] = await this.db
       .select()
       .from(usersTable)
-      .where(eq(usersTable.id, BigInt(id)))
+      .where(eq(usersTable.id, id))
       .limit(1);
 
     if (!user) {
