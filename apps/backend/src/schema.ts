@@ -1,9 +1,9 @@
-import { pgTable, text, bigint, timestamp, pgEnum } from 'drizzle-orm/pg-core';
+import { pgTable, text, timestamp, pgEnum } from 'drizzle-orm/pg-core';
 
 export const userRoles = pgEnum('roles', ['user', 'admin']);
 
 export const usersTable = pgTable('users', {
-  id: bigint({ mode: 'bigint' }).primaryKey(),
+  id: text('id').primaryKey(),
   first_name: text('first_name').notNull(),
   last_name: text('last_name').notNull(),
   email: text('email').notNull(),
