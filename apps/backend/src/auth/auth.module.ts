@@ -5,7 +5,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './jwt-strategy';
-import { NeonDBProvider } from 'src/providers/postgres-db';
+import { NeonDBProvider } from '../providers/postgres-db';
 
 @Global()
 @Module({

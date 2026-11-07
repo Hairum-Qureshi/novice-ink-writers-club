@@ -1,17 +1,18 @@
-import { Controller, Get, Post, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Res, UseGuards, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthGuard } from '@nestjs/passport/dist/auth.guard';
 import { CurrentUser } from '../decorators/currentUser.decorator';
 import type { Response } from 'express';
 import type { UserPayload } from '@repo/shared-types';
+import type { SignUpFormData as SignUpFormDataDto } from '@repo/shared-types';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('sign-up')
-  signUp() {
-    return this.authService.signUp();
+  signUp(@Body() formData: SignUpFormDataDto) {
+    console.log(formData);
   }
 
   @Post('sign-out')

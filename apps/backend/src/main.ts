@@ -3,12 +3,14 @@ import { AppModule } from './app.module';
 import cookieParser from 'cookie-parser';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ConfigService } from '@nestjs/config';
+import { StandardSchemaValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const configService = app.get(ConfigService);
 
   app.use(cookieParser());
+  app.useGlobalPipes(new StandardSchemaValidationPipe());
 
   app.enableCors({
     origin: configService.get<string>('FRONTEND_URL'),
