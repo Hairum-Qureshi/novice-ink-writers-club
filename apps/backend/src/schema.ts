@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, pgEnum } from 'drizzle-orm/pg-core';
+import { pgTable, text, timestamp, pgEnum, boolean } from 'drizzle-orm/pg-core';
 
 export const userRoles = pgEnum('roles', ['user', 'admin']);
 
@@ -10,6 +10,8 @@ export const usersTable = pgTable('users', {
   profile_picture: text('profile_picture').notNull(),
   password: text('password'),
   role: userRoles().default('user'),
+  is_verified: boolean('is_verified').default(false),
+  verification_code: text('verification_code'),
   created_at: timestamp('created_at').defaultNow(),
   updated_at: timestamp('updated_at').defaultNow(),
 });
