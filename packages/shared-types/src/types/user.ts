@@ -4,8 +4,7 @@ type User = {
 	lastName: string;
 	email: string;
 	profilePicture: string;
-	createdAt: Date;
-	updatedAt: Date;
+	password: string;
 };
 
 export type { User };
