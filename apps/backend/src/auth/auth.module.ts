@@ -6,6 +6,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './jwt-strategy';
 import { NeonDBProvider } from '../providers/postgres-db';
+import { UserRepository } from '../repositories/user.repository';
 
 @Global()
 @Module({
@@ -24,7 +25,7 @@ import { NeonDBProvider } from '../providers/postgres-db';
       },
     }),
   ],
-  providers: [AuthService, JwtStrategy, NeonDBProvider],
+  providers: [AuthService, JwtStrategy, NeonDBProvider, UserRepository],
   controllers: [AuthController],
   exports: [PassportModule, JwtStrategy, AuthService],
 })
