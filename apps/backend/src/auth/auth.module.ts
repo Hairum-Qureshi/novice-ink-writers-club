@@ -7,6 +7,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { NeonDBProvider } from '../providers/postgres-db';
 import { UserRepository } from '../repositories/user.repository';
+import { RefreshTokenStrategy } from './strategies/refresh-token.strategy';
+import { AccessTokenStrategy } from './strategies/access-token.strategy';
 
 @Global()
 @Module({
@@ -25,7 +27,14 @@ import { UserRepository } from '../repositories/user.repository';
       },
     }),
   ],
-  providers: [AuthService, JwtStrategy, NeonDBProvider, UserRepository],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    NeonDBProvider,
+    UserRepository,
+    RefreshTokenStrategy,
+    AccessTokenStrategy,
+  ],
   controllers: [AuthController],
   exports: [PassportModule, JwtStrategy, AuthService],
 })
