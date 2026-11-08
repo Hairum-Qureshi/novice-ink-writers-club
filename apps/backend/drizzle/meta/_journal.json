@@ -22,6 +22,20 @@
       "when": 1794090653328,
       "tag": "0002_easy_silver_centurion",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1794115203425,
+      "tag": "0003_shallow_callisto",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1794115771540,
+      "tag": "0004_misty_mariko_yashida",
+      "breakpoints": true
     }
   ]
 }
