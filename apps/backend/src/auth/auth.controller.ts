@@ -2,7 +2,7 @@ import { Controller, Get, Post, Res, UseGuards, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CurrentUser } from '../decorators/currentUser.decorator';
 import type { Response } from 'express';
-import type { UserPayload } from '@repo/shared-types';
+import { signUpSchema, type User } from '@repo/shared-types';
 import type { SignUpFormData as SignUpFormDataDto } from '@repo/shared-types';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -11,8 +11,8 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('sign-up')
-  signUp(@Body() formData: SignUpFormDataDto) {
-    console.log(formData);
+  signUp(@Body({ schema: signUpSchema }) signUpFormDto: SignUpFormDataDto) {
+    return this.authService.signUp(signUpFormDto);
   }
 
   @Post('sign-out')
@@ -25,7 +25,7 @@ export class AuthController {
 
   @Get('current-user')
   @UseGuards(AuthGuard())
-  getCurrentUser(@CurrentUser() user: UserPayload): UserPayload {
+  getCurrentUser(@CurrentUser() user: User): User {
     return this.authService.getCurrentUser(user);
   }
 }

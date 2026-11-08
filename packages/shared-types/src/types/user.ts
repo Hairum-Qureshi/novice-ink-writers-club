@@ -1,4 +1,4 @@
-type UserPayload = {
+type User = {
 	id: string;
 	firstName: string;
 	lastName: string;
@@ -8,4 +8,4 @@ type UserPayload = {
 	updatedAt: Date;
 };
 
-export type { UserPayload };
+export type { User };

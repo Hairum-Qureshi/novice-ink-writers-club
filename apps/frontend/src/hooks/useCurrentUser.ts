@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import type { UserPayload } from "@repo/shared-types";
+import type { User } from "@repo/shared-types";
 
 export function useCurrentUser() {
 	return useQuery({
 		queryKey: ["currentUser"],
-		queryFn: async (): Promise<UserPayload> => {
+		queryFn: async (): Promise<User> => {
 			const response = await axios.get(
 				`${import.meta.env.VITE_BACKEND_URL}/api/auth/current-user`,
 				{ withCredentials: true }
