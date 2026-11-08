@@ -58,7 +58,7 @@ Those decisions are left to the user.
 ├── packages/
 │   └── shared-types/     # @repo/shared-types - shared TypeScript types for frontend/backend
 │       └── src/
-│           ├── types/    # Domain types (e.g. UserPayload, AuthRequest)
+│           ├── types/    # Domain types (e.g. User, AuthRequest)
 │           ├── hooks/    # Hook return/prop types (e.g. UseGoogleAuthHook)
 │           └── index.ts  # Re-exports shared types
 ├── package.json          # Root workspace + Turbo configuration
@@ -380,6 +380,16 @@ This uses Turbo to:
 * Start the NestJS backend
 * Start the Vite frontend
 * Stream logs with app prefixes
+
+### Rebuilding Shared Types
+
+Changes to types in `packages/shared-types` may not appear in the apps until the package's `dist` folder is rebuilt. From the `packages` directory, run the following in a separate terminal:
+
+```bash
+npm run build --workspace=@repo/shared-types -- --watch
+```
+
+Leave this command running to rebuild `dist` automatically as the shared types change.
 
 ### Default Ports
 
