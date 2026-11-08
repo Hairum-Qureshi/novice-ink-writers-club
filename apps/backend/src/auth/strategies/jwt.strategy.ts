@@ -4,8 +4,8 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Request } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { eq } from 'drizzle-orm';
-import * as postgresDb from '../providers/postgres-db';
-import { usersTable } from '../schema';
+import * as postgresDb from '../../providers/postgres-db';
+import { usersTable } from '../../schema';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
