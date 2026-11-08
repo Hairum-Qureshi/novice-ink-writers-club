@@ -5,3 +5,4 @@ export type { SignInFormData } from "./schemas/signIn.schema.js";
 export type { SignUpFormData } from "./schemas/signUp.schema.js";
 export { signUpSchema } from "./schemas/signUp.schema.js";
 export { signInSchema } from "./schemas/signIn.schema.js";
+export { Role } from "./enums/role.js";
