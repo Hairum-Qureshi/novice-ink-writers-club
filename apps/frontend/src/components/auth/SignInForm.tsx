@@ -1,24 +1,27 @@
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signUpSchema } from "@repo/shared-types";
+import { signInSchema } from "@repo/shared-types";
 import { z } from "zod";
+import useAuth from "../../hooks/useAuth";
 
 export default function SignInForm() {
 	const {
 		register,
 		handleSubmit,
 		formState: { errors }
-	} = useForm<z.infer<typeof signUpSchema>>({
-		resolver: zodResolver(signUpSchema)
+	} = useForm<z.infer<typeof signInSchema>>({
+		resolver: zodResolver(signInSchema)
 	});
+
+	const { signIn } = useAuth();
 
 	return (
 		<form
 			className="w-1/2 space-y-4"
 			onSubmit={handleSubmit((data, e) => {
 				e?.preventDefault();
-				console.log(data);
+				signIn(data);
 			})}
 		>
 			<div className="flex flex-col space-y-3 mb-8 text-center">
