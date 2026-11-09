@@ -41,11 +41,18 @@ export class TokensService {
     };
   }
 
-  async setRefreshToken(sessionId: string, refreshToken: string) {
+  async setRefreshToken(
+    userId: string,
+    sessionId: string,
+    refreshToken: string,
+  ) {
     const refreshTokenHash = crypto
       .createHash('sha256')
       .update(refreshToken)
       .digest('hex');
-    await this.cacheManager.set(`rt:${sessionId}`, refreshTokenHash);
+    await this.cacheManager.set(`rt:${sessionId}`, {
+      refreshTokenHash,
+      userId,
+    });
   }
 }
