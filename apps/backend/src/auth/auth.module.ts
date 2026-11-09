@@ -4,7 +4,7 @@ import { AuthService } from './services/auth.service';
 import { AuthController } from './auth.controller';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from './strategies/jwt.strategy';
+// import { JwtStrategy } from './strategies/jwt.strategy';
 import { NeonDBProvider } from '../providers/postgres-db';
 import { UserRepository } from '../repositories/user.repository';
 import { RefreshTokenStrategy } from './strategies/refresh-token.strategy';
@@ -15,23 +15,10 @@ import { TokensService } from './services/tokens.service';
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    // JwtModule.registerAsync({
-    //   inject: [ConfigService],
-    //   imports: [ConfigModule],
-    //   useFactory: (config: ConfigService) => {
-    //     return {
-    //       secret: config.get<string>('JWT_SECRET'),
-    //       signOptions: {
-    //         expiresIn: Number(config.get<string>('JWT_EXPIRES')),
-    //       },
-    //     };
-    //   },
-    // }),
     JwtModule.register({}),
   ],
   providers: [
     AuthService,
-    JwtStrategy,
     NeonDBProvider,
     UserRepository,
     RefreshTokenStrategy,
@@ -40,6 +27,6 @@ import { TokensService } from './services/tokens.service';
     CookieService,
   ],
   controllers: [AuthController],
-  exports: [PassportModule, JwtStrategy, AuthService],
+  exports: [PassportModule, AuthService],
 })
 export class AuthModule {}
