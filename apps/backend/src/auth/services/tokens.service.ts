@@ -47,10 +47,14 @@ export class TokensService {
     refreshToken: string,
   ) {
     const refreshTokenHash = this.hashRefreshToken(refreshToken);
-    await this.cacheManager.set(`rt:${sessionId}`, {
-      refreshTokenHash,
-      userId,
-    });
+    await this.cacheManager.set(
+      `rt:${sessionId}`,
+      {
+        refreshTokenHash,
+        userId,
+      },
+      this.configService.get<number>('JWT_REFRESH_EXPIRY'), // TTL for the refresh token in milliseconds (1 week)
+    );
   }
 
   hashRefreshToken(refreshToken: string) {
