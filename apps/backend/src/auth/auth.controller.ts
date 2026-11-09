@@ -1,5 +1,14 @@
-import { Controller, Get, Post, Res, UseGuards, Body } from '@nestjs/common';
-import { AuthService } from './auth.service';
+import {
+  Controller,
+  Get,
+  Post,
+  UseGuards,
+  Body,
+  Cookies,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
+import { AuthService } from './services/auth.service';
 import { CurrentUser } from '../decorators/currentUser.decorator';
 import type { Response } from 'express';
 import { signUpSchema, type User } from '@repo/shared-types';
@@ -11,16 +20,19 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('sign-up')
+  @HttpCode(HttpStatus.CREATED)
   signUp(@Body({ schema: signUpSchema }) signUpFormDto: SignUpFormDataDto) {
     return this.authService.signUp(signUpFormDto);
   }
 
+  @Post('sign-in')
+  @HttpCode(HttpStatus.OK)
+  signIn() {}
+
   @Post('sign-out')
-  signOut(@Res({ passthrough: true }) res: Response): {
-    message: string;
-  } {
-    res.clearCookie('auth-session', this.authService.getAuthCookieOptions());
-    return { message: 'success' };
+  @HttpCode(HttpStatus.OK)
+  signOut(@Cookies('sessionId') sessionId: string) {
+    return this.authService.signOut(sessionId);
   }
 
   @Get('current-user')
