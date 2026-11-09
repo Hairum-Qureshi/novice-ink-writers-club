@@ -1,4 +1,5 @@
 import { Global, Module } from '@nestjs/common';
+import { CookieService } from './services/cookie.service';
 import { AuthService } from './services/auth.service';
 import { AuthController } from './auth.controller';
 import { PassportModule } from '@nestjs/passport';
@@ -36,6 +37,7 @@ import { TokensService } from './services/tokens.service';
     RefreshTokenStrategy,
     AccessTokenStrategy,
     TokensService,
+    CookieService,
   ],
   controllers: [AuthController],
   exports: [PassportModule, JwtStrategy, AuthService],
