@@ -1,13 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import type { Role } from '@repo/shared-types';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import type { Cache } from 'cache-manager';
+import crypto from 'crypto';
 
 @Injectable()
 export class TokensService {
   constructor(
     private jwtService: JwtService,
     private configService: ConfigService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
   async generateTokens(userId: string, email: string, role: Role) {
@@ -35,5 +39,13 @@ export class TokensService {
       accessToken,
       refreshToken,
     };
+  }
+
+  async setRefreshToken(sessionId: string, refreshToken: string) {
+    const refreshTokenHash = crypto
+      .createHash('sha256')
+      .update(refreshToken)
+      .digest('hex');
+    await this.cacheManager.set(`rt:${sessionId}`, refreshTokenHash);
   }
 }
