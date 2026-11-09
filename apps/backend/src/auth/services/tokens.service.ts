@@ -46,13 +46,14 @@ export class TokensService {
     sessionId: string,
     refreshToken: string,
   ) {
-    const refreshTokenHash = crypto
-      .createHash('sha256')
-      .update(refreshToken)
-      .digest('hex');
+    const refreshTokenHash = this.hashRefreshToken(refreshToken);
     await this.cacheManager.set(`rt:${sessionId}`, {
       refreshTokenHash,
       userId,
     });
+  }
+
+  hashRefreshToken(refreshToken: string) {
+    return crypto.createHash('sha256').update(refreshToken).digest('hex');
   }
 }
