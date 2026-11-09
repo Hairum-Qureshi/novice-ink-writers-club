@@ -1,6 +1,10 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { UseAuthHook, SignUpFormData } from "@repo/shared-types";
+import type {
+	UseAuthHook,
+	SignUpFormData,
+	SignInFormData
+} from "@repo/shared-types";
 
 export default function useAuth(): UseAuthHook {
 	const queryClient = useQueryClient();
@@ -9,6 +13,18 @@ export default function useAuth(): UseAuthHook {
 		mutationFn: async (formData: SignUpFormData) => {
 			await axios.post(
 				`${import.meta.env.VITE_BACKEND_URL}/api/auth/sign-up`,
+				formData,
+				{
+					withCredentials: true
+				}
+			);
+		}
+	});
+
+	const signInMutation = useMutation({
+		mutationFn: async (formData: SignInFormData) => {
+			await axios.post(
+				`${import.meta.env.VITE_BACKEND_URL}/api/auth/sign-in`,
 				formData,
 				{
 					withCredentials: true
@@ -33,7 +49,8 @@ export default function useAuth(): UseAuthHook {
 	});
 
 	return {
+		signOut: signOutMutation.mutateAsync,
 		signUp: signUpMutation.mutateAsync,
-		signOut: signOutMutation.mutateAsync
+		signIn: signInMutation.mutateAsync
 	};
 }
