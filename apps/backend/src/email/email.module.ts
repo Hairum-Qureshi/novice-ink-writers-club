@@ -6,6 +6,6 @@ import { ResendProvider } from '../providers/resend';
 @Module({
   providers: [EmailService, ResendProvider],
   controllers: [EmailController],
-  exports: [ResendProvider],
+  exports: [EmailService],
 })
 export class EmailModule {}
