@@ -69,7 +69,10 @@ export class AuthService {
     };
 
     await this.userRepository.createUser(user);
-    await this.emailService.sendVerificationEmail(user.email, verificationCode);
+    await this.emailService.sendVerificationEmail(
+      user.email as string,
+      verificationCode,
+    );
   }
 
   async signOut(response: Response, sessionId: string, userId: string) {
