@@ -43,6 +43,9 @@ export default function useAuth(): UseAuthHook {
 					withCredentials: true
 				}
 			);
+		},
+		onSuccess: () => {
+			navigate("/"); 
 		}
 	});
 
