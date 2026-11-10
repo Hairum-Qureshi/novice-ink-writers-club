@@ -11,3 +11,11 @@
 	--color-novice-ink-yellow: #ffd602;
 	--color-novice-ink-blue: #233975;
 }
+
+@layer base {
+	input[type="number"]::-webkit-inner-spin-button,
+	input[type="number"]::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+}
