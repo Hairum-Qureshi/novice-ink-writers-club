@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX "unique_user" ON "users" USING btree ("email","verification_code");

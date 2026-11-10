@@ -43,6 +43,13 @@
       "when": 1794286358369,
       "tag": "0005_funny_nicolaos",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1794349953530,
+      "tag": "0006_silent_tyrannus",
+      "breakpoints": true
     }
   ]
 }
