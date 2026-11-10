@@ -21,8 +21,12 @@ export default function useAuth(): UseAuthHook {
 				}
 			);
 		},
-		onSuccess: () => {
-			navigate("/verify-email");
+		onSuccess: (_, formData) => {
+			navigate("/verify-email", {
+				state: {
+					email: formData.email
+				}
+			});
 		}
 	});
 
