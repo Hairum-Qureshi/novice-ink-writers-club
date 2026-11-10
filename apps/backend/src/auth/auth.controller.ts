@@ -9,8 +9,10 @@ import {
   Req,
   HttpException,
   Res,
+  Get,
 } from '@nestjs/common';
 import { AuthService } from './services/auth.service';
+import { VerificationService } from './services/verification.service';
 import type { Request, Response } from 'express';
 import { signUpSchema, signInSchema } from '@repo/shared-types';
 import type {
@@ -22,15 +24,15 @@ import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly verificationService: VerificationService,
+  ) {}
 
   @Post('sign-up')
   @HttpCode(HttpStatus.CREATED)
-  signUp(
-    @Body({ schema: signUpSchema }) signUpFormDto: SignUpFormDataDto,
-    @Res({ passthrough: true }) response: Response,
-  ) {
-    return this.authService.signUp(response, signUpFormDto);
+  signUp(@Body({ schema: signUpSchema }) signUpFormDto: SignUpFormDataDto) {
+    return this.authService.signUp(signUpFormDto);
   }
 
   @Post('sign-in')
@@ -60,10 +62,12 @@ export class AuthController {
   @UseGuards(AuthGuard('jwt-refresh'))
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
-  refreshTokens(@Req() req: Request, @Cookies('sessionId') sessionId: string) {
-    const user = req.user;
-
-    if (!user) throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+  refreshTokens(
+    @Req() request: Request,
+    @Res({ passthrough: true }) response: Response,
+    @Cookies('sessionId') sessionId: string,
+  ) {
+    const user = request.user!;
 
     return this.authService.refreshTokens(
       user['sub'] as string,
@@ -71,12 +75,36 @@ export class AuthController {
       user['role'] as Role,
       user['email'] as string,
       sessionId,
+      response,
     );
   }
 
-  // @Get('current-user')
-  // @UseGuards(AuthGuard())
-  // getCurrentUser(@CurrentUser() user: User): User {
-  //   return this.authService.getCurrentUser(user);
-  // }
+  @UseGuards(AuthGuard('jwt'))
+  @Get('current-user')
+  getCurrentUser(@Req() request: Request) {
+    const user = request.user!;
+
+    return {
+      id: user['sub'],
+      firstName: user['firstName'],
+      lastName: user['lastName'],
+      email: user['email'],
+      profilePicture: user['profilePicture'],
+    };
+  }
+
+  @Post('verify-email')
+  @HttpCode(HttpStatus.OK)
+  verifyEmail(
+    @Body('code') code: string,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    return this.verificationService.verifyEmail(response, code);
+  }
+
+  @Post('resend-verification-email')
+  @HttpCode(HttpStatus.OK)
+  resendVerificationEmail(@Body('email') email: string) {
+    return this.verificationService.resendVerificationEmail(email);
+  }
 }

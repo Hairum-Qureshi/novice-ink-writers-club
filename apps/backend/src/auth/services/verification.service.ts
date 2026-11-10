@@ -60,26 +60,11 @@ export class VerificationService {
     const sessionId = crypto.randomBytes(16).toString('hex');
     await this.tokensService.setRefreshToken(user.id, sessionId, refreshToken);
 
-    const refreshExpiry = this.configService.get<number>(
-      'JWT_REFRESH_EXPIRY',
-    ) as number;
-    this.cookieService.createCookie(
+    this.cookieService.setAuthCookies(
       response,
-      'sessionId',
-      sessionId,
-      refreshExpiry,
-    );
-    this.cookieService.createCookie(
-      response,
-      'refreshToken',
       refreshToken,
-      refreshExpiry,
-    );
-    this.cookieService.createCookie(
-      response,
-      'accessToken',
       accessToken,
-      this.configService.get<number>('JWT_ACCESS_EXPIRY') as number,
+      sessionId,
     );
   }
 

@@ -8,105 +8,68 @@ import {
 import type { Response } from 'express';
 import type { Cache } from 'cache-manager';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { JwtService } from '@nestjs/jwt';
 import {
   User,
   SignUpFormData as SignUpFormDataDto,
   SignInFormData as SignInFormDataDto,
   Role,
 } from '@repo/shared-types';
+import { EmailService } from '../../email/email.service';
 import * as argon2 from 'argon2';
-import { ConfigService } from '@nestjs/config';
 import * as postgresDb from '../../providers/postgres-db';
 import { UserRepository } from '../../repositories/user.repository';
 import { customAlphabet } from 'nanoid';
 import { TokensService } from './tokens.service';
 import crypto from 'crypto';
 import { CookieService } from './cookie.service';
+import { VerificationService } from './verification.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private jwtService: JwtService,
-    private configService: ConfigService,
     @Inject('NeonDBProvider') private readonly db: postgresDb.Database,
     private userRepository: UserRepository,
     private tokensService: TokensService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
     private cookieService: CookieService,
+    private verificationService: VerificationService,
+    private emailService: EmailService,
   ) {}
 
-  async signUp(response: Response, signUpFormDto: SignUpFormDataDto) {
+  async signUp(signUpFormDto: SignUpFormDataDto) {
     const { firstName, lastName, email, password } = signUpFormDto;
 
-    // check if account exists with email
-    if (await this.userRepository.findUserByEmail(email)) {
+    if (await this.userRepository.findUserByEmail(email as string)) {
       throw new HttpException(
         'User with this email already exists',
         HttpStatus.BAD_REQUEST,
       );
     }
 
-    // hash password
-    const hashedPassword = await argon2.hash(password);
+    const hashedPassword = await argon2.hash(password as string);
 
-    // save user to database
     const generatedId = customAlphabet(
       '1234567890abcdefghijklmnopqrstuvwxyz',
       15,
     );
+
+    const verificationCode =
+      this.verificationService.generateVerificationCode();
 
     const user = {
       id: generatedId(),
       firstName,
       lastName,
       email,
+      isVerified: false,
+      verificationCode,
+      verificationCodeExpiry: new Date(Date.now() + 5 * 60 * 1000), // 5 minutes from now
       profilePicture: `https://api.dicebear.com/10.x/waves/svg?seed=${generatedId()}`,
       password: hashedPassword,
     };
 
     await this.userRepository.createUser(user);
-
-    // TODO send email with verification code
-
-    // ! - for now, just generate the tokens and later come back and implement the verification logic
-    const { accessToken, refreshToken } =
-      await this.tokensService.generateTokens(
-        user.id,
-        user.email as string,
-        Role.USER,
-      );
-
-    const sessionId = crypto.randomBytes(16).toString('hex');
-
-    await this.tokensService.setRefreshToken(user.id, sessionId, refreshToken);
-
-    this.cookieService.createCookie(
-      response,
-      'sessionId',
-      sessionId,
-      this.configService.get<number>('JWT_REFRESH_EXPIRY') as number,
-    );
-
-    this.cookieService.createCookie(
-      response,
-      'refreshToken',
-      refreshToken,
-      this.configService.get<number>('JWT_REFRESH_EXPIRY') as number,
-    );
-
-    this.cookieService.createCookie(
-      response,
-      'accessToken',
-      accessToken,
-      this.configService.get<number>('JWT_ACCESS_EXPIRY') as number, // 15 minutes
-    );
-  }
-
-  async verifyEmail() {
-    // generate access and refresh tokens + cookies
-    // mark user as verified in the database + clear verification code
-    // return response with tokens and cookies
+    await this.emailService.sendVerificationEmail(user.email, verificationCode);
   }
 
   async signOut(response: Response, sessionId: string, userId: string) {
@@ -126,11 +89,32 @@ export class AuthService {
   }
 
   async signIn(response: Response, signInFormDto: SignInFormDataDto) {
-    const user = await this.userRepository.findUserByEmail(signInFormDto.email);
+    const user = await this.userRepository.findUserByEmail(
+      signInFormDto.email as string,
+    );
 
     if (!user) throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
 
-    // compare passwords with argon2
+    if (!user.is_verified) {
+      const verificationCode =
+        this.verificationService.generateVerificationCode();
+
+      await this.userRepository.updateUser(user.id, {
+        verificationCode,
+        verificationCodeExpiry: new Date(Date.now() + 5 * 60 * 1000),
+      });
+
+      await this.emailService.sendVerificationEmail(
+        user.email,
+        verificationCode,
+      );
+
+      throw new HttpException(
+        'Email not verified. A verification code has been sent to your email.',
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+
     const isPasswordValid = await argon2.verify(
       user.password as string,
       signInFormDto.password as string,
@@ -146,25 +130,11 @@ export class AuthService {
 
     await this.tokensService.setRefreshToken(user.id, sessionId, refreshToken);
 
-    this.cookieService.createCookie(
+    this.cookieService.setAuthCookies(
       response,
-      'sessionId',
-      sessionId,
-      1000 * 60 * 60 * 24 * 7,
-    );
-
-    this.cookieService.createCookie(
-      response,
-      'refreshToken',
       refreshToken,
-      1000 * 60 * 60 * 24 * 7,
-    );
-
-    this.cookieService.createCookie(
-      response,
-      'accessToken',
       accessToken,
-      1000 * 60 * 15,
+      sessionId,
     );
   }
 
@@ -204,18 +174,10 @@ export class AuthService {
       tokens.refreshToken,
     );
 
-    this.cookieService.createCookie(
+    this.cookieService.setAuthCookies(
       response,
-      'refreshToken',
       tokens.refreshToken,
-      1000 * 60 * 60 * 24 * 7,
-    );
-
-    this.cookieService.createCookie(
-      response,
-      'accessToken',
       tokens.accessToken,
-      1000 * 60 * 15,
     );
 
     return tokens;

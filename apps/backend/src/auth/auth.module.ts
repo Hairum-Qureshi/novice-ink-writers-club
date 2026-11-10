@@ -10,6 +10,7 @@ import { UserRepository } from '../repositories/user.repository';
 import { RefreshTokenStrategy } from './strategies/refresh-token.strategy';
 import { AccessTokenStrategy } from './strategies/access-token.strategy';
 import { TokensService } from './services/tokens.service';
+import { VerificationService } from './services/verification.service';
 
 @Global()
 @Module({
@@ -26,6 +27,7 @@ import { TokensService } from './services/tokens.service';
     AccessTokenStrategy,
     TokensService,
     CookieService,
+    VerificationService,
   ],
   controllers: [AuthController],
   exports: [PassportModule, AuthService],
