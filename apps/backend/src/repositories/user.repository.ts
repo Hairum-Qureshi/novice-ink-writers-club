@@ -38,6 +38,28 @@ export class UserRepository {
     });
   }
 
+  async findUserByVerificationCode(code: string) {
+    return await this.db.query.usersTable.findFirst({
+      where: eq(usersTable.verification_code, code),
+    });
+  }
+
+  async updateUser(id: string, updateData: Partial<User>) {
+    return await this.db
+      .update(usersTable)
+      .set({
+        first_name: updateData.firstName,
+        last_name: updateData.lastName,
+        email: updateData.email,
+        profile_picture: updateData.profilePicture,
+        password: updateData.password,
+        is_verified: updateData.isVerified,
+        verification_code: updateData.verificationCode,
+        verification_code_expiry: updateData.verificationCodeExpiry,
+      })
+      .where(eq(usersTable.id, id));
+  }
+
   //   async deleteUser(id: string) {}
 
   //   async updateUserRole(id: string, role: Role) {}
