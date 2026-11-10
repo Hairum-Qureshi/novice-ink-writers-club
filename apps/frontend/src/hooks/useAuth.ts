@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import type {
 	UseAuthHook,
 	SignUpFormData,
@@ -8,6 +9,7 @@ import type {
 
 export default function useAuth(): UseAuthHook {
 	const queryClient = useQueryClient();
+	const navigate = useNavigate();
 
 	const signUpMutation = useMutation({
 		mutationFn: async (formData: SignUpFormData) => {
@@ -18,6 +20,9 @@ export default function useAuth(): UseAuthHook {
 					withCredentials: true
 				}
 			);
+		},
+		onSuccess: () => {
+			navigate("/verify-email");
 		}
 	});
 
@@ -30,6 +35,9 @@ export default function useAuth(): UseAuthHook {
 					withCredentials: true
 				}
 			);
+		},
+		onSuccess: () => {
+			navigate("/"); // Redirect to the home page after successful sign-in
 		}
 	});
 
