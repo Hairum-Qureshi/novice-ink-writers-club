@@ -30,6 +30,22 @@ export default function useAuth(): UseAuthHook {
 		}
 	});
 
+	const verifyEmailMutation = useMutation({
+		mutationFn: async (code: string) => {
+			if (!code) throw new Error("Verification code is required");
+			if (code.length !== 6)
+				throw new Error("Verification code must be 6 digits");
+
+			await axios.post(
+				`${import.meta.env.VITE_BACKEND_URL}/api/auth/verify-email`,
+				{ code },
+				{
+					withCredentials: true
+				}
+			);
+		}
+	});
+
 	const signInMutation = useMutation({
 		mutationFn: async (formData: SignInFormData) => {
 			await axios.post(
@@ -63,6 +79,7 @@ export default function useAuth(): UseAuthHook {
 	return {
 		signOut: signOutMutation.mutateAsync,
 		signUp: signUpMutation.mutateAsync,
-		signIn: signInMutation.mutateAsync
+		signIn: signInMutation.mutateAsync,
+		verifyEmail: verifyEmailMutation.mutateAsync
 	};
 }
