@@ -33,6 +33,9 @@ export class UserRepository {
       first_name: user.firstName,
       last_name: user.lastName,
       email: user.email,
+      is_verified: user.isVerified,
+      verification_code: user.verificationCode,
+      verification_code_expiry: user.verificationCodeExpiry,
       profile_picture: user.profilePicture,
       password: user.password,
     });
