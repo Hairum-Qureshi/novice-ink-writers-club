@@ -12,6 +12,7 @@ export const usersTable = pgTable('users', {
   role: userRoles().default('user'),
   is_verified: boolean('is_verified').default(false),
   verification_code: text('verification_code'),
+  verification_code_expiry: timestamp('verification_code_expiry'),
   created_at: timestamp('created_at').defaultNow(),
   updated_at: timestamp('updated_at').defaultNow(),
 });
