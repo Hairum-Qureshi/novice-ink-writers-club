@@ -1,5 +1,4 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import type { Response } from 'express';
 import { Role } from '@repo/shared-types';
 import crypto from 'crypto';
@@ -14,7 +13,6 @@ export class VerificationService {
     private readonly userRepository: UserRepository,
     private readonly tokensService: TokensService,
     private readonly cookieService: CookieService,
-    private readonly configService: ConfigService,
     private readonly emailService: EmailService,
   ) {}
 
