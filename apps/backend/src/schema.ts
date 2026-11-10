@@ -7,7 +7,14 @@ import {
   uniqueIndex,
 } from 'drizzle-orm/pg-core';
 
-export const userRoles = pgEnum('roles', ['user', 'admin']);
+export const userRoles = pgEnum('roles', [
+  'admin',
+  'president',
+  'vice president',
+  'secretary',
+  'magazine selector',
+  'member',
+]);
 
 export const usersTable = pgTable(
   'users',
@@ -18,7 +25,7 @@ export const usersTable = pgTable(
     email: text('email').notNull(),
     profile_picture: text('profile_picture').notNull(),
     password: text('password'),
-    role: userRoles().default('user'),
+    role: userRoles().notNull().default('member'),
     is_verified: boolean('is_verified').default(false),
     verification_code: text('verification_code'),
     verification_code_expiry: timestamp('verification_code_expiry'),
