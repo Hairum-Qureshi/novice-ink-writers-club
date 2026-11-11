@@ -1,8 +1,24 @@
 import { Link } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+import { useState } from "react";
 
 export default function PasswordReset() {
+	const { forgotPassword } = useAuth();
+	const [email, setEmail] = useState("");
+
 	return (
-		<form className="w-1/2 space-y-4">
+		<form
+			className="w-1/2 space-y-4"
+			onSubmit={e => {
+				e.preventDefault();
+
+				if (!email) {
+					alert("Email is required");
+					return;
+				}
+				forgotPassword.mutate(email);
+			}}
+		>
 			<div className="flex flex-col space-y-3 mb-8">
 				<div className="text-center flex flex-col space-y-3">
 					<h3 className="font-bold text-3xl">Password Reset</h3>
@@ -28,6 +44,8 @@ export default function PasswordReset() {
 						id="email"
 						name="email"
 						className="px-2 py-2.5 rounded-md border border-gray-400"
+						value={email}
+						onChange={e => setEmail(e.target.value)}
 					/>
 				</div>
 			</div>
