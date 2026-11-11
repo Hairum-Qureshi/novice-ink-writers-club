@@ -12,8 +12,8 @@ interface UseAuthHook {
 			formData: SignUpFormData,
 			options?: { onSuccess?: (data: void, formData: SignUpFormData) => void }
 		) => void;
-		reset: () => void;
 		isPending: boolean;
+		error: unknown;
 		isError: boolean;
 	};
 	signIn: {
@@ -21,8 +21,8 @@ interface UseAuthHook {
 			formData: SignInFormData,
 			options?: { onSuccess?: (data: void) => void }
 		) => void;
-		reset: () => void;
 		isPending: boolean;
+		error: unknown;
 		isError: boolean;
 	};
 	verifyEmail: {
@@ -32,6 +32,7 @@ interface UseAuthHook {
 		) => void;
 		reset: () => void;
 		isPending: boolean;
+		error: unknown;
 		isError: boolean;
 	};
 	resendVerificationEmail: {
@@ -41,6 +42,7 @@ interface UseAuthHook {
 		) => void;
 		reset: () => void;
 		isPending: boolean;
+		error: unknown;
 		isError: boolean;
 	};
 }
