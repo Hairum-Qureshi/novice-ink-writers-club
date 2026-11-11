@@ -55,6 +55,18 @@ interface UseAuthHook {
 		error: unknown;
 		isError: boolean;
 	};
+	updatePassword: {
+		mutate: (
+			formData: { token: string; currentPassword: string; newPassword: string },
+			options?: {
+				onSuccess?: (data: void) => void;
+			}
+		) => void;
+		reset: () => void;
+		isPending: boolean;
+		error: unknown;
+		isError: boolean;
+	};
 }
 
 export type { UseAuthHook };
