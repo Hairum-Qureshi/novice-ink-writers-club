@@ -10,14 +10,20 @@ import {
   HttpException,
   Res,
   Get,
+  Put,
 } from '@nestjs/common';
 import { AuthService } from './services/auth.service';
 import { VerificationService } from './services/verification.service';
 import type { Request, Response } from 'express';
-import { signUpSchema, signInSchema } from '@repo/shared-types';
+import {
+  signUpSchema,
+  signInSchema,
+  passwordResetSchema,
+} from '@repo/shared-types';
 import type {
   SignUpFormData as SignUpFormDataDto,
   SignInFormData as SignInFormDataDto,
+  PasswordResetFormData as PasswordResetFormDataDto,
 } from '@repo/shared-types';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -112,12 +118,12 @@ export class AuthController {
     return this.authService.forgotPassword(email);
   }
 
-  @Post('reset-password')
+  @Put('reset-password')
   @HttpCode(HttpStatus.OK)
   resetPassword(
-    @Body('token') token: string,
-    @Body('newPassword') newPassword: string,
+    @Body({ schema: passwordResetSchema })
+    passwordResetDto: PasswordResetFormDataDto,
   ) {
-    return this.authService.resetPassword(token, newPassword);
+    return this.authService.resetPassword(passwordResetDto);
   }
 }
