@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { passwordResetSchema } from "@repo/shared-types";
 import { IoIosInformationCircleOutline } from "react-icons/io";
@@ -17,7 +17,8 @@ export default function ResetPassword() {
 		resolver: zodResolver(passwordResetSchema)
 	});
 	const [searchParams] = useSearchParams();
-	const { updatePassword } = useAuth();
+	const { resetPassword } = useAuth();
+	const navigate = useNavigate();
 
 	const token = searchParams.get("token") ?? "";
 
@@ -53,13 +54,19 @@ export default function ResetPassword() {
 					</div>
 					<form
 						className="flex flex-col gap-4"
-						onSubmit={handleSubmit(data =>
-							updatePassword.mutate({
-								token: token,
-								currentPassword: "",
-								newPassword: data.newPassword
-							})
-						)}
+						onSubmit={handleSubmit(data => {
+							resetPassword.mutate(
+								{
+									newPassword: data.newPassword,
+									confirmedNewPassword: data.confirmedNewPassword
+								},
+								{
+									onSuccess: () => {
+										navigate("/sign-in");
+									}
+								}
+							);
+						})}
 					>
 						<div className="flex flex-col space-y-6">
 							<div className="flex flex-col">
@@ -118,9 +125,10 @@ export default function ResetPassword() {
 						</div>
 						<button
 							type="submit"
-							className="mt-2 rounded-md bg-novice-ink-blue px-4 py-3 font-semibold text-white transition-colors hover:bg-blue-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-novice-ink-blue focus-visible:ring-offset-2"
+							className="mt-2 rounded-md bg-novice-ink-blue px-4 py-3 font-semibold text-white transition-colors hover:bg-blue-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-novice-ink-blue focus-visible:ring-offset-2 hover:cursor-pointer"
+							disabled={resetPassword.isPending}
 						>
-							Reset Password
+							{resetPassword.isPending ? "Resetting..." : "Reset Password"}
 						</button>
 					</form>
 				</div>
