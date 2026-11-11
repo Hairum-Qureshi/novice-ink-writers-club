@@ -6,6 +6,7 @@ import {
   ForbiddenException,
   NotFoundException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import type { Response } from 'express';
 import type { Cache } from 'cache-manager';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
@@ -35,6 +36,7 @@ export class AuthService {
     private cookieService: CookieService,
     private verificationService: VerificationService,
     private emailService: EmailService,
+    private configService: ConfigService,
   ) {}
 
   async signUp(signUpFormDto: SignUpFormDataDto) {
@@ -207,6 +209,12 @@ export class AuthService {
       resetToken: resetToken,
       resetTokenExpiry: resetTokenExpiry,
     });
+
+    await this.emailService.sendPasswordResetEmail(
+      email,
+      `${this.configService.getOrThrow<string>('FRONTEND_URL')}/reset-password?token=${resetToken}`,
+      10,
+    );
   }
 
   getCurrentUser(user: User): User {
