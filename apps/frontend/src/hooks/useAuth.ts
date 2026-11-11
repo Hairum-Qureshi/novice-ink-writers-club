@@ -1,9 +1,13 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { SignUpFormData, SignInFormData } from "@repo/shared-types";
+import { useSearchParams } from "react-router-dom";
 
 export default function useAuth() {
 	const queryClient = useQueryClient();
+	const [searchParams] = useSearchParams();
+
+	const token = searchParams.get("token") ?? "";
 
 	const signUpMutation = useMutation({
 		mutationFn: async (formData: SignUpFormData) => {
@@ -61,7 +65,7 @@ export default function useAuth() {
 			queryClient.invalidateQueries({ queryKey: ["currentUser"] })
 	});
 
-	const passwordResetMutation = useMutation({
+	const forgotPasswordMutation = useMutation({
 		mutationFn: async (email: string) => {
 			await axios.post(
 				`${import.meta.env.VITE_BACKEND_URL}/api/auth/forgot-password`,
@@ -88,14 +92,15 @@ export default function useAuth() {
 		}
 	});
 
-	const updatePasswordMutation = useMutation({
+	const resetPasswordMutation = useMutation({
 		mutationFn: async (formData: {
-			token: string;
 			newPassword: string;
 			confirmedNewPassword: string;
 		}) => {
+			if (!token) throw new Error("Token is required");
+
 			await axios.post(
-				`${import.meta.env.VITE_BACKEND_URL}/api/auth/update-password`,
+				`${import.meta.env.VITE_BACKEND_URL}/api/auth/reset-password?token=${token}`,
 				formData,
 				{
 					withCredentials: true
@@ -115,7 +120,7 @@ export default function useAuth() {
 		signIn: signInMutation,
 		verifyEmail: verifyEmailMutation,
 		resendVerificationEmail: resendMutation,
-		resetPassword: passwordResetMutation,
-		updatePassword: updatePasswordMutation
+		forgotPassword: forgotPasswordMutation,
+		resetPassword: resetPasswordMutation
 	};
 }
