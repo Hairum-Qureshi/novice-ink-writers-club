@@ -64,6 +64,13 @@
       "when": 1794363770711,
       "tag": "0008_steep_franklin_richards",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1794366504826,
+      "tag": "0009_dapper_hellion",
+      "breakpoints": true
     }
   ]
 }
