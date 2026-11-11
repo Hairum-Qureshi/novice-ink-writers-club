@@ -1,7 +1,13 @@
-import type { UserPayload } from "./user.js";
+import type { User } from "./user.js";
 
 type AuthRequest = Request & {
-	user?: UserPayload;
+	user: {
+		sub: string;
+		email: string;
+		role: string;
+		iat: number;
+		exp: number;
+	};
 };
 
 export type { AuthRequest };

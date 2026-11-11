@@ -5,18 +5,19 @@ export const CurrentUser = createParamDecorator(
   (data: string, ctx: ExecutionContext) => {
     const request: AuthRequest = ctx.switchToHttp().getRequest();
     const user = request.user;
+
+    console.log('>>>', user);
+
     if (!user) return null;
 
-    if (data && user[data] !== undefined) {
-      return user[data];
-    }
+    if (data && user[data] !== undefined) return user[data];
 
     const userPayload = {
-      id: user.id,
-      firstName: user.firstName,
-      lastName: user.lastName,
+      sub: user.sub,
       email: user.email,
-      profilePicture: user.profilePicture,
+      role: user.role,
+      iat: user.iat,
+      exp: user.exp,
     };
     return userPayload;
   },
