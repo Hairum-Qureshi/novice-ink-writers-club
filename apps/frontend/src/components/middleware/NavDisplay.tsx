@@ -6,11 +6,15 @@ export default function NavDisplay({
 	children: React.ReactNode;
 }) {
 	const location = useLocation();
-	const isAuthPage =
-		location.pathname === "/sign-in" ||
-		location.pathname === "/sign-up" ||
-		location.pathname === "/forgot-password" ||
-		location.pathname === "/verify-email";
+	const pagesToHideNav = [
+		"/sign-in",
+		"/sign-up",
+		"/forgot-password",
+		"/verify-email",
+		"/reset-password"
+	];
+
+	const isAuthPage = pagesToHideNav.includes(location.pathname);
 
 	return <>{!isAuthPage ? children : null}</>;
 }
