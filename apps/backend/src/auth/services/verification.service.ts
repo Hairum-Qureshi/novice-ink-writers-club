@@ -86,7 +86,7 @@ export class VerificationService {
 
     if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
 
-    if (user.is_verified) {
+    if (user.isVerified) {
       throw new HttpException(
         'User is already verified',
         HttpStatus.BAD_REQUEST,
