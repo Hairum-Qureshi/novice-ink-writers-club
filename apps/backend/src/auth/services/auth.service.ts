@@ -15,6 +15,7 @@ import {
   SignUpFormData as SignUpFormDataDto,
   SignInFormData as SignInFormDataDto,
   Role,
+  PasswordResetFormData as PasswordResetFormDataDto,
 } from '@repo/shared-types';
 import { EmailService } from '../../email/email.service';
 import * as argon2 from 'argon2';
@@ -67,6 +68,7 @@ export class AuthService {
       role: Role.MEMBER,
       isVerified: false,
       verificationCode,
+      biography: 'This user prefers to keep an air of mystery about them',
       verificationCodeExpiry: new Date(Date.now() + 5 * 60 * 1000), // 5 minutes from now
       profilePicture: `https://api.dicebear.com/10.x/waves/svg?seed=${generatedId()}`,
       password: hashedPassword,
@@ -111,7 +113,7 @@ export class AuthService {
 
     if (!user) throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
 
-    if (!user.is_verified) {
+    if (!user.isVerified) {
       const verificationCode =
         this.verificationService.generateVerificationCode();
 
@@ -135,7 +137,7 @@ export class AuthService {
     }
 
     const isPasswordValid = await argon2.verify(
-      user.password as string,
+      user.password,
       signInFormDto.password as string,
     );
 
@@ -230,7 +232,55 @@ export class AuthService {
     );
   }
 
-  getCurrentUser(user: User): User {
+  async resetPassword(
+    passwordResetDto: PasswordResetFormDataDto,
+    token: string,
+  ) {
+    const { newPassword, confirmedNewPassword } = passwordResetDto;
+
+    if (!token) throw new NotFoundException('Token not found');
+
+    const tokenHash = createHash('sha256').update(token).digest('hex');
+
+    const cachedResetToken = await this.cacheManager.get<{ userId: string }>(
+      `password-reset:${tokenHash}`,
+    );
+
+    if (!cachedResetToken)
+      throw new HttpException(
+        'Invalid or expired token',
+        HttpStatus.BAD_REQUEST,
+      );
+
+    if (newPassword !== confirmedNewPassword) {
+      throw new HttpException('Passwords do not match', HttpStatus.BAD_REQUEST);
+    }
+
+    const user = await this.userRepository.getUserById(cachedResetToken.userId);
+    if (!user) throw new NotFoundException('User not found');
+
+    const hashedPassword = createHash('sha256')
+      .update(newPassword as string)
+      .digest('hex');
+
+    await this.userRepository.updateUser(user.id, { password: hashedPassword });
+
+    await this.cacheManager.del(`password-reset:${tokenHash}`);
+  }
+
+  async getCurrentUser(userId: string): Promise<User> {
+    const key = `user:${userId}`;
+
+    const cachedUser = await this.cacheManager.get<User>(key);
+
+    if (cachedUser) return cachedUser;
+
+    const user = await this.userRepository.getUserById(userId);
+
+    if (!user) throw new NotFoundException('User not found');
+
+    await this.cacheManager.set(key, user, 10 * 60 * 1000);
+
     return user;
   }
 }
