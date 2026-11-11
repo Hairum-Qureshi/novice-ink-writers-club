@@ -45,7 +45,7 @@ interface UseAuthHook {
 		error: unknown;
 		isError: boolean;
 	};
-	resetPassword: {
+	forgotPassword: {
 		mutate: (
 			email: string,
 			options?: { onSuccess?: (data: void, email: string) => void }
@@ -55,9 +55,9 @@ interface UseAuthHook {
 		error: unknown;
 		isError: boolean;
 	};
-	updatePassword: {
+	resetPassword: {
 		mutate: (
-			formData: { token: string; currentPassword: string; newPassword: string },
+			formData: { newPassword: string; confirmedNewPassword: string },
 			options?: {
 				onSuccess?: (data: void) => void;
 			}
