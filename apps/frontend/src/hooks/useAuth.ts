@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import type {
 	UseAuthHook,
 	SignUpFormData,
@@ -9,7 +8,6 @@ import type {
 
 export default function useAuth(): UseAuthHook {
 	const queryClient = useQueryClient();
-	const navigate = useNavigate();
 
 	const signUpMutation = useMutation({
 		mutationFn: async (formData: SignUpFormData) => {
@@ -20,13 +18,6 @@ export default function useAuth(): UseAuthHook {
 					withCredentials: true
 				}
 			);
-		},
-		onSuccess: (_, formData) => {
-			navigate("/verify-email", {
-				state: {
-					email: formData.email
-				}
-			});
 		}
 	});
 
@@ -44,8 +35,18 @@ export default function useAuth(): UseAuthHook {
 				}
 			);
 		},
-		onSuccess: () => {
-			navigate("/"); 
+		onSuccess: () => queryClient.invalidateQueries({ queryKey: ["currentUser"] })
+	});
+
+	const resendMutation = useMutation({
+		mutationFn: async (email: string) => {
+			await axios.post(
+				`${import.meta.env.VITE_BACKEND_URL}/api/auth/resend-verification-email`,
+				{ email },
+				{
+					withCredentials: true
+				}
+			);
 		}
 	});
 
@@ -59,9 +60,7 @@ export default function useAuth(): UseAuthHook {
 				}
 			);
 		},
-		onSuccess: () => {
-			navigate("/"); // Redirect to the home page after successful sign-in
-		}
+		onSuccess: () => queryClient.invalidateQueries({ queryKey: ["currentUser"] })
 	});
 
 	const signOutMutation = useMutation({
@@ -80,9 +79,14 @@ export default function useAuth(): UseAuthHook {
 	});
 
 	return {
-		signOut: signOutMutation.mutateAsync,
-		signUp: signUpMutation.mutateAsync,
-		signIn: signInMutation.mutateAsync,
-		verifyEmail: verifyEmailMutation.mutateAsync
+		signOut: {
+			mutate: options => signOutMutation.mutate(undefined, options),
+			isPending: signOutMutation.isPending,
+			isError: signOutMutation.isError
+		},
+		signUp: signUpMutation,
+		signIn: signInMutation,
+		verifyEmail: verifyEmailMutation,
+		resendVerificationEmail: resendMutation
 	};
 }
