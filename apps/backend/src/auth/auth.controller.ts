@@ -10,8 +10,8 @@ import {
   HttpException,
   Res,
   Get,
-  Put,
   Query,
+  Patch,
 } from '@nestjs/common';
 import { AuthService } from './services/auth.service';
 import { VerificationService } from './services/verification.service';
@@ -27,6 +27,7 @@ import type {
   PasswordResetFormData as PasswordResetFormDataDto,
 } from '@repo/shared-types';
 import { AuthGuard } from '@nestjs/passport';
+import { CurrentUser } from '../decorators/currentUser.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -83,21 +84,6 @@ export class AuthController {
     );
   }
 
-  @UseGuards(AuthGuard('jwt'))
-  @Get('current-user')
-  getCurrentUser(@Req() request: Request) {
-    const user = request.user!;
-
-    return {
-      id: user['sub'],
-      firstName: user['firstName'],
-      lastName: user['lastName'],
-      email: user['email'],
-      profilePicture: user['profilePicture'],
-      role: user['role'],
-    };
-  }
-
   @Post('verify-email')
   @HttpCode(HttpStatus.OK)
   verifyEmail(
@@ -119,7 +105,7 @@ export class AuthController {
     return this.authService.forgotPassword(email);
   }
 
-  @Put('reset-password')
+  @Patch('reset-password')
   @HttpCode(HttpStatus.OK)
   resetPassword(
     @Body({ schema: passwordResetSchema })
@@ -128,5 +114,11 @@ export class AuthController {
     token: string,
   ) {
     return this.authService.resetPassword(passwordResetDto, token);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('current-user')
+  getCurrentUser(@CurrentUser('sub') userId: string) {
+    return this.authService.getCurrentUser(userId);
   }
 }

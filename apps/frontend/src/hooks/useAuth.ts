@@ -99,7 +99,7 @@ export default function useAuth() {
 		}) => {
 			if (!token) throw new Error("Token is required");
 
-			await axios.put(
+			await axios.patch(
 				`${import.meta.env.VITE_BACKEND_URL}/api/auth/reset-password?token=${token}`,
 				formData,
 				{
