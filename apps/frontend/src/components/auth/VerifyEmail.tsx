@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 
 const CODE_LENGTH = 6;
@@ -286,13 +287,18 @@ export default function VerifyEmail() {
 					role="alert"
 					className="mt-3 flex shrink-0 text-center text-sm text-red-600"
 				>
-					Unable to send a verification email. Please check your email address
-					and try again.
+					{axios.isAxiosError<ApiError>(resendMutation.error)
+						? resendMutation.error.response?.data?.message ??
+							"Unable to send a verification email. Please check your email address and try again."
+						: "Unable to send a verification email. Please check your email address and try again."}
 				</p>
 			)}
 			{verifyEmail.isError && (
 				<p role="alert" className="mt-3 text-center text-sm text-red-600">
-					Unable to verify your email. Please check the code and try again.
+					{axios.isAxiosError<ApiError>(verifyEmail.error)
+						? verifyEmail.error.response?.data?.message ??
+							"Unable to verify your email. Please check the code and try again."
+						: "Unable to verify your email. Please check the code and try again."}
 				</p>
 			)}
 			<button

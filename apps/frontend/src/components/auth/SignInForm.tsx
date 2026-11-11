@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signInSchema } from "@repo/shared-types";
 import { z } from "zod";
 import useAuth from "../../hooks/useAuth";
+import axios from "axios";
 
 export default function SignInForm() {
 	const {
@@ -92,7 +93,10 @@ export default function SignInForm() {
 			</button>
 			{signIn.isError && (
 				<p role="alert" className="text-center text-sm text-red-600">
-					Unable to sign in. Please check your credentials and try again.
+					{axios.isAxiosError<ApiError>(signIn.error)
+						? signIn.error.response?.data?.message ??
+							"Unable to sign in. Please check your credentials and try again."
+						: "Unable to sign in. Please check your credentials and try again."}
 				</p>
 			)}
 		</form>

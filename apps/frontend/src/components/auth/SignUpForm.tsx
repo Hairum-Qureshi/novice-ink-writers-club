@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { SignUpFormData } from "@repo/shared-types";
 import { signUpSchema } from "@repo/shared-types";
 import useAuth from "../../hooks/useAuth";
+import axios from "axios";
 
 export default function SignUpForm() {
 	const { signUp } = useAuth();
@@ -140,7 +141,9 @@ export default function SignUpForm() {
 			</button>
 			{signUp.isError && (
 				<p role="alert" className="text-center text-sm text-red-600">
-					Unable to sign up. Please try again.
+					{axios.isAxiosError<ApiError>(signUp.error)
+						? signUp.error.response?.data?.message
+						: "Unable to sign up. Please try again."}
 				</p>
 			)}
 			<p className="text-center mt-2 text-sm text-slate-600">
