@@ -11,6 +11,7 @@ import {
   Res,
   Get,
   Put,
+  Query,
 } from '@nestjs/common';
 import { AuthService } from './services/auth.service';
 import { VerificationService } from './services/verification.service';
@@ -123,7 +124,9 @@ export class AuthController {
   resetPassword(
     @Body({ schema: passwordResetSchema })
     passwordResetDto: PasswordResetFormDataDto,
+    @Query('token')
+    token: string,
   ) {
-    return this.authService.resetPassword(passwordResetDto);
+    return this.authService.resetPassword(passwordResetDto, token);
   }
 }
