@@ -64,7 +64,7 @@ export default function useAuth() {
 	const passwordResetMutation = useMutation({
 		mutationFn: async (email: string) => {
 			await axios.post(
-				`${import.meta.env.VITE_BACKEND_URL}/api/auth/reset-password`,
+				`${import.meta.env.VITE_BACKEND_URL}/api/auth/forgot-password`,
 				{ email },
 				{
 					withCredentials: true
