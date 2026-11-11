@@ -4,6 +4,7 @@ import {
   HttpException,
   HttpStatus,
   ForbiddenException,
+  NotFoundException,
 } from '@nestjs/common';
 import type { Response } from 'express';
 import type { Cache } from 'cache-manager';
@@ -18,7 +19,7 @@ import { EmailService } from '../../email/email.service';
 import * as argon2 from 'argon2';
 import * as postgresDb from '../../providers/postgres-db';
 import { UserRepository } from '../../repositories/user.repository';
-import { customAlphabet } from 'nanoid';
+import { customAlphabet, nanoid } from 'nanoid';
 import { TokensService } from './tokens.service';
 import crypto from 'crypto';
 import { CookieService } from './cookie.service';
@@ -61,8 +62,11 @@ export class AuthService {
       firstName,
       lastName,
       email,
+      role: Role.MEMBER,
       isVerified: false,
       verificationCode,
+      resetToken: null,
+      resetTokenExpiry: null,
       verificationCodeExpiry: new Date(Date.now() + 5 * 60 * 1000), // 5 minutes from now
       profilePicture: `https://api.dicebear.com/10.x/waves/svg?seed=${generatedId()}`,
       password: hashedPassword,
@@ -127,7 +131,7 @@ export class AuthService {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
 
     const { accessToken, refreshToken } =
-      await this.tokensService.generateTokens(user.id, user.email, Role.USER);
+      await this.tokensService.generateTokens(user.id, user.email, user.role);
 
     const sessionId = crypto.randomBytes(16).toString('hex');
 
@@ -144,8 +148,6 @@ export class AuthService {
   async refreshTokens(
     userId: string,
     refreshToken: string,
-    role: Role,
-    email: string,
     sessionId: string,
     response: Response,
   ) {
@@ -167,9 +169,17 @@ export class AuthService {
       throw new ForbiddenException('Access Denied');
     }
 
+    const user = await this.userRepository.getUserById(userId);
+
+    if (!user) throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+
     await this.cacheManager.del(RT_KEY);
 
-    const tokens = await this.tokensService.generateTokens(userId, email, role);
+    const tokens = await this.tokensService.generateTokens(
+      user.id,
+      user.email,
+      user.role,
+    );
 
     await this.tokensService.setRefreshToken(
       userId,
@@ -184,6 +194,19 @@ export class AuthService {
     );
 
     return tokens;
+  }
+
+  async forgotPassword(email: string) {
+    const user = await this.userRepository.findUserByEmail(email);
+    if (!user) throw new NotFoundException('User not found');
+
+    const resetToken = nanoid(64);
+    const resetTokenExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes from now
+
+    await this.userRepository.updateUser(user.id, {
+      resetToken: resetToken,
+      resetTokenExpiry: resetTokenExpiry,
+    });
   }
 
   getCurrentUser(user: User): User {
