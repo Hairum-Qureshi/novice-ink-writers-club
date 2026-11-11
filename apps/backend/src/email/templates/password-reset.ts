@@ -128,7 +128,7 @@ export const PASSWORD_RESET_TEMPLATE = `
                   "
                 >
                   Thanks,<br />
-                  The Novice Ink Club Team
+                  The Novice Ink. Writer's Club Team
                 </p>
 
                 <hr
