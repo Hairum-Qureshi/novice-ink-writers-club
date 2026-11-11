@@ -3,7 +3,6 @@ import * as postgresDb from '../providers/postgres-db';
 import { usersTable } from '../schema';
 import { eq } from 'drizzle-orm';
 import { User } from '@repo/shared-types';
-// import { User, Role } from '@repo/shared-types';
 
 @Injectable()
 export class UserRepository {
@@ -30,12 +29,13 @@ export class UserRepository {
   async createUser(user: User) {
     return await this.db.insert(usersTable).values({
       id: user.id,
-      first_name: user.firstName,
-      last_name: user.lastName,
+      firstName: user.firstName,
+      lastName: user.lastName,
       email: user.email,
       role: user.role,
-      is_verified: user.isVerified,
-      profile_picture: user.profilePicture,
+      biography: user.biography,
+      isVerified: user.isVerified,
+      profilePicture: user.profilePicture,
       password: user.password,
     });
   }
@@ -44,13 +44,14 @@ export class UserRepository {
     return await this.db
       .update(usersTable)
       .set({
-        first_name: updateData.firstName,
-        last_name: updateData.lastName,
+        firstName: updateData.firstName,
+        lastName: updateData.lastName,
         email: updateData.email,
-        profile_picture: updateData.profilePicture,
+        profilePicture: updateData.profilePicture,
         password: updateData.password,
+        biography: updateData.biography,
         role: updateData.role,
-        is_verified: updateData.isVerified,
+        isVerified: updateData.isVerified,
       })
       .where(eq(usersTable.id, id));
   }
