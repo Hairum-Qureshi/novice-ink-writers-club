@@ -91,8 +91,8 @@ export default function useAuth() {
 	const updatePasswordMutation = useMutation({
 		mutationFn: async (formData: {
 			token: string;
-			currentPassword: string;
 			newPassword: string;
+			confirmedNewPassword: string;
 		}) => {
 			await axios.post(
 				`${import.meta.env.VITE_BACKEND_URL}/api/auth/update-password`,
