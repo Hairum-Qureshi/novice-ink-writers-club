@@ -16,6 +16,19 @@ export const userRoles = pgEnum('roles', [
   'member',
 ]);
 
+export const grades = pgEnum('grades', [
+  'freshman',
+  'sophomore',
+  'junior',
+  'senior',
+]);
+
+export const genders = pgEnum('genders', [
+  'male',
+  'female',
+  'prefer not to say',
+]);
+
 export const usersTable = pgTable(
   'users',
   {
@@ -29,6 +42,8 @@ export const usersTable = pgTable(
     biography: text('biography')
       .default('This user prefers to keep an air of mystery about them')
       .notNull(),
+    gender: genders(),
+    grade: grades(),
     isVerified: boolean('is_verified').notNull().default(false),
     createdAt: timestamp('created_at').defaultNow(),
     updatedAt: timestamp('updated_at').defaultNow(),
