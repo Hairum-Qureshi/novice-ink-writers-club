@@ -270,7 +270,6 @@ export class AuthService {
 
   async getCurrentUser(userId: string): Promise<User> {
     const key = `user:${userId}`;
-
     const cachedUser = await this.cacheManager.get<User>(key);
 
     if (cachedUser) return cachedUser;
@@ -279,8 +278,7 @@ export class AuthService {
 
     if (!user) throw new NotFoundException('User not found');
 
-    await this.cacheManager.set(key, user, 10 * 60 * 1000);
-
+    await this.cacheManager.set(key, user, 30 * 60 * 1000); // expires after 30 minutes
     return user;
   }
 }
