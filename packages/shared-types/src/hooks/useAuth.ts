@@ -45,6 +45,16 @@ interface UseAuthHook {
 		error: unknown;
 		isError: boolean;
 	};
+	resetPassword: {
+		mutate: (
+			email: string,
+			options?: { onSuccess?: (data: void, email: string) => void }
+		) => void;
+		reset: () => void;
+		isPending: boolean;
+		error: unknown;
+		isError: boolean;
+	};
 }
 
 export type { UseAuthHook };
