@@ -9,8 +9,6 @@ type User = {
 	password: string;
 	role: Role;
 	isVerified: boolean;
-	verificationCode: string | null;
-	verificationCodeExpiry: Date | null;
 };
 
 export type { User };

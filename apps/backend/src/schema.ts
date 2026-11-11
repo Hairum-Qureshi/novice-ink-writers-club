@@ -27,15 +27,10 @@ export const usersTable = pgTable(
     password: text('password'),
     role: userRoles().notNull().default('member'),
     is_verified: boolean('is_verified').default(false),
-    verification_code: text('verification_code'),
-    verification_code_expiry: timestamp('verification_code_expiry'),
     created_at: timestamp('created_at').defaultNow(),
     updated_at: timestamp('updated_at').defaultNow(),
   },
   (table) => ({
-    uniqueUser: uniqueIndex('unique_user').on(
-      table.email,
-      table.verification_code,
-    ),
+    uniqueUser: uniqueIndex('unique_user').on(table.email),
   }),
 );

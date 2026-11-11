@@ -35,16 +35,8 @@ export class UserRepository {
       email: user.email,
       role: user.role,
       is_verified: user.isVerified,
-      verification_code: user.verificationCode,
-      verification_code_expiry: user.verificationCodeExpiry,
       profile_picture: user.profilePicture,
       password: user.password,
-    });
-  }
-
-  async findUserByVerificationCode(code: string) {
-    return await this.db.query.usersTable.findFirst({
-      where: eq(usersTable.verification_code, code),
     });
   }
 
@@ -59,8 +51,6 @@ export class UserRepository {
         password: updateData.password,
         role: updateData.role,
         is_verified: updateData.isVerified,
-        verification_code: updateData.verificationCode,
-        verification_code_expiry: updateData.verificationCodeExpiry,
       })
       .where(eq(usersTable.id, id));
   }
