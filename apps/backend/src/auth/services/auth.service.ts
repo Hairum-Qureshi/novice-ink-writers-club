@@ -22,7 +22,7 @@ import * as postgresDb from '../../providers/postgres-db';
 import { UserRepository } from '../../repositories/user.repository';
 import { customAlphabet, nanoid } from 'nanoid';
 import { TokensService } from './tokens.service';
-import crypto from 'crypto';
+import crypto, { createHash } from 'crypto';
 import { CookieService } from './cookie.service';
 import { VerificationService } from './verification.service';
 
@@ -67,14 +67,21 @@ export class AuthService {
       role: Role.MEMBER,
       isVerified: false,
       verificationCode,
-      resetToken: null,
-      resetTokenExpiry: null,
       verificationCodeExpiry: new Date(Date.now() + 5 * 60 * 1000), // 5 minutes from now
       profilePicture: `https://api.dicebear.com/10.x/waves/svg?seed=${generatedId()}`,
       password: hashedPassword,
     };
 
     await this.userRepository.createUser(user);
+
+    await this.cacheManager.set(
+      `verification-code-${verificationCode}`,
+      {
+        userId: user.id,
+      },
+      10 * 60 * 1000, // 10 minutes in milliseconds
+    );
+
     await this.emailService.sendVerificationEmail(
       user.email as string,
       verificationCode,
@@ -108,10 +115,13 @@ export class AuthService {
       const verificationCode =
         this.verificationService.generateVerificationCode();
 
-      await this.userRepository.updateUser(user.id, {
-        verificationCode,
-        verificationCodeExpiry: new Date(Date.now() + 5 * 60 * 1000),
-      });
+      await this.cacheManager.set(
+        `verification-code-${verificationCode}`,
+        {
+          userId: user.id,
+        },
+        10 * 60 * 1000, // 10 minutes in milliseconds
+      );
 
       await this.emailService.sendVerificationEmail(
         user.email,
@@ -203,12 +213,15 @@ export class AuthService {
     if (!user) throw new NotFoundException('User not found');
 
     const resetToken = nanoid(64);
-    const resetTokenExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes from now
+    const tokenHash = createHash('sha256').update(resetToken).digest('hex');
 
-    await this.userRepository.updateUser(user.id, {
-      resetToken: resetToken,
-      resetTokenExpiry: resetTokenExpiry,
-    });
+    await this.cacheManager.set(
+      `password-reset:${tokenHash}`,
+      {
+        userId: user.id,
+      },
+      10 * 60 * 1000, // 10 minutes in milliseconds
+    );
 
     await this.emailService.sendPasswordResetEmail(
       email,

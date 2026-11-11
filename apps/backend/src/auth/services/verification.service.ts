@@ -1,11 +1,18 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  Inject,
+  BadRequestException,
+} from '@nestjs/common';
+import type { Cache } from 'cache-manager';
 import type { Response } from 'express';
-import { Role } from '@repo/shared-types';
 import crypto from 'crypto';
 import { EmailService } from '../../email/email.service';
 import { UserRepository } from '../../repositories/user.repository';
 import { CookieService } from './cookie.service';
 import { TokensService } from './tokens.service';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
 
 @Injectable()
 export class VerificationService {
@@ -14,6 +21,7 @@ export class VerificationService {
     private readonly tokensService: TokensService,
     private readonly cookieService: CookieService,
     private readonly emailService: EmailService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
   generateVerificationCode() {
@@ -27,7 +35,24 @@ export class VerificationService {
   }
 
   async verifyEmail(response: Response, code: string) {
-    const user = await this.userRepository.findUserByVerificationCode(code);
+    const cached = await this.cacheManager.get<{
+      userId: string;
+    }>(`verification-code-${code}`);
+
+    if (!cached) {
+      throw new BadRequestException('Invalid or expired verification code');
+    }
+
+    const { userId } = cached;
+
+    if (!userId) {
+      throw new HttpException(
+        'Invalid verification code',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const user = userId ? await this.userRepository.getUserById(userId) : null;
 
     if (!user) {
       throw new HttpException(
@@ -36,24 +61,14 @@ export class VerificationService {
       );
     }
 
-    if (
-      user.verification_code_expiry &&
-      user.verification_code_expiry < new Date()
-    ) {
-      throw new HttpException(
-        'Verification code has expired. Please request a new one.',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-
     await this.userRepository.updateUser(user.id, {
       isVerified: true,
-      verificationCode: null,
-      verificationCodeExpiry: null,
     });
 
+    await this.cacheManager.del(`verification-code-${code}`);
+
     const { accessToken, refreshToken } =
-      await this.tokensService.generateTokens(user.id, user.email, Role.USER);
+      await this.tokensService.generateTokens(user.id, user.email, user.role);
 
     const sessionId = crypto.randomBytes(16).toString('hex');
     await this.tokensService.setRefreshToken(user.id, sessionId, refreshToken);
@@ -69,9 +84,7 @@ export class VerificationService {
   async resendVerificationEmail(email: string) {
     const user = await this.userRepository.findUserByEmail(email);
 
-    if (!user) {
-      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-    }
+    if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
 
     if (user.is_verified) {
       throw new HttpException(
@@ -81,10 +94,19 @@ export class VerificationService {
     }
 
     const verificationCode = this.generateVerificationCode();
-    await this.userRepository.updateUser(user.id, {
-      verificationCode,
-      verificationCodeExpiry: new Date(Date.now() + 5 * 60 * 1000),
-    });
+
+    await this.cacheManager.set(
+      `verification-code-${verificationCode}`,
+      {
+        userId: user.id,
+      },
+      10 * 60 * 1000, // 10 minutes in milliseconds
+    );
+
+    // await this.userRepository.updateUser(user.id, {
+    //   verificationCode,
+    //   verificationCodeExpiry: new Date(Date.now() + 5 * 60 * 1000),
+    // });
 
     await this.emailService.sendVerificationEmail(user.email, verificationCode);
   }
