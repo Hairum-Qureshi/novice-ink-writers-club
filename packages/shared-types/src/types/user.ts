@@ -6,6 +6,7 @@ type User = {
 	lastName: string;
 	email: string;
 	profilePicture: string;
+	biography: string;
 	password: string;
 	role: Role;
 	isVerified: boolean;
