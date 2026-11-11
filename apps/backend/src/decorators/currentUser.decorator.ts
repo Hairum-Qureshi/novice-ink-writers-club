@@ -6,8 +6,6 @@ export const CurrentUser = createParamDecorator(
     const request: AuthRequest = ctx.switchToHttp().getRequest();
     const user = request.user;
 
-    console.log('>>>', user);
-
     if (!user) return null;
 
     if (data && user[data] !== undefined) return user[data];
