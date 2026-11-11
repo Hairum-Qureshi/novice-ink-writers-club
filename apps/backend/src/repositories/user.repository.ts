@@ -33,6 +33,8 @@ export class UserRepository {
       lastName: user.lastName,
       email: user.email,
       role: user.role,
+      grade: user.grade,
+      gender: user.gender,
       biography: user.biography,
       isVerified: user.isVerified,
       profilePicture: user.profilePicture,
@@ -50,6 +52,8 @@ export class UserRepository {
         profilePicture: updateData.profilePicture,
         password: updateData.password,
         biography: updateData.biography,
+        grade: updateData.grade,
+        gender: updateData.gender,
         role: updateData.role,
         isVerified: updateData.isVerified,
       })
