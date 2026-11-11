@@ -9,7 +9,7 @@ const RESEND_COOLDOWN = 60;
 export default function VerifyEmail() {
 	const navigate = useNavigate();
 	const location = useLocation();
-	const { verifyEmail, resendMutation } = useAuth();
+	const { verifyEmail, resendVerificationEmail: resendMutation } = useAuth();
 
 	const initialEmail =
 		typeof location.state?.email === "string" ? location.state.email : "";
@@ -117,7 +117,9 @@ export default function VerifyEmail() {
 	const handleVerify = () => {
 		if (!isCodeComplete) return;
 
-		verifyEmail(code.join(""));
+		verifyEmail.mutate(code.join(""), {
+			onSuccess: () => navigate("/")
+		});
 	};
 
 	return (
@@ -227,11 +229,11 @@ export default function VerifyEmail() {
 
 					<button
 						type="button"
-						disabled={!isCodeComplete}
+						disabled={!isCodeComplete || verifyEmail.isPending}
 						onClick={handleVerify}
 						className="mt-6 w-full rounded-md bg-novice-ink-blue p-3 text-sm text-white hover:cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
 					>
-						Verify Email
+						{verifyEmail.isPending ? "Verifying..." : "Verify Email"}
 					</button>
 
 					<div className="mt-4 flex w-full flex-col items-center gap-2">
@@ -286,6 +288,11 @@ export default function VerifyEmail() {
 				>
 					Unable to send a verification email. Please check your email address
 					and try again.
+				</p>
+			)}
+			{verifyEmail.isError && (
+				<p role="alert" className="mt-3 text-center text-sm text-red-600">
+					Unable to verify your email. Please check the code and try again.
 				</p>
 			)}
 			<button

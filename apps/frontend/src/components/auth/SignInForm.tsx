@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signInSchema } from "@repo/shared-types";
@@ -15,13 +15,16 @@ export default function SignInForm() {
 	});
 
 	const { signIn } = useAuth();
+	const navigate = useNavigate();
 
 	return (
 		<form
 			className="w-1/2 space-y-4"
 			onSubmit={handleSubmit((data, e) => {
 				e?.preventDefault();
-				signIn(data);
+				signIn.mutate(data, {
+					onSuccess: () => navigate("/")
+				});
 			})}
 		>
 			<div className="flex flex-col space-y-3 mb-8 text-center">
@@ -83,9 +86,15 @@ export default function SignInForm() {
 			<button
 				type="submit"
 				className="w-full hover:cursor-pointer mt-5 py-3.5 rounded-md bg-novice-ink-blue text-sm text-white font-bold"
+				disabled={signIn.isPending}
 			>
-				SIGN IN
+				{signIn.isPending ? "SIGNING IN..." : "SIGN IN"}
 			</button>
+			{signIn.isError && (
+				<p role="alert" className="text-center text-sm text-red-600">
+					Unable to sign in. Please check your credentials and try again.
+				</p>
+			)}
 		</form>
 	);
 }

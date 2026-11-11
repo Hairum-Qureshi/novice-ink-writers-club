@@ -1,15 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { SignUpFormData } from "@repo/shared-types";
 import { signUpSchema } from "@repo/shared-types";
-import { z } from "zod";
+import useAuth from "../../hooks/useAuth";
 
 export default function SignUpForm() {
+	const { signUp } = useAuth();
+	const navigate = useNavigate();
+
 	const {
 		register,
 		handleSubmit,
 		formState: { errors }
-	} = useForm<z.infer<typeof signUpSchema>>({
+	} = useForm<SignUpFormData>({
 		resolver: zodResolver(signUpSchema)
 	});
 
@@ -18,7 +22,15 @@ export default function SignUpForm() {
 			className="w-1/2 space-y-4"
 			onSubmit={handleSubmit((data, e) => {
 				e?.preventDefault();
-				console.log(data);
+				signUp.mutate(data, {
+					onSuccess: () => {
+						navigate("/verify-email", {
+							state: {
+								email: data.email
+							}
+						});
+					}
+				});
 			})}
 		>
 			<div className="flex flex-col space-y-3 mb-8 text-center">
@@ -122,9 +134,15 @@ export default function SignUpForm() {
 			<button
 				type="submit"
 				className="w-full hover:cursor-pointer mt-5 py-3.5 rounded-md bg-novice-ink-blue text-sm text-white font-bold"
+				disabled={signUp.isPending}
 			>
-				SIGN UP
+				{signUp.isPending ? "SIGNING UP..." : "SIGN UP"}
 			</button>
+			{signUp.isError && (
+				<p role="alert" className="text-center text-sm text-red-600">
+					Unable to sign up. Please try again.
+				</p>
+			)}
 			<p className="text-center mt-2 text-sm text-slate-600">
 				By signing up, you agree to our{" "}
 				<Link to="/terms" className="text-blue-800">
