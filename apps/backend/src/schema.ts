@@ -24,9 +24,12 @@ export const usersTable = pgTable(
     lastName: text('last_name').notNull(),
     email: text('email').notNull(),
     profilePicture: text('profile_picture').notNull(),
-    password: text('password'),
+    password: text('password').notNull(),
     role: userRoles().notNull().default('member'),
-    isVerified: boolean('is_verified').default(false),
+    biography: text('biography')
+      .default('This user prefers to keep an air of mystery about them')
+      .notNull(),
+    isVerified: boolean('is_verified').notNull().default(false),
     createdAt: timestamp('created_at').defaultNow(),
     updatedAt: timestamp('updated_at').defaultNow(),
   },
