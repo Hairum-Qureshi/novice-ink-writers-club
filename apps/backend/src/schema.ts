@@ -29,8 +29,6 @@ export const usersTable = pgTable(
     is_verified: boolean('is_verified').default(false),
     verification_code: text('verification_code'),
     verification_code_expiry: timestamp('verification_code_expiry'),
-    reset_token: text('reset_token'),
-    reset_token_expiry: timestamp('reset_token_expiry'),
     created_at: timestamp('created_at').defaultNow(),
     updated_at: timestamp('updated_at').defaultNow(),
   },
@@ -38,7 +36,6 @@ export const usersTable = pgTable(
     uniqueUser: uniqueIndex('unique_user').on(
       table.email,
       table.verification_code,
-      table.reset_token,
     ),
   }),
 );

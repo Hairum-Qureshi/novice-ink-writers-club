@@ -58,8 +58,6 @@ export class UserRepository {
         profile_picture: updateData.profilePicture,
         password: updateData.password,
         role: updateData.role,
-        reset_token: updateData.resetToken,
-        reset_token_expiry: updateData.resetTokenExpiry,
         is_verified: updateData.isVerified,
         verification_code: updateData.verificationCode,
         verification_code_expiry: updateData.verificationCodeExpiry,

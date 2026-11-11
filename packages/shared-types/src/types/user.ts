@@ -8,8 +8,6 @@ type User = {
 	profilePicture: string;
 	password: string;
 	role: Role;
-	resetToken: string | null;
-	resetTokenExpiry: Date | null;
 	isVerified: boolean;
 	verificationCode: string | null;
 	verificationCodeExpiry: Date | null;
