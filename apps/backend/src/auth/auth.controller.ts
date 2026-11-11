@@ -16,7 +16,6 @@ import { VerificationService } from './services/verification.service';
 import type { Request, Response } from 'express';
 import { signUpSchema, signInSchema } from '@repo/shared-types';
 import type {
-  Role,
   SignUpFormData as SignUpFormDataDto,
   SignInFormData as SignInFormDataDto,
 } from '@repo/shared-types';
@@ -72,8 +71,6 @@ export class AuthController {
     return this.authService.refreshTokens(
       user['sub'] as string,
       user['refreshToken'] as string,
-      user['role'] as Role,
-      user['email'] as string,
       sessionId,
       response,
     );
@@ -90,6 +87,7 @@ export class AuthController {
       lastName: user['lastName'],
       email: user['email'],
       profilePicture: user['profilePicture'],
+      role: user['role'],
     };
   }
 
@@ -106,5 +104,20 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   resendVerificationEmail(@Body('email') email: string) {
     return this.verificationService.resendVerificationEmail(email);
+  }
+
+  @Post('forgot-password')
+  @HttpCode(HttpStatus.OK)
+  forgotPassword(@Body('email') email: string) {
+    return this.authService.forgotPassword(email);
+  }
+
+  @Post('reset-password')
+  @HttpCode(HttpStatus.OK)
+  resetPassword(
+    @Body('token') token: string,
+    @Body('newPassword') newPassword: string,
+  ) {
+    return this.authService.resetPassword(token, newPassword);
   }
 }
