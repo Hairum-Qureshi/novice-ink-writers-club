@@ -88,6 +88,22 @@ export default function useAuth() {
 		}
 	});
 
+	const updatePasswordMutation = useMutation({
+		mutationFn: async (formData: {
+			token: string;
+			currentPassword: string;
+			newPassword: string;
+		}) => {
+			await axios.post(
+				`${import.meta.env.VITE_BACKEND_URL}/api/auth/update-password`,
+				formData,
+				{
+					withCredentials: true
+				}
+			);
+		}
+	});
+
 	return {
 		signOut: {
 			mutate: (options?: { onSuccess?: (data: void) => void }) =>
@@ -99,6 +115,7 @@ export default function useAuth() {
 		signIn: signInMutation,
 		verifyEmail: verifyEmailMutation,
 		resendVerificationEmail: resendMutation,
-		resetPassword: passwordResetMutation
+		resetPassword: passwordResetMutation,
+		updatePassword: updatePasswordMutation
 	};
 }
