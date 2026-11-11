@@ -85,6 +85,13 @@
       "when": 1794377947996,
       "tag": "0011_heavy_iceman",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1794379479005,
+      "tag": "0012_blushing_black_bolt",
+      "breakpoints": true
     }
   ]
 }
