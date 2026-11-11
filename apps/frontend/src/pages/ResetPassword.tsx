@@ -7,6 +7,7 @@ import { z } from "zod";
 import { Link } from "react-router-dom";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import useAuth from "../hooks/useAuth";
+import axios from "axios";
 
 export default function ResetPassword() {
 	const {
@@ -130,6 +131,13 @@ export default function ResetPassword() {
 						>
 							{resetPassword.isPending ? "Resetting..." : "Reset Password"}
 						</button>
+						{resetPassword.isError && (
+							<p role="alert" className="text-center text-sm text-red-600">
+								{axios.isAxiosError<ApiError>(resetPassword.error)
+									? resetPassword.error.response?.data?.message
+									: "Unable to reset password. Please try again."}
+							</p>
+						)}
 					</form>
 				</div>
 			)}
