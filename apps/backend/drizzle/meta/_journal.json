@@ -71,6 +71,13 @@
       "when": 1794366504826,
       "tag": "0009_dapper_hellion",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1794367328127,
+      "tag": "0010_right_smiling_tiger",
+      "breakpoints": true
     }
   ]
 }
