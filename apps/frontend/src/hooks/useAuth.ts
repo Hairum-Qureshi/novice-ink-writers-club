@@ -1,12 +1,8 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type {
-	UseAuthHook,
-	SignUpFormData,
-	SignInFormData
-} from "@repo/shared-types";
+import type { SignUpFormData, SignInFormData } from "@repo/shared-types";
 
-export default function useAuth(): UseAuthHook {
+export default function useAuth() {
 	const queryClient = useQueryClient();
 
 	const signUpMutation = useMutation({
@@ -35,7 +31,8 @@ export default function useAuth(): UseAuthHook {
 				}
 			);
 		},
-		onSuccess: () => queryClient.invalidateQueries({ queryKey: ["currentUser"] })
+		onSuccess: () =>
+			queryClient.invalidateQueries({ queryKey: ["currentUser"] })
 	});
 
 	const resendMutation = useMutation({
@@ -60,7 +57,20 @@ export default function useAuth(): UseAuthHook {
 				}
 			);
 		},
-		onSuccess: () => queryClient.invalidateQueries({ queryKey: ["currentUser"] })
+		onSuccess: () =>
+			queryClient.invalidateQueries({ queryKey: ["currentUser"] })
+	});
+
+	const passwordResetMutation = useMutation({
+		mutationFn: async (email: string) => {
+			await axios.post(
+				`${import.meta.env.VITE_BACKEND_URL}/api/auth/reset-password`,
+				{ email },
+				{
+					withCredentials: true
+				}
+			);
+		}
 	});
 
 	const signOutMutation = useMutation({
@@ -80,13 +90,15 @@ export default function useAuth(): UseAuthHook {
 
 	return {
 		signOut: {
-			mutate: options => signOutMutation.mutate(undefined, options),
+			mutate: (options?: { onSuccess?: (data: void) => void }) =>
+				signOutMutation.mutate(undefined, options),
 			isPending: signOutMutation.isPending,
 			isError: signOutMutation.isError
 		},
 		signUp: signUpMutation,
 		signIn: signInMutation,
 		verifyEmail: verifyEmailMutation,
-		resendVerificationEmail: resendMutation
+		resendVerificationEmail: resendMutation,
+		resetPassword: passwordResetMutation
 	};
 }
