@@ -5,6 +5,7 @@ import { signInSchema } from "@repo/shared-types";
 import { z } from "zod";
 import useAuth from "../../hooks/useAuth";
 import axios from "axios";
+import { useAuthStore } from "../../stores/auth.store";
 
 export default function SignInForm() {
 	const {
@@ -17,14 +18,18 @@ export default function SignInForm() {
 
 	const { signIn } = useAuth();
 	const navigate = useNavigate();
+	const login = useAuthStore(state => state.login);
 
 	return (
 		<form
 			className="w-1/2 space-y-4"
 			onSubmit={handleSubmit((data, e) => {
 				e?.preventDefault();
+				login(data.email, data.password);
 				signIn.mutate(data, {
-					onSuccess: () => navigate("/")
+					onSuccess: () => {
+						navigate("/");
+					}
 				});
 			})}
 		>
@@ -94,8 +99,8 @@ export default function SignInForm() {
 			{signIn.isError && (
 				<p role="alert" className="text-center text-sm text-red-600">
 					{axios.isAxiosError<ApiError>(signIn.error)
-						? signIn.error.response?.data?.message ??
-							"Unable to sign in. Please check your credentials and try again."
+						? (signIn.error.response?.data?.message ??
+							"Unable to sign in. Please check your credentials and try again.")
 						: "Unable to sign in. Please check your credentials and try again."}
 				</p>
 			)}

@@ -27,7 +27,8 @@ export default function SignUpForm() {
 					onSuccess: () => {
 						navigate("/verify-email", {
 							state: {
-								email: data.email
+								email: data.email,
+								password: data.password
 							}
 						});
 					}

@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
+import { useAuthStore } from "../../stores/auth.store";
 
 const CODE_LENGTH = 6;
 const RESEND_COOLDOWN = 60;
@@ -20,6 +21,9 @@ export default function VerifyEmail() {
 	const [enteringEmail, setEnteringEmail] = useState(false);
 	const [code, setCode] = useState<string[]>(Array(CODE_LENGTH).fill(""));
 	const [timeLeft, setTimeLeft] = useState(0);
+	const login = useAuthStore(state => state.login);
+	const password =
+		typeof location.state?.password === "string" ? location.state.password : "";
 
 	const inputRef = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -121,6 +125,8 @@ export default function VerifyEmail() {
 		verifyEmail.mutate(code.join(""), {
 			onSuccess: () => navigate("/")
 		});
+
+		login(email, password);
 	};
 
 	return (
@@ -288,16 +294,16 @@ export default function VerifyEmail() {
 					className="mt-3 flex shrink-0 text-center text-sm text-red-600"
 				>
 					{axios.isAxiosError<ApiError>(resendMutation.error)
-						? resendMutation.error.response?.data?.message ??
-							"Unable to send a verification email. Please check your email address and try again."
+						? (resendMutation.error.response?.data?.message ??
+							"Unable to send a verification email. Please check your email address and try again.")
 						: "Unable to send a verification email. Please check your email address and try again."}
 				</p>
 			)}
 			{verifyEmail.isError && (
 				<p role="alert" className="mt-3 text-center text-sm text-red-600">
 					{axios.isAxiosError<ApiError>(verifyEmail.error)
-						? verifyEmail.error.response?.data?.message ??
-							"Unable to verify your email. Please check the code and try again."
+						? (verifyEmail.error.response?.data?.message ??
+							"Unable to verify your email. Please check the code and try again.")
 						: "Unable to verify your email. Please check the code and try again."}
 				</p>
 			)}
