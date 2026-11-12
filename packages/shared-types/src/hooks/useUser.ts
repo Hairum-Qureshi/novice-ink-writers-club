@@ -4,14 +4,10 @@ export type SafeUser = Omit<User, "password">;
 
 interface UseUserHook {
 	getAllUsers: {
-		mutate: (
-			variables: void,
-			options?: { onSuccess?: (data: SafeUser[]) => void }
-		) => void;
-		data: Omit<SafeUser, "password">[] | undefined;
+		data: SafeUser[] | undefined;
 		isPending: boolean;
-		error: unknown;
 		isError: boolean;
+		error: unknown;
 	};
 }
 
