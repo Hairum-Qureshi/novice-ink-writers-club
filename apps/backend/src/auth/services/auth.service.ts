@@ -43,14 +43,14 @@ export class AuthService {
   async signUp(signUpFormDto: SignUpFormDataDto) {
     const { firstName, lastName, email, password } = signUpFormDto;
 
-    if (await this.userRepository.findUserByEmail(email as string)) {
+    if (await this.userRepository.findUserByEmail(email)) {
       throw new HttpException(
         'User with this email already exists',
         HttpStatus.BAD_REQUEST,
       );
     }
 
-    const hashedPassword = await argon2.hash(password as string);
+    const hashedPassword = await argon2.hash(password);
 
     const generatedId = customAlphabet(
       '1234567890abcdefghijklmnopqrstuvwxyz',
@@ -86,10 +86,7 @@ export class AuthService {
       10 * 60 * 1000, // 10 minutes in milliseconds
     );
 
-    await this.emailService.sendVerificationEmail(
-      user.email as string,
-      verificationCode,
-    );
+    await this.emailService.sendVerificationEmail(user.email, verificationCode);
   }
 
   async signOut(response: Response, sessionId: string, userId: string) {
@@ -109,9 +106,7 @@ export class AuthService {
   }
 
   async signIn(response: Response, signInFormDto: SignInFormDataDto) {
-    const user = await this.userRepository.findUserByEmail(
-      signInFormDto.email as string,
-    );
+    const user = await this.userRepository.findUserByEmail(signInFormDto.email);
 
     if (!user) throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
 
@@ -140,7 +135,7 @@ export class AuthService {
 
     const isPasswordValid = await argon2.verify(
       user.password,
-      signInFormDto.password as string,
+      signInFormDto.password,
     );
 
     if (!isPasswordValid)
@@ -168,6 +163,7 @@ export class AuthService {
     response: Response,
   ) {
     const RT_KEY = `rt:${sessionId}`;
+
     const sessionData = await this.cacheManager.get<{
       refreshTokenHash: string;
       userId: string;
@@ -262,7 +258,7 @@ export class AuthService {
     if (!user) throw new NotFoundException('User not found');
 
     const hashedPassword = createHash('sha256')
-      .update(newPassword as string)
+      .update(newPassword)
       .digest('hex');
 
     await this.userRepository.updateUser(user.id, { password: hashedPassword });
@@ -279,6 +275,8 @@ export class AuthService {
     const user = await this.userRepository.getUserById(userId);
 
     if (!user) throw new NotFoundException('User not found');
+
+    // remove password before caching
 
     await this.cacheManager.set(key, user, 30 * 60 * 1000); // expires after 30 minutes
     return user;
