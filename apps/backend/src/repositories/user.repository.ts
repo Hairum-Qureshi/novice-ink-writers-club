@@ -11,7 +11,11 @@ export class UserRepository {
   ) {}
 
   async getAllUsers() {
-    return await this.db.query.usersTable.findMany();
+    return await this.db.query.usersTable.findMany({
+      columns: {
+        password: false,
+      },
+    });
   }
 
   async findUserByEmail(email: string) {
@@ -23,6 +27,9 @@ export class UserRepository {
   async getUserById(id: string) {
     return await this.db.query.usersTable.findFirst({
       where: eq(usersTable.id, id),
+      columns: {
+        password: false,
+      },
     });
   }
 
