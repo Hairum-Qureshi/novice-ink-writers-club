@@ -26,16 +26,36 @@ export default function Navbar() {
 						</>
 					)}
 					{user && (
-						<button
-							disabled={signOut.isPending}
-							className="hover:cursor-pointer"
-							onClick={() => {
-								logout();
-								signOut.mutate({ onSuccess: () => navigate("/") });
-							}}
-						>
-							Sign Out
-						</button>
+						<>
+							<Link to="/genres" className="hover:text-novice-ink-yellow">
+								<li>Genres</li>
+							</Link>
+							<Link to="/all-users" className="hover:text-novice-ink-yellow">
+								<li>All Users</li>
+							</Link>
+							<Link
+								to={`/user/${user?.id}/profile`}
+								className="hover:text-novice-ink-yellow"
+							>
+								<li>Profile</li>
+							</Link>
+							<Link to="/club-members" className="hover:text-novice-ink-yellow">
+								<li>Club Members</li>
+							</Link>
+							<Link to="/contact-us" className="hover:text-novice-ink-yellow">
+								<li>Contact Us</li>
+							</Link>
+							<button
+								disabled={signOut.isPending}
+								className="hover:cursor-pointer"
+								onClick={() => {
+									logout();
+									signOut.mutate({ onSuccess: () => navigate("/") });
+								}}
+							>
+								Sign Out
+							</button>
+						</>
 					)}
 				</ul>
 			</div>
