@@ -16,6 +16,7 @@ import {
   SignInFormData as SignInFormDataDto,
   Role,
   PasswordResetFormData as PasswordResetFormDataDto,
+  SafeUser,
 } from '@repo/shared-types';
 import { EmailService } from '../../email/email.service';
 import * as argon2 from 'argon2';
@@ -268,7 +269,7 @@ export class AuthService {
     await this.cacheManager.del(`password-reset:${tokenHash}`);
   }
 
-  async getCurrentUser(userId: string): Promise<Omit<User, 'password'>> {
+  async getCurrentUser(userId: string): Promise<SafeUser> {
     const key = `user:${userId}`;
     const cachedUser = await this.cacheManager.get<User>(key);
 
