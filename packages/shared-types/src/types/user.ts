@@ -14,6 +14,8 @@ type User = {
 	grade: Grade | null;
 	gender: Gender | null;
 	isVerified: boolean;
+	createdAt: Date;
+	updatedAt: Date;
 };
 
 export type { User };
