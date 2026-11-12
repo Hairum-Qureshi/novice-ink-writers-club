@@ -74,6 +74,8 @@ export class AuthService {
       verificationCodeExpiry: new Date(Date.now() + 5 * 60 * 1000), // 5 minutes from now
       profilePicture: `https://api.dicebear.com/10.x/waves/svg?seed=${generatedId()}`,
       password: hashedPassword,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
 
     await this.userRepository.createUser(user);
