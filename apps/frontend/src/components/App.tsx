@@ -25,19 +25,21 @@ export default function App() {
 			<NavDisplay>
 				<Navbar />
 			</NavDisplay>
-			<Routes>
-				<Route path="/" element={<Home />} />
-				<Route path="/sign-in" element={<Auth />} />
-				<Route path="/sign-up" element={<Auth />} />
-				<Route path="/verify-email" element={<Auth />} />
-				<Route path="/forgot-password" element={<Auth />} />
-				<Route path="/user/:userId/profile" element={<Profile />} />
-				<Route path="/all-users" element={<AllUsers />} />
-				<Route path="/club-members" element={<ClubMembers />} />
-				<Route path="/contact-us" element={<Contact />} />
-				<Route path="/reset-password" element={<ResetPassword />} />
-				<Route path="*" element={<NotFound />} />
-			</Routes>
+			<main className="flex flex-1 flex-col">
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/sign-in" element={<Auth />} />
+					<Route path="/sign-up" element={<Auth />} />
+					<Route path="/verify-email" element={<Auth />} />
+					<Route path="/forgot-password" element={<Auth />} />
+					<Route path="/user/:userId/profile" element={<Profile />} />
+					<Route path="/all-users" element={<AllUsers />} />
+					<Route path="/club-members" element={<ClubMembers />} />
+					<Route path="/contact-us" element={<Contact />} />
+					<Route path="/reset-password" element={<ResetPassword />} />
+					<Route path="*" element={<NotFound />} />
+				</Routes>
+			</main>
 		</BrowserRouter>
 	);
 }
