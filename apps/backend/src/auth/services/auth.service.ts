@@ -266,7 +266,7 @@ export class AuthService {
     await this.cacheManager.del(`password-reset:${tokenHash}`);
   }
 
-  async getCurrentUser(userId: string): Promise<User> {
+  async getCurrentUser(userId: string): Promise<Omit<User, 'password'>> {
     const key = `user:${userId}`;
     const cachedUser = await this.cacheManager.get<User>(key);
 
@@ -276,10 +276,7 @@ export class AuthService {
 
     if (!user) throw new NotFoundException('User not found');
 
-    // remove password before caching
-    const { password, ...safeUser } = user;
-
-    await this.cacheManager.set(key, safeUser, 30 * 60 * 1000); // expires after 30 minutes
+    await this.cacheManager.set(key, user, 30 * 60 * 1000); // expires after 30 minutes
     return user;
   }
 }
