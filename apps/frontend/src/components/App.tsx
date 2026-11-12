@@ -6,8 +6,16 @@ import "../css/index.css";
 import Navbar from "./Navbar";
 import Auth from "../pages/Auth";
 import ResetPassword from "../pages/ResetPassword";
+import { useEffect } from "react";
+import { useAuthStore } from "../stores/auth.store";
 
 export default function App() {
+	const initialize = useAuthStore(state => state.initialize);
+
+	useEffect(() => {
+		void initialize();
+	}, [initialize]);
+
 	return (
 		<BrowserRouter>
 			<NavDisplay>
