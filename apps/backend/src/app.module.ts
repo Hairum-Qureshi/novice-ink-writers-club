@@ -5,6 +5,8 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { CacheConfig } from './config/cache.config';
 import { CacheModule } from '@nestjs/cache-manager';
+import { EmailModule } from './email/email.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -12,7 +14,9 @@ import { CacheModule } from '@nestjs/cache-manager';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    CacheModule.registerAsync(CacheConfig),
+    CacheModule.registerAsync({ ...CacheConfig, isGlobal: true }),
+    EmailModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
