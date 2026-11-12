@@ -7,7 +7,7 @@ export default function AllUsers() {
 
 	return (
 		<div className="p-4 bg-[#1e2a22]">
-			<div className="p-5 flex items-center justify-center my-5 text-white">
+			<div className="p-5 flex min-h-screen max-h-scroll items-center justify-center my-5 text-white">
 				<div className="flex flex-col justify-center items-center w-7/12">
 					<h5 className="uppercase text-sm text-yellow-400 my-2 font-alike-angular">
 						The Novice Ink. Community
