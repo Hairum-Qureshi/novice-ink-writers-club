@@ -45,8 +45,8 @@ export const usersTable = pgTable(
     gender: genders(),
     grade: grades(),
     isVerified: boolean('is_verified').notNull().default(false),
-    createdAt: timestamp('created_at').defaultNow(),
-    updatedAt: timestamp('updated_at').defaultNow(),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
+    updatedAt: timestamp('updated_at').notNull().defaultNow(),
   },
   (table) => ({
     uniqueUser: uniqueIndex('unique_user').on(table.email),
