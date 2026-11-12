@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import AllUsers from "../pages/AllUsers";
 import NavDisplay from "./middleware/NavDisplay";
 import Home from "../pages/Home";
 import NotFound from "../pages/NotFound";
@@ -8,6 +9,9 @@ import Auth from "../pages/Auth";
 import ResetPassword from "../pages/ResetPassword";
 import { useEffect } from "react";
 import { useAuthStore } from "../stores/auth.store";
+import Profile from "../pages/Profile";
+import ClubMembers from "../pages/ClubMembers";
+import Contact from "../pages/Contact";
 
 export default function App() {
 	const initialize = useAuthStore(state => state.initialize);
@@ -27,6 +31,10 @@ export default function App() {
 				<Route path="/sign-up" element={<Auth />} />
 				<Route path="/verify-email" element={<Auth />} />
 				<Route path="/forgot-password" element={<Auth />} />
+				<Route path="/user/:userId/profile" element={<Profile />} />
+				<Route path="/all-users" element={<AllUsers />} />
+				<Route path="/club-members" element={<ClubMembers />} />
+				<Route path="/contact-us" element={<Contact />} />
 				<Route path="/reset-password" element={<ResetPassword />} />
 				<Route path="*" element={<NotFound />} />
 			</Routes>
