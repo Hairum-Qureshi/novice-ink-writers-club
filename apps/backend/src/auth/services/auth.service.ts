@@ -277,8 +277,9 @@ export class AuthService {
     if (!user) throw new NotFoundException('User not found');
 
     // remove password before caching
+    const { password, ...safeUser } = user;
 
-    await this.cacheManager.set(key, user, 30 * 60 * 1000); // expires after 30 minutes
+    await this.cacheManager.set(key, safeUser, 30 * 60 * 1000); // expires after 30 minutes
     return user;
   }
 }
