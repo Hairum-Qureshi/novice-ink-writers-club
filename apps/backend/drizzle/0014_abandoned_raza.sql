@@ -1,0 +1,1 @@
+ALTER TABLE "users" ADD COLUMN "is_legacy_member" boolean DEFAULT false NOT NULL;
