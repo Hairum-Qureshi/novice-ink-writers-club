@@ -45,6 +45,7 @@ export class UserRepository {
       biography: user.biography,
       isVerified: user.isVerified,
       profilePicture: user.profilePicture,
+      isLegacyMember: user.isLegacyMember,
       password: user.password,
     });
   }
@@ -63,6 +64,7 @@ export class UserRepository {
         gender: updateData.gender,
         role: updateData.role,
         isVerified: updateData.isVerified,
+        isLegacyMember: updateData.isLegacyMember,
       })
       .where(eq(usersTable.id, id));
   }
