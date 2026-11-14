@@ -1,4 +1,4 @@
-# Novice Ink Club
+# Novice Ink. Writer's Club
 
 **A modern archival reconstruction of the original Novice Ink Club website.**
 
