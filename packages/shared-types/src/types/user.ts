@@ -14,6 +14,7 @@ type User = {
 	grade: Grade | null;
 	gender: Gender | null;
 	isVerified: boolean;
+	isLegacyMember: boolean;
 	createdAt: Date;
 	updatedAt: Date;
 };
