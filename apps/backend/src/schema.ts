@@ -45,6 +45,7 @@ export const usersTable = pgTable(
     gender: genders(),
     grade: grades(),
     isVerified: boolean('is_verified').notNull().default(false),
+    isLegacyMember: boolean('is_legacy_member').notNull().default(false),
     createdAt: timestamp('created_at').notNull().defaultNow(),
     updatedAt: timestamp('updated_at').notNull().defaultNow(),
   },
