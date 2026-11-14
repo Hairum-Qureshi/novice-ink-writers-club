@@ -1,125 +1,83 @@
-# NestJS + React + Vite + Tailwind + Turbo (with Google Auth)
+# Novice Ink Club
 
-This repository is a **full-stack monorepo template** using **npm workspaces** and **Turborepo** to manage a React frontend and a NestJS backend in a single repository.
+**A modern archival reconstruction of the original Novice Ink Club website.**
 
-It is based on a minimal monorepo foundation, with **Google OAuth authentication pre-wired using Google Cloud OAuth credentials** so you do not have to build the authentication plumbing from scratch. The backend is configured to use **PostgreSQL via NeonDB** with **Drizzle ORM** instead of a NoSQL database.
+Novice Ink Club was originally developed as a high school club for aspiring writers to share their creativity, publish stories, and connect with fellow members.
 
-This is a **template**, not a production-ready system.
+I first made this website for my high school's writers' club around 2021, when I was just starting out with full-stack web development and was completely new to it all. The original used Firebase for authentication and the database, with Express.js and EJS for the application.
 
----
+This project revisits that original website, rebuilding it from the ground up using modern full-stack technologies and the software engineering practices I've learned since its initial development. It is an opportunity to apply better backend and frontend practices that younger me wasn't fully aware of and to show how far I've come.
 
-## What This Template Is
+Unlike the original application, this reconstruction is **not intended to operate as an active writing community**. Instead, it serves as a digital archive, preserving previously published stories, original member profiles, and the identity of Novice Ink Club.
 
-This template provides:
+## Project Goals
 
-* A correct, minimal **monorepo setup**
-* Clear separation of frontend and backend concerns
-* Centralized dependency management
-* Coordinated development scripts
-* **Google OAuth authentication across the frontend and backend**
-* JWT-based authentication for authenticated backend requests
-* A shared `@repo/shared-types` package so the frontend and backend can consume the same TypeScript types instead of duplicating them
-* **PostgreSQL + NeonDB persistence** using **Drizzle ORM**
+The primary objectives of this reconstruction are to:
 
-Authentication is included, but only to the extent required to:
+- **Preserve the original community:** Retain previously published stories, historical content, and legacy member profiles.
+- **Modernize the architecture:** Replace the original Express.js, EJS, and Firebase implementation with a more maintainable full-stack architecture.
+- **Demonstrate technical growth:** Apply improved practices in authentication, authorization, database design, API development, and frontend architecture.
+- **Maintain the original identity:** Recreate and refine the original website's experience without unnecessarily expanding its scope.
 
-* Sign users in with Google on the frontend
-* Send the Google authentication credential to the backend
-* Verify the Google identity on the backend
-* Establish an authenticated session using a backend-issued JWT
+## Project Scope
 
-Everything else remains intentionally unopinionated.
+This project is primarily an archival showcase rather than a fully operational publishing platform.
 
----
+Core account functionality, such as authentication and profile customization, is implemented to demonstrate the rebuilt application's architecture. Historical content, including previously published stories and legacy member profiles, is preserved for browsing.
 
-## What This Template Is *Not*
+Features that previously supported an active community, such as story submissions, editorial administration, and content publishing workflows, are intentionally excluded from the reconstruction.
 
-This template does **not** try to be a full application starter.
+These limitations are deliberate design decisions reflecting the project's archival purpose, rather than incomplete functionality.
 
-It does **not** include:
+## Tech Stack
 
-* User roles or permissions
-* Auth-based authorization rules
-* API clients
-* Deployment, Docker, or CI/CD
-* Production session-management infrastructure
+### Backend
 
-Those decisions are left to the user.
+- **NestJS** and **TypeScript** for the API.
+- **PostgreSQL**, hosted on **Neon**, with **Drizzle ORM** for database access and schema management.
+- **Redis** for refresh-token session data and short-lived codes that benefit from frequent reads and expiration.
+- **JWT authentication** using access and refresh tokens, with email verification.
+- **Resend** for verification and password-reset emails.
 
----
+### Frontend
+
+- **React**, **Vite**, and **TypeScript**.
+- **Tailwind CSS** for styling.
+
+### Shared and Tooling
+
+- **`@repo/shared-types`** for types and schemas shared by the frontend and backend.
+- **npm workspaces** and **Turborepo** for managing the monorepo.
 
 ## Repository Structure
 
 ```text
 .
 ├── apps/
-│   ├── backend/          # NestJS backend (Google OAuth + JWT + PostgreSQL/NeonDB)
-│   └── frontend/         # React + Vite + Tailwind (Google OAuth)
+│   ├── backend/          # NestJS API, authentication, Redis, and PostgreSQL
+│   └── frontend/         # React + Vite + Tailwind CSS
 ├── packages/
-│   └── shared-types/     # @repo/shared-types - shared TypeScript types for frontend/backend
+│   └── shared-types/     # @repo/shared-types
 │       └── src/
-│           ├── types/    # Domain types (e.g. User, AuthRequest)
-│           ├── hooks/    # Hook return/prop types (e.g. UseGoogleAuthHook)
-│           └── index.ts  # Re-exports shared types
-├── package.json          # Root workspace + Turbo configuration
-├── package-lock.json     # Single lockfile for the entire monorepo
+│           ├── types/    # Shared domain and API types
+│           ├── hooks/    # Shared hook types
+│           ├── enums/    # Shared enums
+│           ├── schemas/  # Shared validation schemas
+│           └── index.ts  # Re-exports shared definitions
+├── package.json          # Root workspace scripts and dependencies
+├── package-lock.json     # Single lockfile for the monorepo
 ├── turbo.json            # Turbo task pipeline
 └── README.md
 ```
 
-### Key Structural Notes
-
-* This **is a monorepo**
-* Dependency management is centralized at the **root**
-* Each app remains a **standalone project**
-* Shared TypeScript types live in `packages/shared-types` and are consumed via `@repo/shared-types`
-* New shared types should be added under `packages/shared-types/src`, organized into folders by kind and re-exported from `packages/shared-types/src/index.ts`
-* The `packages/` folder is intentionally included so shared logic, schemas, or types can be introduced later without duplicating code across apps
-
----
-
-## Tech Stack
-
-### Backend (`apps/backend`)
-
-* NestJS
-* TypeScript
-* PostgreSQL
-* NeonDB
-* Google OAuth
-* JWT-based session tokens
-* Drizzle ORM
-
-### Frontend (`apps/frontend`)
-
-* React
-* Vite
-* TailwindCSS
-* TypeScript
-* Google OAuth
-
-### Shared (`packages/shared-types`)
-
-* TypeScript types shared between the frontend and backend, consumed as `@repo/shared-types`
-
-### Tooling
-
-* npm workspaces
-* Turborepo
-
----
+Dependencies are managed at the repository root, while the frontend and backend remain separate applications. Add shared definitions under `packages/shared-types/src`, organize them by kind, and re-export them from `packages/shared-types/src/index.ts` for consumption through `@repo/shared-types`.
 
 ## Prerequisites
 
-You need:
-
-* Node.js (LTS recommended)
-* npm (v7+ for workspaces)
-* A Google Cloud project
-* Google OAuth credentials
-* A NeonDB account and PostgreSQL database
-
----
+- Node.js (LTS recommended) and npm (v7 or newer for workspaces).
+- A [Neon](https://neon.tech/) account and PostgreSQL database.
+- A running Redis instance.
+- A [Resend](https://resend.com/) account and an appropriate sender for verification and password-reset emails.
 
 ## Installation
 
@@ -129,223 +87,83 @@ From the **repository root**:
 npm install
 ```
 
-This installs dependencies for **all workspace packages** and generates a **single `package-lock.json`**.
+This installs dependencies for all workspace packages using the root lockfile. Do not run `npm install` inside individual apps.
 
-Do not run `npm install` inside individual apps.
+## Environment Setup
 
----
+Use the example files as the source of truth for each application's configuration:
 
-## Environment Variables
+- [Backend environment example](apps/backend/.env.example)
+- [Frontend environment example](apps/frontend/.env.example)
 
-The repository includes example environment files for both applications:
-
-```text
-apps/
-├── backend/
-│   └── .env.example
-└── frontend/
-    └── .env.example
-```
-
-Use the example files as the source of truth for required environment variables:
-
-* Backend example: [`apps/backend/.env.example`](apps/backend/.env.example)
-* Frontend example: [`apps/frontend/.env.example`](apps/frontend/.env.example)
-
-Copy each example file to `.env` before starting the application.
-
-### Backend
+From the repository root, copy both examples and fill in the values for your setup:
 
 ```bash
 cp apps/backend/.env.example apps/backend/.env
-```
-
-The backend environment variables should include:
-
-```env
-JWT_SECRET=your_jwt_secret_here
-JWT_EXPIRES=604800000
-PORT=3000
-NODE_ENV=development
-FRONTEND_URL=http://localhost:5173
-
-GOOGLE_OAUTH_CLIENT_ID=your-client-id.apps.googleusercontent.com
-GOOGLE_OAUTH_CLIENT_SECRET=your-google-client-secret
-
-NEON_DB_URL=postgresql://username:password@your-host.neon.tech/database?sslmode=require
-```
-
-### Frontend
-
-```bash
 cp apps/frontend/.env.example apps/frontend/.env
 ```
 
-The frontend should contain the backend URL and Google OAuth client ID:
+Configure the backend to connect to your Neon database and running Redis instance, and provide the email service configuration needed to send verification and password-reset emails. Configure the frontend to reach the backend.
 
-```env
-VITE_BACKEND_URL=http://localhost:3000
-VITE_GOOGLE_OAUTH_CLIENT_ID=your_google_oauth_client_id_here
+Do not commit local `.env` files or expose backend credentials in frontend configuration.
+
+## Redis Setup
+
+Install [Redis](https://redis.io/docs/latest/operate/oss_and_stack/install/) if it is not already available, then start the server in a terminal:
+
+```bash
+redis-server
 ```
 
-Because Vite exposes variables prefixed with `VITE_` to browser code, **never put the Google OAuth client secret in the frontend `.env` file**.
+Leave that terminal running. In another terminal, connect to the server:
 
----
-
-## Google OAuth Setup
-
-Google authentication uses **OAuth 2.0 credentials from Google Cloud Console**.
-
-Firebase is **not required** for authentication in this template.
-
-### 1. Create or Select a Google Cloud Project
-
-Open the [Google Cloud Console](https://console.cloud.google.com/) and create a new project or select an existing project.
-
----
-
-### 2. Configure the OAuth Consent Screen
-
-In Google Cloud Console:
-
-1. Open **Google Auth Platform** / **OAuth consent screen**
-2. Configure the application information
-3. Select the appropriate audience for your application
-4. Configure the scopes required by the application
-
-For basic Google sign-in, the application generally needs access to the user's basic profile and email information.
-
-If the application is in testing mode, make sure the Google accounts you intend to use are configured as test users.
-
----
-
-### 3. Create OAuth Client Credentials
-
-In Google Cloud Console, go to:
-
-**Google Auth Platform → Clients**
-
-Create an **OAuth 2.0 Client ID**.
-
-For the React frontend, configure a **Web application** client.
-
-Add the frontend origin used during local development to the authorized JavaScript origins:
-
-```text
-http://localhost:5173
+```bash
+redis-cli
 ```
 
-If the application is deployed later, add the appropriate production origin as well.
+At the Redis prompt, run `PING` to check the connection; a running server should respond with `PONG`. Type `exit` to leave the CLI. Make sure the backend configuration in the [environment example](apps/backend/.env.example) points to your Redis instance.
 
-> The exact Google Cloud Console navigation may change over time, but the application requires an OAuth 2.0 **Client ID** and **Client Secret**.
+## Neon PostgreSQL Setup
 
----
-
-### 4. Configure the Credentials
-
-Google provides:
-
-* Client ID
-* Client Secret
-
-The **Client ID** is safe to use in the frontend and is also required by the backend.
-
-The **Client Secret is confidential** and must only be available to the backend.
-
-### Backend
-
-```env
-GOOGLE_OAUTH_CLIENT_ID=your_google_oauth_client_id_here
-GOOGLE_OAUTH_CLIENT_SECRET=your_google_oauth_client_secret_here
-```
-
-### Frontend
-
-```env
-VITE_GOOGLE_OAUTH_CLIENT_ID=your_google_oauth_client_id_here
-```
-
-The same Google OAuth Client ID should be used in both applications.
-
----
-
-## NeonDB PostgreSQL Setup
-
-The backend uses **PostgreSQL hosted through NeonDB**.
-
-### 1. Create a NeonDB Account
-
-Create an account at [Neon](https://neon.tech/).
-
-Create a new PostgreSQL project for the application.
-
----
-
-### 2. Create or Select a Database
-
-After creating the Neon project, select the PostgreSQL database associated with the project.
-
-Neon provides a PostgreSQL connection string for the database.
-
-It will generally look similar to:
-
-```text
-postgresql://username:password@host/database?sslmode=require
-```
-
-The exact connection string will be provided by Neon.
-
----
-
-### 3. Add the Connection String to the Backend
-
-Open:
-
-```text
-apps/backend/.env
-```
-
-and set:
-
-```env
-NEON_DB_URL=your_neon_db_url_here
-```
-
-For example:
-
-```env
-NEON_DB_URL=postgresql://username:password@ep-example.us-east-2.aws.neon.tech/freelance_dev?sslmode=require
-```
-
-Use the connection string provided by **your Neon project** rather than the example above.
-
----
+1. Create an account at [Neon](https://neon.tech/) and create a PostgreSQL project.
+2. Select the project's database and copy the PostgreSQL connection string provided by Neon.
+3. Add that connection string to the backend `.env` file using the corresponding entry in the [backend environment example](apps/backend/.env.example). Keep it confidential because it contains database credentials.
+4. Apply the database schema using the Drizzle migration workflow below.
 
 ## Drizzle ORM Setup
 
 The backend uses [Drizzle ORM](https://orm.drizzle.team/) to define and manage the PostgreSQL schema. The schema is defined in [`apps/backend/src/schema.ts`](apps/backend/src/schema.ts), and Drizzle Kit is configured in [`apps/backend/src/config/drizzle.config.ts`](apps/backend/src/config/drizzle.config.ts).
 
-### Generate and Apply Migrations
-
-After making a schema change, open a terminal in the `apps/backend` directory and generate a migration:
+Run the following commands from `apps/backend`. Drizzle's configuration reads from the process environment, so make the backend `.env` values available in your shell first. For a shell-compatible `.env` file:
 
 ```bash
-npx drizzle-kit generate --config src/config/drizzle.config.ts
+cd apps/backend
+set -a
+. ./.env
+set +a
 ```
 
-You can also use the backend's npm script:
+### Generate and Apply Migrations
+
+After making a schema change, generate a migration:
 
 ```bash
 npm run db:generate
 ```
 
-After generating the migration, apply it to NeonDB from the same `apps/backend` directory:
+Or run Drizzle Kit directly:
+
+```bash
+npx drizzle-kit generate --config src/config/drizzle.config.ts
+```
+
+Apply generated migrations to Neon:
 
 ```bash
 npm run db:migrate
 ```
 
-You can also run the migration command directly:
+Or run the migration command directly:
 
 ```bash
 npx drizzle-kit migrate --config src/config/drizzle.config.ts
@@ -353,140 +171,41 @@ npx drizzle-kit migrate --config src/config/drizzle.config.ts
 
 ### Push Schema Changes Directly
 
-For development, you can also push the current Drizzle schema directly to the database without generating migration files:
+For development, you can push the current schema to the database without generating migration files:
 
 ```bash
 npm run db:push
 ```
 
-This is useful when you are iterating on the schema locally and do not need to create migration files for each change.
-
-For changes that should be tracked as migrations, use the `db:generate` followed by `db:migrate` workflow instead.
-
-**Important:** `db:generate` creates the migration files but does not update NeonDB. `db:migrate` applies the generated migrations and pushes the schema changes to NeonDB. `db:push` applies the current schema directly without generating migration files.
-
----
+Use `db:generate` followed by `db:migrate` for changes that should be tracked as migrations. `db:generate` only creates migration files; `db:migrate` applies them. `db:push` applies the current schema directly without generating migration files.
 
 ## Development
 
-Run all development servers concurrently:
+Start Redis, then run all development servers from the repository root:
 
 ```bash
 npm run dev
 ```
 
-This uses Turbo to:
-
-* Start the NestJS backend
-* Start the Vite frontend
-* Stream logs with app prefixes
+Turbo starts the NestJS backend and Vite frontend, builds and watches `@repo/shared-types`, and streams logs with app prefixes.
 
 ### Rebuilding Shared Types
 
-Changes to types in `packages/shared-types` may not appear in the apps until the package's `dist` folder is rebuilt. From the `packages` directory, run the following in a separate terminal:
+The root `npm run dev` command starts the shared-types watcher automatically; no separate terminal is needed. If you run an individual app's development script instead, start the watcher separately from the repository root:
 
 ```bash
-npm run build --workspace=@repo/shared-types -- --watch
+npm run dev --workspace=@repo/shared-types
 ```
 
-Leave this command running to rebuild `dist` automatically as the shared types change.
+Leave it running to rebuild `dist` automatically as the shared types change.
 
 ### Default Ports
 
-* Backend: `http://localhost:3000`
-* Frontend: `http://localhost:5173`
+- Backend: `http://localhost:3000`
+- Frontend: `http://localhost:5173`
 
-Make sure the frontend URL matches the URL configured in:
+Ensure the frontend and backend configuration matches the URLs you use locally.
 
-```env
-FRONTEND_URL=http://localhost:5173
-```
+## Authentication
 
-and the Google OAuth client's authorized JavaScript origins.
-
----
-
-## Authentication Flow
-
-The authentication flow is intentionally simple:
-
-```text
-┌─────────────┐
-│   Browser   │
-│ React/Vite  │
-└──────┬──────┘
-       │
-       │ 1. Sign in with Google
-       ▼
-┌─────────────────┐
-│  Google OAuth   │
-└────────┬────────┘
-         │
-         │ 2. Google credential
-         ▼
-┌─────────────────┐
-│ NestJS Backend  │
-│                 │
-│ Verify Google   │
-│ identity        │
-└────────┬────────┘
-         │
-         │ 3. Backend-issued JWT
-         ▼
-┌─────────────────┐
-│ Authenticated   │
-│ API requests    │
-└─────────────────┘
-```
-
-Google is responsible for authenticating the user.
-
-The backend is responsible for:
-
-* Verifying the Google authentication credential
-* Establishing trust in the authenticated Google account
-* Issuing the application's JWT
-* Authenticating subsequent API requests
-
-This keeps the frontend and backend independently deployable while still providing a clear authentication boundary.
-
----
-
-## Environment Variable Security
-
-Do **not** commit local `.env` files.
-
-The repository should contain:
-
-```text
-.env.example
-```
-
-while local secrets should remain in:
-
-```text
-.env
-```
-
-Make sure `.gitignore` excludes local environment files.
-
-### OAuth Client ID vs Client Secret
-
-The Google OAuth **Client ID is not considered a secret** and is expected to be used by the browser.
-
-The **Client Secret is confidential** and should only be available to the backend.
-
-The NeonDB connection string should also be treated as confidential because it contains database credentials.
-
----
-
-## App Independence
-
-Even with authentication included:
-
-* Frontend and backend are **not tightly coupled**
-* They can be deployed independently
-* Shared packages are optional and can evolve as the project grows
-* API communication remains explicit
-
-Authentication establishes **trust**, not architectural dependency.
+The application uses email and password authentication, including email verification. After authentication, the backend issues JWT access and refresh tokens: access tokens authenticate API requests, while refresh tokens allow sessions to obtain new tokens. Redis stores refresh-token session data and temporary codes, such as email verification codes, that need quick reads and expiration.
