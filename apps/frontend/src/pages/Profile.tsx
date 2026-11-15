@@ -1,6 +1,6 @@
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { FiBookOpen, FiCamera, FiUser } from "react-icons/fi";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useAuthStore } from "../stores/auth.store";
 import useUser from "../hooks/useUser";
 import { IoMale } from "react-icons/io5";
@@ -13,6 +13,7 @@ export default function Profile() {
 	const currentUser = useAuthStore(state => state.user);
 	const { getUserById } = useUser();
 	const [activeTab, setActiveTab] = useState<"stories" | "settings">("stories");
+	const profileImageInputRef = useRef<HTMLInputElement>(null);
 
 	const profileUser = getUserById.data ?? null;
 	const isYourProfile = Boolean(
@@ -148,11 +149,33 @@ export default function Profile() {
 
 				{/* Sidebar card */}
 				<aside className="order-1 h-fit rounded-lg border border-[#d6dcd5] bg-[#f3f4f0] px-6 pb-6 shadow-lg shadow-[#29352b]/10 lg:order-2">
-					<img
-						src={profileUser?.profilePicture}
-						alt="Profile"
-						className="mx-auto -mt-16 h-32 w-32 rounded-full border-4 border-novice-ink-yellow object-cover shadow-md"
-					/>
+					<div className="group relative mx-auto -mt-16 h-32 w-32 overflow-hidden rounded-full border-4 border-novice-ink-yellow shadow-md">
+						<img
+							src={profileUser?.profilePicture}
+							alt="Profile"
+							className="h-full w-full object-cover"
+						/>
+						{isYourProfile && !profileUser?.isLegacyMember && (
+							<>
+								<button
+									type="button"
+									onClick={() => profileImageInputRef.current?.click()}
+									aria-label="Choose a profile image"
+									className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-black/60 text-sm font-medium text-white opacity-0 transition-opacity hover:cursor-pointer hover:opacity-100 focus-visible:opacity-100 group-hover:opacity-100"
+								>
+									<FiCamera className="text-xl" />
+									<span>Change photo</span>
+								</button>
+								<input
+									ref={profileImageInputRef}
+									type="file"
+									accept="image/*"
+									className="sr-only"
+									aria-label="Select a profile image"
+								/>
+							</>
+						)}
+					</div>
 					<h2 className="mt-4 text-center font-lusitana text-2xl font-bold">
 						{profileUser?.firstName} {profileUser?.lastName}
 					</h2>
