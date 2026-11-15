@@ -46,6 +46,11 @@ export const usersTable = pgTable(
     grade: grades(),
     isVerified: boolean('is_verified').notNull().default(false),
     isLegacyMember: boolean('is_legacy_member').notNull().default(false),
+    backdropImage: text('backdrop_image')
+      .notNull()
+      .default(
+        'https://i.pinimg.com/originals/1a/2f/ce/1a2fce9d9ad2c08b01995324bff7a9b3.jpg',
+      ),
     createdAt: timestamp('created_at').notNull().defaultNow(),
     updatedAt: timestamp('updated_at').notNull().defaultNow(),
   },
