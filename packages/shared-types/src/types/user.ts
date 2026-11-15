@@ -15,6 +15,7 @@ type User = {
 	gender: Gender | null;
 	isVerified: boolean;
 	isLegacyMember: boolean;
+	backdropImage: string;
 	createdAt: Date;
 	updatedAt: Date;
 };

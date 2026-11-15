@@ -76,6 +76,8 @@ export class AuthService {
       profilePicture: `https://api.dicebear.com/10.x/waves/svg?seed=${generatedId()}`,
       password: hashedPassword,
       isLegacyMember: false,
+      backdropImage:
+        'https://i.pinimg.com/originals/1a/2f/ce/1a2fce9d9ad2c08b01995324bff7a9b3.jpg',
       createdAt: new Date(),
       updatedAt: new Date(),
     };
