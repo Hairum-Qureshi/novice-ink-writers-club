@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { useAuthStore } from "../stores/auth.store";
+import { FaChevronDown } from "react-icons/fa6";
+import { FaPlus } from "react-icons/fa6";
 
 export default function Navbar() {
 	const { signOut } = useAuth();
@@ -9,7 +11,7 @@ export default function Navbar() {
 	const logout = useAuthStore(state => state.logout);
 
 	return (
-		<nav className="bg-[#1b1b1b] p-4 border-b-2 border-y-novice-ink-yellow flex justify-between items-center">
+		<nav className="bg-[#1b1b1b] h-20 p-4 border-b-2 border-y-novice-ink-yellow flex justify-between items-center">
 			<div className="mx-6 text-4xl text-novice-ink-yellow font-dancing-script">
 				<Link to="/">Novice Ink.</Link>
 			</div>
@@ -27,9 +29,62 @@ export default function Navbar() {
 					)}
 					{user && (
 						<>
-							<Link to="/genres" className="hover:text-novice-ink-yellow">
-								<li>Genres</li>
-							</Link>
+							<li className="group relative list-none">
+								<Link
+									to="#"
+									className="flex items-center hover:text-novice-ink-yellow"
+									aria-haspopup="true"
+								>
+									Genres
+									<FaChevronDown className="ml-2 inline text-base" />
+								</Link>
+								<ul className="absolute left-0 top-full z-10 hidden min-w-40 rounded bg-[#1b1b1b] text-white shadow-lg group-hover:block group-focus-within:block">
+									<li>
+										<Link
+											to="#"
+											className="block px-4 py-2 hover:text-novice-ink-yellow"
+										>
+											Poetry
+										</Link>
+									</li>
+									<li>
+										<Link
+											to="#"
+											className="block px-4 py-2 hover:text-novice-ink-yellow"
+										>
+											Essays
+										</Link>
+									</li>
+									<li className="group/fiction relative">
+										<Link
+											to="#"
+											className="flex items-center justify-between px-4 py-2 hover:text-novice-ink-yellow"
+											aria-haspopup="true"
+										>
+											Fiction
+											<FaPlus className="ml-2 inline text-base" />
+										</Link>
+										<ul className="absolute left-full top-0 hidden min-w-40 rounded bg-[#1b1b1b] text-white shadow-lg group-hover/fiction:block group-focus-within/fiction:block">
+											{[
+												"Apocalyptic",
+												"Dystopian",
+												"Mystery",
+												"Sci-Fi",
+												"Fantasy"
+											].map(genre => (
+												<li key={genre}>
+													<Link
+														to="#"
+														className="block px-4 py-2 hover:text-novice-ink-yellow"
+													>
+														{genre}
+													</Link>
+												</li>
+											))}
+										</ul>
+									</li>
+								</ul>
+							</li>
 							<Link to="/all-users" className="hover:text-novice-ink-yellow">
 								<li>All Users</li>
 							</Link>
