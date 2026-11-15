@@ -1,0 +1,1 @@
+ALTER TABLE "users" ADD COLUMN "backdrop_image" text DEFAULT 'https://i.pinimg.com/originals/1a/2f/ce/1a2fce9d9ad2c08b01995324bff7a9b3.jpg' NOT NULL;
