@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import * as postgresDb from '../providers/postgres-db';
 import { usersTable } from '../schema';
 import { eq } from 'drizzle-orm';
-import { User, SafeUser } from '@repo/shared-types';
+import { User, SafeUser, Grade, Gender } from '@repo/shared-types';
 
 @Injectable()
 export class UserRepository {
@@ -40,8 +40,8 @@ export class UserRepository {
       lastName: user.lastName,
       email: user.email,
       role: user.role,
-      grade: user.grade,
-      gender: user.gender,
+      grade: user.grade as Grade,
+      gender: user.gender as Gender,
       biography: user.biography,
       isVerified: user.isVerified,
       profilePicture: user.profilePicture,
@@ -61,8 +61,8 @@ export class UserRepository {
         profilePicture: updateData.profilePicture,
         password: updateData.password,
         biography: updateData.biography,
-        grade: updateData.grade,
-        gender: updateData.gender,
+        grade: updateData.grade as Grade,
+        gender: updateData.gender as Gender,
         role: updateData.role,
         isVerified: updateData.isVerified,
         isLegacyMember: updateData.isLegacyMember,
