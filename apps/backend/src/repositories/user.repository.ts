@@ -67,6 +67,7 @@ export class UserRepository {
         isVerified: updateData.isVerified,
         isLegacyMember: updateData.isLegacyMember,
         backdropImage: updateData.backdropImage,
+        updatedAt: new Date(),
       })
       .where(eq(usersTable.id, id))
       .returning();
