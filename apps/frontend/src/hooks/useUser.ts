@@ -18,6 +18,7 @@ export default function useUser(): UseUserHook {
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["user", userId] });
+			queryClient.invalidateQueries({ queryKey: ["users"] });
 		}
 	});
 
