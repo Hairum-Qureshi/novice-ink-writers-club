@@ -257,7 +257,12 @@ export default function Profile() {
 								<p className="text-xs font-bold uppercase tracking-widest text-gray-500">
 									Grade
 								</p>
-								<p>{profileUser?.grade ?? "Not Specified"}</p>
+								<p>
+									{profileUser?.grade
+										? profileUser?.grade.charAt(0).toUpperCase() +
+											String(profileUser?.grade).slice(1)
+										: "Not Specified"}
+								</p>
 							</div>
 						</li>
 						<li className="flex items-start gap-3">
@@ -272,7 +277,12 @@ export default function Profile() {
 								<p className="text-xs font-bold uppercase tracking-widest text-gray-500">
 									Gender
 								</p>
-								<p>{profileUser?.gender ?? "Prefer Not to Say"}</p>
+								<p>
+									{profileUser?.gender
+										? profileUser?.gender.charAt(0).toUpperCase() +
+											profileUser?.gender.slice(1)
+										: "Prefer Not to Say"}
+								</p>
 							</div>
 						</li>
 						<li className="flex items-start gap-3">
