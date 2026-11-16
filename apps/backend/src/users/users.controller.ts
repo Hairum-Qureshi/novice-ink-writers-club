@@ -16,6 +16,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { CurrentUser } from '../decorators/currentUser.decorator';
 import type { UserSettingsFormData as UserSettingsFormDto } from '@repo/shared-types';
 import { userSettingsSchema } from '@repo/shared-types';
+import { LegacyProfileGuard } from '../guards/legacy-profile.guard';
 
 @Controller('users')
 export class UsersController {
@@ -36,7 +37,7 @@ export class UsersController {
   }
 
   @Patch('update-pfp')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'), LegacyProfileGuard)
   @UseInterceptors(FileInterceptor('profile-picture'))
   @HttpCode(HttpStatus.OK)
   updateProfilePicture(
@@ -50,7 +51,7 @@ export class UsersController {
   }
 
   @Patch('update-backdrop')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'), LegacyProfileGuard)
   @UseInterceptors(FileInterceptor('backdrop-image'))
   @HttpCode(HttpStatus.OK)
   updateBackdrop(
@@ -61,7 +62,7 @@ export class UsersController {
   }
 
   @Patch('update-user')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'), LegacyProfileGuard)
   @HttpCode(HttpStatus.OK)
   updateUser(
     @CurrentUser('sub') currUserId: string,
