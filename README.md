@@ -47,6 +47,7 @@ These limitations are deliberate design decisions reflecting the project's archi
 ### Shared and Tooling
 
 - **`@repo/shared-types`** for types and schemas shared by the frontend and backend.
+- **Zod** for runtime validation with reusable schemas in the shared package.
 - **npm workspaces** and **Turborepo** for managing the monorepo.
 
 ## Repository Structure
