@@ -11,9 +11,8 @@ import { SettingsForm } from "../components/SettingsForm";
 
 export default function Profile() {
 	const currentUser = useAuthStore(state => state.user);
-	const { getUserById } = useUser();
+	const { getUserById, updateUserPfp, updateUserBackdrop } = useUser();
 	const [activeTab, setActiveTab] = useState<"stories" | "settings">("stories");
-	const profileImageInputRef = useRef<HTMLInputElement>(null);
 
 	const profileUser = getUserById.data ?? null;
 	const isYourProfile = Boolean(
@@ -21,13 +20,15 @@ export default function Profile() {
 	);
 	const canManageSettings = isYourProfile && !profileUser?.isLegacyMember;
 	const isSettingsTabActive = canManageSettings && activeTab === "settings";
+	const profileImageInputRef = useRef<HTMLInputElement>(null);
+	const backdropImageInputRef = useRef<HTMLInputElement>(null);
 
 	return (
 		<div className="min-h-[calc(100vh-5rem)] w-full bg-[#30382F] text-[#343a35]">
 			{/* Hero */}
 			<div className="relative h-72 overflow-hidden">
 				<img
-					src={profileUser?.backdropImage}
+					src={`${profileUser?.backdropImage}?v=${profileUser?.updatedAt}`}
 					alt="Profile cover"
 					className="absolute inset-0 h-full w-full object-cover"
 				/>
@@ -45,14 +46,42 @@ export default function Profile() {
 					</div>
 				)}
 
-				{isYourProfile && (
-					<button
-						type="button"
-						className="absolute right-6 top-6 flex items-center gap-2 rounded-md bg-black/40 px-3 py-2 text-sm text-white backdrop-blur-sm transition-colors hover:cursor-pointer hover:bg-black/60"
-					>
-						<FiCamera />
-						Change cover
-					</button>
+				{isYourProfile && !profileUser?.isLegacyMember && (
+					<>
+						<button
+							type="button"
+							onClick={() => backdropImageInputRef.current?.click()}
+							disabled={updateUserBackdrop.isPending}
+							className="absolute right-6 top-6 flex items-center gap-2 rounded-md bg-black/40 px-3 py-2 text-sm text-white backdrop-blur-sm transition-colors hover:cursor-pointer hover:bg-black/60 disabled:cursor-wait disabled:opacity-70"
+						>
+							<FiCamera />
+							{updateUserBackdrop.isPending ? "Uploading..." : "Change cover"}
+						</button>
+						<input
+							ref={backdropImageInputRef}
+							type="file"
+							accept="image/*"
+							className="sr-only"
+							aria-label="Select a cover image"
+							onChange={event => {
+								const file = event.currentTarget.files?.[0];
+								if (!file) return;
+
+								const formData = new FormData();
+								formData.append("backdrop-image", file);
+								updateUserBackdrop.mutate(formData);
+								event.currentTarget.value = "";
+							}}
+						/>
+						{updateUserBackdrop.isError && (
+							<p
+								className="absolute right-6 top-16 rounded bg-black/60 px-3 py-2 text-sm text-white"
+								role="alert"
+							>
+								Unable to upload the cover image. Please try again.
+							</p>
+						)}
+					</>
 				)}
 			</div>
 
@@ -151,7 +180,7 @@ export default function Profile() {
 				<aside className="order-1 h-fit rounded-lg border border-[#d6dcd5] bg-[#f3f4f0] px-6 pb-6 shadow-lg shadow-[#29352b]/10 lg:order-2">
 					<div className="group relative mx-auto -mt-16 h-32 w-32 overflow-hidden rounded-full border-4 border-novice-ink-yellow shadow-md">
 						<img
-							src={profileUser?.profilePicture}
+							src={`${profileUser?.profilePicture}?v=${profileUser?.updatedAt}`}
 							alt="Profile"
 							className="h-full w-full object-cover"
 						/>
@@ -160,11 +189,14 @@ export default function Profile() {
 								<button
 									type="button"
 									onClick={() => profileImageInputRef.current?.click()}
+									disabled={updateUserPfp.isPending}
 									aria-label="Choose a profile image"
-									className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-black/60 text-sm font-medium text-white opacity-0 transition-opacity hover:cursor-pointer hover:opacity-100 focus-visible:opacity-100 group-hover:opacity-100"
+									className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-black/60 text-sm font-medium text-white opacity-0 transition-opacity hover:cursor-pointer hover:opacity-100 focus-visible:opacity-100 group-hover:opacity-100 disabled:cursor-wait disabled:opacity-100"
 								>
 									<FiCamera className="text-xl" />
-									<span>Change photo</span>
+									<span>
+										{updateUserPfp.isPending ? "Uploading..." : "Change photo"}
+									</span>
 								</button>
 								<input
 									ref={profileImageInputRef}
@@ -172,10 +204,24 @@ export default function Profile() {
 									accept="image/*"
 									className="sr-only"
 									aria-label="Select a profile image"
+									onChange={event => {
+										const file = event.currentTarget.files?.[0];
+										if (!file) return;
+
+										const formData = new FormData();
+										formData.append("profile-picture", file);
+										updateUserPfp.mutate(formData);
+										event.currentTarget.value = "";
+									}}
 								/>
 							</>
 						)}
 					</div>
+					{updateUserPfp.isError && (
+						<p className="mt-2 text-center text-sm text-red-700" role="alert">
+							Unable to upload the profile photo. Please try again.
+						</p>
+					)}
 					<h2 className="mt-4 text-center font-lusitana text-2xl font-bold">
 						{profileUser?.firstName} {profileUser?.lastName}
 					</h2>
