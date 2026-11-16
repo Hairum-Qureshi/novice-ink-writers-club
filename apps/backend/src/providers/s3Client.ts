@@ -14,7 +14,9 @@ export const S3ClientProvider = {
           'AWS_SECRET_ACCESS_KEY',
         ) as string,
       },
+      forcePathStyle: true,
     });
+
     return s3;
   },
 };
