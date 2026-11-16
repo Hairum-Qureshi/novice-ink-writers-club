@@ -27,6 +27,8 @@ import { TokensService } from './tokens.service';
 import crypto, { createHash } from 'crypto';
 import { CookieService } from './cookie.service';
 import { VerificationService } from './verification.service';
+import { Grade } from '@repo/shared-types';
+import { Gender } from '@repo/shared-types';
 
 @Injectable()
 export class AuthService {
@@ -69,8 +71,8 @@ export class AuthService {
       role: Role.MEMBER,
       isVerified: false,
       verificationCode,
-      grade: null,
-      gender: null,
+      grade: Grade.PREFER_NOT_TO_SAY,
+      gender: Gender.PREFER_NOT_TO_SAY,
       biography: 'This user prefers to keep an air of mystery about them',
       verificationCodeExpiry: new Date(Date.now() + 5 * 60 * 1000), // 5 minutes from now
       profilePicture: `https://api.dicebear.com/10.x/waves/svg?seed=${generatedId()}`,
