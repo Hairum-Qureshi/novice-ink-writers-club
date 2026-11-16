@@ -48,7 +48,7 @@ export class UsersController {
 
   @Patch('update-backdrop')
   @UseGuards(AuthGuard('jwt'))
-  @UseInterceptors(FileInterceptor('backdrop-picture'))
+  @UseInterceptors(FileInterceptor('backdrop-image'))
   @HttpCode(HttpStatus.OK)
   updateBackdrop(
     @CurrentUser('sub') currUserId: string,
