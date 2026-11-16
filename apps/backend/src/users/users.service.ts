@@ -59,6 +59,7 @@ export class UsersService {
     // update the user's profile picture in the database
     const user: SafeUser = await this.userRepository.updateUser(currUserId, {
       profilePicture: publicFileUrl,
+      updatedAt: new Date(),
     });
 
     // update and set the user's data in the cache
@@ -86,6 +87,7 @@ export class UsersService {
     // update the user's backdrop in the database
     const user: SafeUser = await this.userRepository.updateUser(currUserId, {
       backdropImage: publicFileUrl,
+      updatedAt: new Date(),
     });
 
     // update and set the user's data in the cache
