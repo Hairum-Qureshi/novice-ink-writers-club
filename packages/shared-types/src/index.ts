@@ -11,3 +11,5 @@ export { Role } from "./enums/role.js";
 export type { PasswordResetFormData } from "./schemas/passwordReset.schema.js";
 export { passwordResetSchema } from "./schemas/passwordReset.schema.js";
 export type { SafeUser } from "./hooks/useUser.js";
+export type { UserSettingsFormData } from "./schemas/userSettings.schema.js";
+export { userSettingsSchema } from "./schemas/userSettings.schema.js";
