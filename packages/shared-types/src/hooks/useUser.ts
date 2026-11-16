@@ -9,6 +9,24 @@ interface UseUserHook {
 		isError: boolean;
 		error: unknown;
 	};
+	getUserById: {
+		data: SafeUser | undefined;
+		isPending: boolean;
+		isError: boolean;
+		error: unknown;
+	};
+	updateUserPfp: {
+		data: SafeUser | undefined;
+		isPending: boolean;
+		isError: boolean;
+		error: unknown;
+	};
+	updateUserBackdrop: {
+		data: SafeUser | undefined;
+		isPending: boolean;
+		isError: boolean;
+		error: unknown;
+	};
 }
 
 export type { UseUserHook };
