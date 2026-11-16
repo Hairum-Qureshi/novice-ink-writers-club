@@ -20,12 +20,14 @@ interface UseUserHook {
 		isPending: boolean;
 		isError: boolean;
 		error: unknown;
+		mutate: (variables: FormData) => void;
 	};
 	updateUserBackdrop: {
 		data: SafeUser | undefined;
 		isPending: boolean;
 		isError: boolean;
 		error: unknown;
+		mutate: (variables: FormData) => void;
 	};
 }
 

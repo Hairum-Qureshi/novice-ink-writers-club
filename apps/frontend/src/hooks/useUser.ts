@@ -1,12 +1,24 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import type { UseUserHook } from "@repo/shared-types";
+import type { SafeUser, UserSettingsFormData } from "@repo/shared-types";
 import { api } from "../lib/api";
-import type { SafeUser } from "@repo/shared-types";
 import { useParams } from "react-router-dom";
 
-export default function useUser(): UseUserHook {
+export default function useUser() {
 	const { userId } = useParams();
 	const queryClient = useQueryClient();
+
+	const updateUser = useMutation({
+		mutationFn: async (settings: UserSettingsFormData) => {
+			const { data } = await api.patch<SafeUser>(
+				"/api/users/update-user",
+				settings
+			);
+			return data;
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["user", userId] });
+		}
+	});
 
 	const updateUserPfp = useMutation({
 		mutationFn: async (formData: FormData) => {
@@ -57,6 +69,7 @@ export default function useUser(): UseUserHook {
 	return {
 		getAllUsers,
 		getUserById,
+		updateUser,
 		updateUserPfp,
 		updateUserBackdrop
 	};
