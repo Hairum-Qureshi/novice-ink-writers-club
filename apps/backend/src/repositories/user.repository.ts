@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import * as postgresDb from '../providers/postgres-db';
 import { usersTable } from '../schema';
 import { eq } from 'drizzle-orm';
-import { User } from '@repo/shared-types';
+import { User, SafeUser } from '@repo/shared-types';
 
 @Injectable()
 export class UserRepository {
@@ -51,8 +51,8 @@ export class UserRepository {
     });
   }
 
-  async updateUser(id: string, updateData: Partial<User>) {
-    return await this.db
+  async updateUser(id: string, updateData: Partial<User>): Promise<SafeUser> {
+    const [user]: SafeUser[] = await this.db
       .update(usersTable)
       .set({
         firstName: updateData.firstName,
@@ -68,7 +68,10 @@ export class UserRepository {
         isLegacyMember: updateData.isLegacyMember,
         backdropImage: updateData.backdropImage,
       })
-      .where(eq(usersTable.id, id));
+      .where(eq(usersTable.id, id))
+      .returning();
+
+    return user;
   }
 
   //   async deleteUser(id: string) {}
