@@ -21,6 +21,7 @@ export const grades = pgEnum('grades', [
   'sophomore',
   'junior',
   'senior',
+  'prefer not to say',
 ]);
 
 export const genders = pgEnum('genders', [
@@ -42,8 +43,8 @@ export const usersTable = pgTable(
     biography: text('biography')
       .default('This user prefers to keep an air of mystery about them')
       .notNull(),
-    gender: genders(),
-    grade: grades(),
+    gender: genders().notNull().default('prefer not to say'),
+    grade: grades().notNull().default('prefer not to say'),
     isVerified: boolean('is_verified').notNull().default(false),
     isLegacyMember: boolean('is_legacy_member').notNull().default(false),
     backdropImage: text('backdrop_image')
