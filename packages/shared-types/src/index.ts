@@ -13,3 +13,5 @@ export { passwordResetSchema } from "./schemas/passwordReset.schema.js";
 export type { SafeUser } from "./hooks/useUser.js";
 export type { UserSettingsFormData } from "./schemas/userSettings.schema.js";
 export { userSettingsSchema } from "./schemas/userSettings.schema.js";
+export { Grade } from "./enums/grade.js";
+export { Gender } from "./enums/gender.js";
