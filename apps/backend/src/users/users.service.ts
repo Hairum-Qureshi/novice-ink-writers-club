@@ -5,6 +5,10 @@ import { SafeUser } from '@repo/shared-types';
 import * as cacheManager from 'cache-manager';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { ConfigService } from '@nestjs/config';
+import type {
+  User,
+  UserSettingsFormData as UserSettingsFormDto,
+} from '@repo/shared-types';
 
 @Injectable()
 export class UsersService {
@@ -91,6 +95,22 @@ export class UsersService {
     });
 
     // update and set the user's data in the cache
+    await this.cacheManager.set(`user:${currUserId}`, user);
+
+    return user;
+  }
+
+  async updateUser(currUserId: string, signInFormDto: UserSettingsFormDto) {
+    const updateData = {
+      ...signInFormDto,
+      updatedAt: new Date(),
+    } as Partial<User>;
+
+    const user: SafeUser = await this.userRepository.updateUser(
+      currUserId,
+      updateData,
+    );
+
     await this.cacheManager.set(`user:${currUserId}`, user);
 
     return user;

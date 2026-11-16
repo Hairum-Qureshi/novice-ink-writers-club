@@ -8,11 +8,14 @@ import {
   Patch,
   UseInterceptors,
   UploadedFile,
+  Body,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
 import { CurrentUser } from '../decorators/currentUser.decorator';
+import type { UserSettingsFormData as UserSettingsFormDto } from '@repo/shared-types';
+import { userSettingsSchema } from '@repo/shared-types';
 
 @Controller('users')
 export class UsersController {
@@ -55,5 +58,15 @@ export class UsersController {
     @UploadedFile() backdropPictureFile: Express.Multer.File,
   ) {
     return this.usersService.uploadBackdrop(currUserId, backdropPictureFile);
+  }
+
+  @Patch('update-user')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.OK)
+  updateUser(
+    @CurrentUser('sub') currUserId: string,
+    @Body({ schema: userSettingsSchema }) signInFormDto: UserSettingsFormDto,
+  ) {
+    return this.usersService.updateUser(currUserId, signInFormDto);
   }
 }
