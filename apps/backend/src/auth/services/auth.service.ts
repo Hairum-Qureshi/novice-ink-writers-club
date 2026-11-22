@@ -265,9 +265,7 @@ export class AuthService {
     const user = await this.userRepository.getUserById(cachedResetToken.userId);
     if (!user) throw new NotFoundException('User not found');
 
-    const hashedPassword = createHash('sha256')
-      .update(newPassword)
-      .digest('hex');
+    const hashedPassword = await argon2.hash(newPassword);
 
     await this.userRepository.updateUser(user.id, { password: hashedPassword });
 
