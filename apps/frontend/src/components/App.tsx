@@ -12,6 +12,7 @@ import { useAuthStore } from "../stores/auth.store";
 import Profile from "../pages/Profile";
 import ClubMembers from "../pages/ClubMembers";
 import Contact from "../pages/Contact";
+import Footer from "./Footer";
 
 export default function App() {
 	const initialize = useAuthStore(state => state.initialize);
@@ -39,6 +40,7 @@ export default function App() {
 					<Route path="/reset-password" element={<ResetPassword />} />
 					<Route path="*" element={<NotFound />} />
 				</Routes>
+				<Footer />
 			</main>
 		</BrowserRouter>
 	);
