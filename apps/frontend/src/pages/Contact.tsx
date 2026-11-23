@@ -105,9 +105,7 @@ export default function Contact() {
 					<button
 						type="submit"
 						className="shrink-0 cursor-pointer bg-yellow-400 px-6 py-3 font-alike-angular font-semibold text-[#0e1b0c] transition-colors duration-200 hover:bg-yellow-300"
-						onClick={() =>
-							alert("This feature is for demonstration purposes only")
-						}
+						onClick={() => alert("This feature is no longer in service")}
 					>
 						Subscribe
 					</button>
