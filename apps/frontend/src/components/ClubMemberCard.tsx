@@ -17,17 +17,20 @@ export default function ClubMemberCard({
 					alt={name}
 					className="w-32 h-32 sm:w-36 sm:h-36 shrink-0 object-cover rounded-lg border border-slate-500"
 				/>
-
 				<div className="flex flex-col justify-center gap-2">
 					<div>
-						<h2 className="text-xl font-bold text-white">{name}</h2>
+						<h2 className="text-xl font-bold text-white font-lusitana">
+							{name}
+						</h2>
 
-						<span className="text-sm font-medium text-green-300">{role}</span>
+						<span className="text-sm font-medium text-yellow-500 font-alike-angular">
+							{role}
+						</span>
 					</div>
 
 					<div className="w-12 h-px bg-gray-500" />
 
-					<p className="text-sm sm:text-base text-gray-300 leading-relaxed">
+					<p className="text-sm sm:text-base text-gray-300 leading-relaxed font-lusitana">
 						{contributions}
 					</p>
 				</div>
