@@ -4,7 +4,9 @@ import useUser from "../hooks/useUser";
 
 export default function AllUsers() {
 	const { getAllUsers } = useUser();
-
+	
+	// ! BUG - for some reason, if you update your pfp, it won't show the updated pfp in this page
+	
 	return (
 		<div className="p-4 bg-[#1e2a22]">
 			<div className="p-5 flex min-h-screen max-h-scroll items-center justify-center my-5 text-white">
