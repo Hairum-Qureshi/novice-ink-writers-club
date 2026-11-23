@@ -1,3 +1,4 @@
+import FAQs from "../components/FAQs";
 import Timeline from "../components/Timeline";
 
 export default function Home() {
@@ -20,12 +21,20 @@ export default function Home() {
 					</div>
 				</div>
 			</div>
-			<div className="bg-black h-auto p-20">
+			<div className="bg-[#121510] h-auto p-20">
 				<h1 className="text-5xl font-bold uppercase font-lusitana text-amber-300 text-center">
 					History of Novice Ink.
 				</h1>
 				<div>
 					<Timeline />
+				</div>
+			</div>
+			<div className="bg-[#172118] h-auto p-20">
+				<h1 className="text-5xl font-bold uppercase font-lusitana text-amber-300 text-center">
+					Frequently Asked Questions
+				</h1>
+				<div>
+					<FAQs />
 				</div>
 			</div>
 		</div>
