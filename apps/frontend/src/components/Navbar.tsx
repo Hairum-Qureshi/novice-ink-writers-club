@@ -41,7 +41,7 @@ export default function Navbar() {
 								<ul className="absolute left-0 top-full z-10 hidden min-w-40 rounded bg-[#1b1b1b] text-white shadow-lg group-hover:block group-focus-within:block">
 									<li>
 										<Link
-											to="#"
+											to="/genre/poetry"
 											className="block px-4 py-2 hover:text-novice-ink-yellow"
 										>
 											Poetry
@@ -49,21 +49,17 @@ export default function Navbar() {
 									</li>
 									<li>
 										<Link
-											to="#"
+											to="/genre/essays"
 											className="block px-4 py-2 hover:text-novice-ink-yellow"
 										>
 											Essays
 										</Link>
 									</li>
 									<li className="group/fiction relative">
-										<Link
-											to="#"
-											className="flex items-center justify-between px-4 py-2 hover:text-novice-ink-yellow"
-											aria-haspopup="true"
-										>
+										<p className="flex items-center justify-between px-4 py-2 hover:text-novice-ink-yellow">
 											Fiction
 											<FaPlus className="ml-2 inline text-base" />
-										</Link>
+										</p>
 										<ul className="absolute left-full top-0 hidden min-w-40 rounded bg-[#1b1b1b] text-white shadow-lg group-hover/fiction:block group-focus-within/fiction:block">
 											{[
 												"Apocalyptic",
@@ -74,7 +70,7 @@ export default function Navbar() {
 											].map(genre => (
 												<li key={genre}>
 													<Link
-														to="#"
+														to={`/fiction/${genre.toLowerCase()}`}
 														className="block px-4 py-2 hover:text-novice-ink-yellow"
 													>
 														{genre}
