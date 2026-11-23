@@ -38,7 +38,7 @@
 	{
 		"date": "June 3, 2021",
 		"title": "Closing the Club's First School Year",
-		"description": "With the school year ending in approximately one week, Novice Ink. held its final meeting for the 2020–2021 academic year. Although club meetings were scheduled to resume in September, website updates and development would continue throughout the summer.",
+		"description": "With the school year ending in approximately one week, Novice Ink. held its final meeting for the 2020-2021 academic year. Although club meetings were scheduled to resume in September, website updates and development would continue throughout the summer.",
 		"direction": "right"
 	},
 	{
@@ -94,5 +94,11 @@
 		"title": "Farewell to the Class of 2022",
 		"description": "Graduation day marked the transition of Christiana High School's senior class into graduates and alumni. Among them were Novice Ink. members Hairum Qureshi, Rayyan Khan, and Victoria Nasibi, whose graduation also marked their official departure from the club and the conclusion of their time as student members.",
 		"direction": "left"
+	},
+	{
+		"date": "November 2, 2026",
+		"title": "Revisiting the Past: A Website Reimagined",
+		"description": "More than four years after graduating, Novice Ink.'s former vice president and website developer, Hairum Qureshi, returned to one of his earliest web development projects. Drawing upon years of experience and a deeper understanding of full-stack architecture, he independently rebuilt the website to bring to life the vision he had originally imagined as a novice developer. This project serves as a personal tribute to the club's history and a reflection of his growth as a software engineer. Although the website has been given new life, the project does not represent a revival of Novice Ink. or any renewed affiliation with the club. Instead, it stands as a preservation of its legacy and the memories created by its members.",
+		"direction": "right"
 	}
 ]
