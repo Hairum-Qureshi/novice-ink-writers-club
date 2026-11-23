@@ -1,4 +1,3 @@
-import AuthPageGif from "../assets/auth-page-background.gif";
 import AuthForm from "../components/auth/AuthForm";
 
 export default function Auth() {
@@ -16,7 +15,7 @@ export default function Auth() {
 					</div>
 				</div>
 				<img
-					src={AuthPageGif}
+					src="/assets/auth-page-background.gif"
 					alt="Auth Page Background"
 					className="w-full h-full object-cover object-left"
 				/>

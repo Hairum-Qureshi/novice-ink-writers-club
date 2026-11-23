@@ -2,61 +2,61 @@
 	{
 		"name": "Hairum Qureshi",
 		"role": "Club Vice President & Website Programmer",
-		"photo": "../assets/members'-photos/Image-Hairum.jpg",
+		"photo": "/assets/members'-photos/Image-Hairum.jpg",
 		"contributions": "Hairum was the driving force behind the creation of the club's website, which he developed entirely on his own. His goal was to provide everyone with an accessible and convenient way to share their stories through a school-friendly, school-run website. He also assisted the club president with making decisions, developing plans, and printing the club magazine."
 	},
 	{
 		"name": "Victoria Nasibi",
 		"role": "Club President",
-		"photo": "../assets/members'-photos/Image-Victoria.jpg",
+		"photo": "/assets/members'-photos/Image-Victoria.jpg",
 		"contributions": "As club president, Victoria dedicated herself to ensuring the club operated to the best of its ability. She worked diligently to keep members on track, turn club plans into reality, and plan and prepare for events. She was also the founder of the Novice Ink. club magazine."
 	},
 	{
 		"name": "Rayyan Khan",
 		"role": "Club Editor",
-		"photo": "../assets/members'-photos/Image-Rayyan.jpg",
+		"photo": "/assets/members'-photos/Image-Rayyan.jpg",
 		"contributions": "Rayyan was a dedicated club member who made it a priority to attend every meeting, even when circumstances were not in his favor. He provided both Victoria and Hairum with motivation and inspiration and also contributed to the club magazines."
 	},
 	{
 		"name": "Tyler Johnson",
 		"role": "Club Secretary",
-		"photo": "../assets/members'-photos/Image-Tyler.jpg",
+		"photo": "/assets/members'-photos/Image-Tyler.jpg",
 		"contributions": "Tyler was a valuable and helpful member of the club, responsible for keeping records of club decisions and meeting information. He also served as the club's resident interviewer."
 	},
 	{
 		"name": "Joshua Deluca",
 		"role": "Magazine Selector",
-		"photo": "../assets/members'-photos/Image-Joshua.jpg",
+		"photo": "/assets/members'-photos/Image-Joshua-&-Khai.jpg",
 		"contributions": "Josh was a dedicated club member who made it a priority to attend most, if not all, club meetings. He also contributed to the club magazines."
 	},
 	{
 		"name": "Khai Brown",
 		"role": "Magazine Selector",
-		"photo": "../assets/members'-photos/Image-Khai.jpg",
+		"photo": "/assets/members'-photos/Image-Joshua-&-Khai.jpg",
 		"contributions": "Khai was a dedicated club member who made it a priority to attend most, if not all, club meetings. He also contributed to the club magazines."
 	},
 	{
 		"name": "Hayden Atkinson",
 		"role": "Club Magazine Contributor",
-		"photo": "../assets/members'-photos/Image-Hayden.jpg",
+		"photo": "/assets/members'-photos/Image-Hayden.jpg",
 		"contributions": "Hayden was a club member who contributed written pieces to the club magazine."
 	},
 	{
 		"name": "Ethan Graham",
 		"role": "Club Member",
-		"photo": "../assets/members'-photos/Image-Ethan.jpg",
+		"photo": "/assets/members'-photos/Image-Ethan.jpg",
 		"contributions": "Ethan was a committed club member who made it his personal responsibility to attend every meeting, stay informed about club activities, and actively participate in writing discussions. He also contributed to the club magazines."
 	},
 	{
 		"name": "Mary O'Donnel (Ms. O'Donnel)",
 		"role": "Club Administrator",
-		"photo": "../assets/members'-photos/Image-Mary.jpg",
+		"photo": "/assets/members'-photos/Image-Ms-ODonnel.jpg",
 		"contributions": "Ms. O'Donnell was an exceptionally kind and helpful club administrator who offered advice and suggestions while making an effort to understand and relate to students and the challenges they faced."
 	},
 	{
 		"name": "Keith Fritz (Mr. Fritz)",
 		"role": "Club Administrator",
-		"photo": "../assets/members'-photos/Image-Keith.jpg",
+		"photo": "/assets/members'-photos/Image-Mr-Fritz.jpg",
 		"contributions": "Mr. Fritz served as both a guiding light and a source of support for many students. He shared valuable wisdom about the writing process and consistently offered comforting words of encouragement, compassion, and reassurance."
 	}
 ]

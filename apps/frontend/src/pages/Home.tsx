@@ -1,10 +1,8 @@
-import background from "../assets/background.gif";
-
 export default function Home() {
 	return (
-		<div className="p-10 bg-white relative h-screen overflow-hidden flex flex-col">
+		<div className="p-10 bg-[#DCE0D9] relative h-screen overflow-hidden flex flex-col">
 			<img
-				src={background}
+				src="/assets/background.gif"
 				alt="Background"
 				className="absolute inset-0 w-full h-full object-cover"
 			/>
