@@ -81,6 +81,7 @@ export default function Contact() {
 					<button
 						type="submit"
 						className="w-full cursor-pointer rounded-lg bg-yellow-400 px-3 my-5 py-3 font-semibold text-[#0e1b0c] transition-colors duration-200 hover:bg-yellow-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-yellow-400 font-alike-angular"
+						onClick={() => alert("This feature is no longer in service")}
 					>
 						Send Message
 					</button>
