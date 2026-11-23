@@ -25,10 +25,10 @@ export default function TimelineEvent({
 				<h3 className="text-xl leading-snug tracking-wide font-alike-angular mb-2 text-amber-300 text-center">
 					{date}
 				</h3>
-				<h3 className="mb-3 font-bold text-xl text-white font-alike-angular">
+				<h3 className="mb-3 font-bold text-2xl text-slate-100 font-alike-angular">
 					{title}
 				</h3>
-				<p className="text-base leading-snug tracking-wide text-white font-lusitana">
+				<p className="text-base leading-snug tracking-wide text-gray-400 font-lusitana">
 					{description}
 				</p>
 			</div>
