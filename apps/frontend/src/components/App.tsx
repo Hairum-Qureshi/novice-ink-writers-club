@@ -13,6 +13,7 @@ import Profile from "../pages/Profile";
 import ClubMembers from "../pages/ClubMembers";
 import Contact from "../pages/Contact";
 import Footer from "./Footer";
+import Genre from "../pages/Genre";
 
 export default function App() {
 	const initialize = useAuthStore(state => state.initialize);
@@ -37,6 +38,7 @@ export default function App() {
 					<Route path="/all-users" element={<AllUsers />} />
 					<Route path="/club-members" element={<ClubMembers />} />
 					<Route path="/contact-us" element={<Contact />} />
+					<Route path="/genre/:genre" element={<Genre />} />
 					<Route path="/reset-password" element={<ResetPassword />} />
 					<Route path="*" element={<NotFound />} />
 				</Routes>
