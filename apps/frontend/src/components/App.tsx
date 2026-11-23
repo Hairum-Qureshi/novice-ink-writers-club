@@ -39,6 +39,7 @@ export default function App() {
 					<Route path="/club-members" element={<ClubMembers />} />
 					<Route path="/contact-us" element={<Contact />} />
 					<Route path="/genre/:genre" element={<Genre />} />
+					<Route path="/fiction/:genre" element={<Genre />} />
 					<Route path="/reset-password" element={<ResetPassword />} />
 					<Route path="*" element={<NotFound />} />
 				</Routes>
