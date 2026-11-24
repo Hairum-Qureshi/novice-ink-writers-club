@@ -134,6 +134,20 @@
       "when": 1795483161861,
       "tag": "0018_premium_gauntlet",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1795488314591,
+      "tag": "0019_cool_stellaris",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1795488344647,
+      "tag": "0020_mean_gambit",
+      "breakpoints": true
     }
   ]
 }
