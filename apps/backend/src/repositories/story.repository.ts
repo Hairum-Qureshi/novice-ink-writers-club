@@ -19,4 +19,15 @@ export class StoryRepository {
     });
     return publishedStories;
   }
+
+  async getPublishedGenreContentById(storyId: string) {
+    const storyContent = await this.db.query.storiesTable.findFirst({
+      where: eq(storiesTable.id, storyId),
+      columns: {
+        content: true,
+        authorName: true,
+      },
+    });
+    return storyContent;
+  }
 }
