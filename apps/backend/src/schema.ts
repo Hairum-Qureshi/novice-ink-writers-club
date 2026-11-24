@@ -48,6 +48,7 @@ export const storiesTable = pgTable('stories', {
   genre: genres().notNull(),
   content: text('content').notNull(),
   authorId: text('author_id').references(() => usersTable.id), // intentionally left nullable
+  authorName: text('author_name').notNull(), // added because some authors posted a story, but don't have an account
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 });
