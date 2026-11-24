@@ -17,4 +17,12 @@ export class GenresService {
       await this.storyRepository.getAllPublishedInGenre(genre);
     return publishedStories;
   }
+
+  async getPublishedGenreContentById(publishedContentId: string) {
+    const publishedGenreContent =
+      await this.storyRepository.getPublishedGenreContentById(
+        publishedContentId,
+      );
+    return publishedGenreContent;
+  }
 }
