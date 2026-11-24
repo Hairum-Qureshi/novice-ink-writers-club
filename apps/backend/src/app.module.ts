@@ -7,6 +7,7 @@ import { CacheConfig } from './config/cache.config';
 import { CacheModule } from '@nestjs/cache-manager';
 import { EmailModule } from './email/email.module';
 import { UsersModule } from './users/users.module';
+import { GenresModule } from './genres/genres.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { UsersModule } from './users/users.module';
     CacheModule.registerAsync({ ...CacheConfig, isGlobal: true }),
     EmailModule,
     UsersModule,
+    GenresModule,
   ],
   controllers: [AppController],
   providers: [AppService],
