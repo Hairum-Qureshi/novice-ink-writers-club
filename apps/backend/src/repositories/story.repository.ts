@@ -32,4 +32,15 @@ export class StoryRepository {
     });
     return storyContent;
   }
+
+  async getPublishedGenreContentByUserId(userId: string) {
+    const stories = await this.db.query.storiesTable.findMany({
+      where: eq(storiesTable.authorId, userId),
+      columns: {
+        title: true,
+        genre: true,
+      },
+    });
+    return stories;
+  }
 }
