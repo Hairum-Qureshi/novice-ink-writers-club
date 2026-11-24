@@ -39,9 +39,9 @@ export default function useGenre(): UseGenreHook {
 		queryKey: ["publishedUserContent", userId],
 		queryFn: async () => {
 			if (!userId) return;
-			const { data } = await api.get<{ title: string; genre: Genre }[]>(
-				`/api/genres/published/${userId}/all`
-			);
+			const { data } = await api.get<
+				{ id: string; title: string; genre: Genre }[]
+			>(`/api/genres/published/${userId}/all`);
 			return data;
 		}
 	});

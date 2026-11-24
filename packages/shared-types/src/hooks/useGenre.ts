@@ -22,7 +22,7 @@ interface UseGenreHook {
 		error: unknown;
 	};
 	getAllPublishedUserContent: {
-		data: { title: string; genre: Genre }[] | undefined;
+		data: { id: string; title: string; genre: Genre }[] | undefined;
 		isPending: boolean;
 		isError: boolean;
 		error: unknown;
