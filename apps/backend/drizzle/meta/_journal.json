@@ -162,6 +162,27 @@
       "when": 1795489654617,
       "tag": "0022_gifted_lord_tyger",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1795498248612,
+      "tag": "0023_deep_sandman",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1795498283171,
+      "tag": "0024_spooky_hitman",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1795498378723,
+      "tag": "0025_bumpy_norrin_radd",
+      "breakpoints": true
     }
   ]
 }

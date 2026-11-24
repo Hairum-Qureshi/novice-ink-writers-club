@@ -1,0 +1,1 @@
+ALTER TABLE "stories" ALTER COLUMN "author_name" SET DEFAULT '';
