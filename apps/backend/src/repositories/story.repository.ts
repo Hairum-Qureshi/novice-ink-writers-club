@@ -24,6 +24,7 @@ export class StoryRepository {
     const storyContent = await this.db.query.storiesTable.findFirst({
       where: eq(storiesTable.id, storyId),
       columns: {
+        title: true,
         content: true,
         authorName: true,
       },
