@@ -45,7 +45,7 @@ export const storiesTable = pgTable('stories', {
   title: text('title').notNull(),
   description: text('description').notNull(),
   genre: genres().notNull(),
-  authorId: text('author_id').notNull(),
+  authorId: text('author_id'), // intentionally left nullable
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 });
