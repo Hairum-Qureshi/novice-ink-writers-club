@@ -30,6 +30,35 @@ export const genders = pgEnum('genders', [
   'prefer not to say',
 ]);
 
+export const genres = pgEnum('genres', [
+  'apocalyptic',
+  'dystopian',
+  'poetry',
+  'essays',
+  'sci-fi',
+  'fantasy',
+  'mystery',
+]);
+
+export const storiesTable = pgTable('stories', {
+  id: text('id').primaryKey(),
+  title: text('title').notNull(),
+  description: text('description').notNull(),
+  genre: genres().notNull(),
+  authorId: text('author_id').notNull(),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+});
+
+export const commentsTable = pgTable('comments', {
+  id: text('id').primaryKey(),
+  storyId: text('story_id').notNull(),
+  authorId: text('author_id').notNull(),
+  content: text('content').notNull(),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+});
+
 export const usersTable = pgTable(
   'users',
   {
