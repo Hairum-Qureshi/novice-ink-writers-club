@@ -1,0 +1,61 @@
+import { useNavigate } from "react-router-dom";
+import { FaArrowLeftLong } from "react-icons/fa6";
+import useGenre from "../hooks/useGenre";
+
+export default function Read() {
+	const navigate = useNavigate();
+	const { getPublishedStoryContent } = useGenre();
+
+	return (
+		<main className="min-h-[calc(100vh-5rem)] bg-[#0d1a10] px-5 py-10 text-white">
+			<div className="mx-auto max-w-6xl">
+				<button
+					onClick={() => navigate(-1)}
+					className="text-sm text-green-200/70 transition-colors hover:text-green-200"
+				>
+					<FaArrowLeftLong className="inline-block mr-2" />
+					Back to Genre
+				</button>
+
+				{/* Story Header */}
+				<header className="mx-auto max-w-3xl pb-12 pt-16 text-center">
+					<h1 className="font-alike-angular text-4xl text-white/95">
+						{getPublishedStoryContent?.data?.title}
+					</h1>
+
+					<div className="mt-6 space-y-2">
+						<p className="text-base font-alike-angular text-white/75">
+							Written by {getPublishedStoryContent?.data?.authorName}
+						</p>
+
+						<p className="text-sm text-white/45 font-alike-angular">
+							{new Date(
+								getPublishedStoryContent?.data?.createdAt
+							).toLocaleDateString(undefined, {
+								year: "numeric",
+								month: "long",
+								day: "numeric"
+							})}
+						</p>
+					</div>
+				</header>
+
+				{/* Story Content */}
+				<article className="mx-auto w-3/4 border-t border-green-800/60 pt-12">
+					<div className="space-y-6 font-serif text-lg leading-[1.9] text-white/85">
+						<div
+							dangerouslySetInnerHTML={{
+								__html: getPublishedStoryContent?.data?.content || ""
+							}}
+						/>
+					</div>
+					<div className="border-t border-green-800/60 w-full mt-10">
+						<h2 className="font-alike-angular my-5 text-2xl text-white/95">
+							Comments
+						</h2>
+					</div>
+				</article>
+			</div>
+		</main>
+	);
+}
