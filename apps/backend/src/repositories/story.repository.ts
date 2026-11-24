@@ -13,6 +13,9 @@ export class StoryRepository {
   async getAllPublishedInGenre(genre: Genre) {
     const publishedStories = await this.db.query.storiesTable.findMany({
       where: eq(storiesTable.genre, genre),
+      columns: {
+        content: false,
+      },
     });
     return publishedStories;
   }
