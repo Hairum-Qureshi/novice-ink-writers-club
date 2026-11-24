@@ -1,3 +1,4 @@
+import type { Genre } from "../enums/genres.js";
 import type { PublishedGenre } from "../types/publishedGenre.js";
 
 interface UseGenreHook {
@@ -16,6 +17,12 @@ interface UseGenreHook {
 					title: string;
 			  }
 			| undefined;
+		isPending: boolean;
+		isError: boolean;
+		error: unknown;
+	};
+	getAllPublishedUserContent: {
+		data: { title: string; genre: Genre }[] | undefined;
 		isPending: boolean;
 		isError: boolean;
 		error: unknown;
