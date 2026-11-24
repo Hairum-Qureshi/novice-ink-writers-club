@@ -16,6 +16,7 @@ import Footer from "./Footer";
 import Genre from "../pages/Genre";
 import Read from "../pages/Read";
 import AuthGuard from "./middleware/AuthGuard";
+import Magazines from "../pages/Magazines";
 
 export default function App() {
 	const initialize = useAuthStore(state => state.initialize);
@@ -44,6 +45,7 @@ export default function App() {
 						<Route path="/genre/:genre" element={<Genre />} />
 						<Route path="/genre/:genre/:storyId/read" element={<Read />} />
 						<Route path="/fiction/:genre" element={<Genre />} />
+						<Route path="/magazine-issues" element={<Magazines />} />
 					</Route>
 					<Route path="/reset-password" element={<ResetPassword />} />
 					<Route path="*" element={<NotFound />} />
