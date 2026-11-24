@@ -8,7 +8,14 @@ interface UseGenreHook {
 		error: unknown;
 	};
 	getPublishedStoryContent: {
-		data: { content: string; authorName: string } | undefined;
+		data:
+			| {
+					content: string;
+					authorName: string;
+					createdAt: string;
+					title: string;
+			  }
+			| undefined;
 		isPending: boolean;
 		isError: boolean;
 		error: unknown;
