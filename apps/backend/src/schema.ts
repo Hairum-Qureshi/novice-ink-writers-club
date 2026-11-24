@@ -1,3 +1,4 @@
+import { relations } from 'drizzle-orm';
 import {
   pgTable,
   text,
@@ -46,15 +47,19 @@ export const storiesTable = pgTable('stories', {
   description: text('description').notNull(),
   genre: genres().notNull(),
   content: text('content').notNull(),
-  authorId: text('author_id'), // intentionally left nullable
+  authorId: text('author_id').references(() => usersTable.id), // intentionally left nullable
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 });
 
 export const commentsTable = pgTable('comments', {
   id: text('id').primaryKey(),
-  storyId: text('story_id').notNull(),
-  authorId: text('author_id').notNull(),
+  storyId: text('story_id')
+    .notNull()
+    .references(() => storiesTable.id),
+  authorId: text('author_id')
+    .notNull()
+    .references(() => usersTable.id),
   content: text('content').notNull(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
@@ -89,3 +94,10 @@ export const usersTable = pgTable(
     uniqueUser: uniqueIndex('unique_user').on(table.email),
   }),
 );
+
+export const storiesRelations = relations(storiesTable, ({ one }) => ({
+  author: one(usersTable, {
+    fields: [storiesTable.authorId],
+    references: [usersTable.id],
+  }),
+}));
