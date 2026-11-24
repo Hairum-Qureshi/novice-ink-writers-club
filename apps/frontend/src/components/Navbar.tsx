@@ -93,6 +93,12 @@ export default function Navbar() {
 							<Link to="/club-members" className="hover:text-novice-ink-yellow">
 								<li>Club Members</li>
 							</Link>
+							<Link
+								to="/magazine-issues"
+								className="hover:text-novice-ink-yellow"
+							>
+								<li>Magazine Issues</li>
+							</Link>
 							<Link to="/contact-us" className="hover:text-novice-ink-yellow">
 								<li>Contact Us</li>
 							</Link>
