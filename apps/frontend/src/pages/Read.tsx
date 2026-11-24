@@ -30,7 +30,7 @@ export default function Read() {
 
 						<p className="text-sm text-white/45 font-alike-angular">
 							{new Date(
-								getPublishedStoryContent?.data?.createdAt
+								getPublishedStoryContent?.data?.createdAt ?? ""
 							).toLocaleDateString(undefined, {
 								year: "numeric",
 								month: "long",
