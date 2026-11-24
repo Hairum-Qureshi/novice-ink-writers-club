@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import { UserRepository } from '../repositories/user.repository';
 import { StoryRepository } from '../repositories/story.repository';
 import * as postgresDb from '../providers/postgres-db';
@@ -27,6 +27,9 @@ export class GenresService {
   }
 
   async getPublishedGenreContentByUserId(userId: string) {
+    const userExists = await this.userRepository.getUserById(userId);
+    if (!userExists) throw new NotFoundException('User not found');
+
     const publishedGenreContent =
       await this.storyRepository.getPublishedGenreContentByUserId(userId);
     return publishedGenreContent;
