@@ -28,6 +28,13 @@ export class GenresController {
     return this.genresService.getAllPublishedInGenre(genre);
   }
 
+  @Get('published/:userId/all')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.OK)
+  getPublishedUserContent(@Param('userId') userId: string) {
+    return this.genresService.getPublishedGenreContentByUserId(userId);
+  }
+
   @Get(':publishedContentId/content')
   @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.OK)

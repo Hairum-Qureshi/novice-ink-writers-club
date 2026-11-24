@@ -25,4 +25,10 @@ export class GenresService {
       );
     return publishedGenreContent;
   }
+
+  async getPublishedGenreContentByUserId(userId: string) {
+    const publishedGenreContent =
+      await this.storyRepository.getPublishedGenreContentByUserId(userId);
+    return publishedGenreContent;
+  }
 }
