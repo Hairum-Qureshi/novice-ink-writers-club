@@ -4,9 +4,10 @@ import { useParams } from "react-router-dom";
 import { api } from "../lib/api";
 
 export default function useGenre(): UseGenreHook {
-	const { genre, storyId } = useParams<{
+	const { genre, storyId, userId } = useParams<{
 		genre: Genre;
 		storyId: string;
+		userId: string;
 	}>();
 
 	const getAllPublishedStories = useQuery({
@@ -33,5 +34,21 @@ export default function useGenre(): UseGenreHook {
 			return data;
 		}
 	});
-	return { getAllPublishedStories, getPublishedStoryContent };
+
+	const getAllPublishedUserContent = useQuery({
+		queryKey: ["publishedUserContent", userId],
+		queryFn: async () => {
+			if (!userId) return;
+			const { data } = await api.get<{ title: string; genre: Genre }[]>(
+				`/api/genres/published/${userId}/all`
+			);
+			return data;
+		}
+	});
+
+	return {
+		getAllPublishedStories,
+		getPublishedStoryContent,
+		getAllPublishedUserContent
+	};
 }
