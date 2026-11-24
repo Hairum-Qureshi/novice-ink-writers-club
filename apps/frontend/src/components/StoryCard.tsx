@@ -1,3 +1,4 @@
+import type { Genre } from "@repo/shared-types";
 import { MdArrowOutward } from "react-icons/md";
 
 export default function StoryCard({
@@ -5,13 +6,15 @@ export default function StoryCard({
 	title,
 	storyId,
 	description,
-	datePosted
+	datePosted,
+	genre
 }: {
 	authorName: string;
 	title: string;
 	storyId: string;
 	description: string;
 	datePosted: string;
+	genre: Genre;
 }) {
 	return (
 		<article className="group border-b border-green-800/60 px-2 py-8">
@@ -35,7 +38,7 @@ export default function StoryCard({
 					</span>
 
 					<a
-						href={`/stories/${storyId}`}
+						href={`/genre/${genre}/${storyId}/read`}
 						className="text-sm text-green-200 transition-colors hover:text-white"
 					>
 						Read story <MdArrowOutward className="inline-block ml-1" />
