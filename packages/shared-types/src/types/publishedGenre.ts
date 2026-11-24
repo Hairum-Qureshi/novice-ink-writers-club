@@ -5,7 +5,6 @@ export type PublishedGenre = {
 	title: string;
 	description: string;
 	genre: Genre;
-	content: string;
 	authorId: string | null;
 	authorName: string;
 	createdAt: string;
