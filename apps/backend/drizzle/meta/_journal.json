@@ -148,6 +148,13 @@
       "when": 1795488344647,
       "tag": "0020_mean_gambit",
       "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1795488905748,
+      "tag": "0021_easy_mole_man",
+      "breakpoints": true
     }
   ]
 }
