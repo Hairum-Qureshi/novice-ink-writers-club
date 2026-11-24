@@ -1,4 +1,5 @@
 import { Navigate, useParams } from "react-router-dom";
+import type { Genre as GenreEnum } from "@repo/shared-types";
 import StoryCard from "../components/StoryCard";
 import useGenre from "../hooks/useGenre";
 
@@ -73,6 +74,7 @@ export default function Genre() {
 								storyId={story.id}
 								description={story.description}
 								datePosted={new Date(story.createdAt).toLocaleDateString()}
+								genre={genre as GenreEnum}
 							/>
 						))
 					) : (
