@@ -1,13 +1,15 @@
-import { FaRegCalendarAlt } from "react-icons/fa";
+import UserStoryCard from "../components/UserStoryCard";
 import { FiBookOpen, FiCamera, FiUser } from "react-icons/fi";
 import { useRef, useState } from "react";
 import { useAuthStore } from "../stores/auth.store";
 import useUser from "../hooks/useUser";
+import useGenre from "../hooks/useGenre";
 import { IoMale } from "react-icons/io5";
 import { IoFemale } from "react-icons/io5";
-import { FaUserGraduate } from "react-icons/fa";
+import { FaRegCalendarAlt, FaUserGraduate } from "react-icons/fa";
 import { MdVerified } from "react-icons/md";
 import { SettingsForm } from "../components/SettingsForm";
+import { Link } from "react-router-dom";
 
 export default function Profile() {
 	const currentUser = useAuthStore(state => state.user);
@@ -22,6 +24,8 @@ export default function Profile() {
 	const isSettingsTabActive = canManageSettings && activeTab === "settings";
 	const profileImageInputRef = useRef<HTMLInputElement>(null);
 	const backdropImageInputRef = useRef<HTMLInputElement>(null);
+
+	const { getAllPublishedUserContent } = useGenre();
 
 	return (
 		<div className="min-h-[calc(100vh-5rem)] w-full bg-[#30382F] text-[#343a35]">
@@ -154,17 +158,31 @@ export default function Profile() {
 
 					{!isSettingsTabActive ? (
 						<div className="p-6" role="tabpanel">
-							<div className="flex min-h-48 flex-col items-center justify-center gap-3 rounded-md border border-dashed border-[#c9d1c8] bg-white/40 p-6 text-center">
-								<FiBookOpen className="text-3xl text-gray-400" />
-								<div>
-									<h3 className="text-sm font-semibold">
-										No published stories yet
-									</h3>
-									<p className="mt-1 text-sm text-gray-500">
-										Published stories will appear here.
-									</p>
+							{getAllPublishedUserContent?.data?.length === 0 ? (
+								<div className="flex min-h-48 flex-col items-center justify-center gap-3 rounded-md border border-dashed border-[#c9d1c8] bg-white/40 p-6 text-center">
+									<FiBookOpen className="text-3xl text-gray-400" />
+									<div>
+										<h3 className="text-sm font-semibold">
+											No published stories yet
+										</h3>
+										<p className="mt-1 text-sm text-gray-500">
+											Published stories will appear here.
+										</p>
+									</div>
 								</div>
-							</div>
+							) : (
+								<div>
+									{getAllPublishedUserContent?.data?.map((story, index) => (
+										<Link to={`/genre/${story.genre}/${story.id}/read`}>
+											<UserStoryCard
+												key={index}
+												title={story.title}
+												genre={story.genre}
+											/>
+										</Link>
+									))}
+								</div>
+							)}
 						</div>
 					) : (
 						<div
