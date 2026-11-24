@@ -1,8 +1,8 @@
 # Novice Ink. Writer's Club
 
-**A modern archival reconstruction of the original Novice Ink Club website.**
+**A modern archival reconstruction of the original Novice Ink. Writer's Club website.**
 
-Novice Ink Club was originally developed as a high school club for aspiring writers to share their creativity, publish stories, and connect with fellow members.
+Novice Ink. Writer's Club was originally developed as a high school club for aspiring writers to share their creativity, publish stories, and connect with fellow members.
 
 I first made this website for my high school's writers' club around 2021, when I was just starting out with full-stack web development and was completely new to it all. The original used Firebase for authentication and the database, with Express.js and EJS for the application.
 
