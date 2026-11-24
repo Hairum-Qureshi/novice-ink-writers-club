@@ -37,6 +37,7 @@ export class StoryRepository {
     const stories = await this.db.query.storiesTable.findMany({
       where: eq(storiesTable.authorId, userId),
       columns: {
+        id: true,
         title: true,
         genre: true,
       },
