@@ -27,6 +27,7 @@ export class StoryRepository {
         title: true,
         content: true,
         authorName: true,
+        createdAt: true,
       },
     });
     return storyContent;
