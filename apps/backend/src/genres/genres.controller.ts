@@ -27,4 +27,13 @@ export class GenresController {
 
     return this.genresService.getAllPublishedInGenre(genre);
   }
+
+  @Get(':publishedContentId/content')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.OK)
+  getPublishedContentById(
+    @Param('publishedContentId') publishedContentId: string,
+  ) {
+    return this.genresService.getPublishedGenreContentById(publishedContentId);
+  }
 }
