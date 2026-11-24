@@ -15,6 +15,7 @@ import Contact from "../pages/Contact";
 import Footer from "./Footer";
 import Genre from "../pages/Genre";
 import Read from "../pages/Read";
+import AuthGuard from "./middleware/AuthGuard";
 
 export default function App() {
 	const initialize = useAuthStore(state => state.initialize);
@@ -35,13 +36,15 @@ export default function App() {
 					<Route path="/sign-up" element={<Auth />} />
 					<Route path="/verify-email" element={<Auth />} />
 					<Route path="/forgot-password" element={<Auth />} />
-					<Route path="/user/:userId/profile" element={<Profile />} />
-					<Route path="/all-users" element={<AllUsers />} />
-					<Route path="/club-members" element={<ClubMembers />} />
-					<Route path="/contact-us" element={<Contact />} />
-					<Route path="/genre/:genre" element={<Genre />} />
-					<Route path="/genre/:genre/:storyId/read" element={<Read />} />
-					<Route path="/fiction/:genre" element={<Genre />} />
+					<Route element={<AuthGuard />}>
+						<Route path="/user/:userId/profile" element={<Profile />} />
+						<Route path="/all-users" element={<AllUsers />} />
+						<Route path="/club-members" element={<ClubMembers />} />
+						<Route path="/contact-us" element={<Contact />} />
+						<Route path="/genre/:genre" element={<Genre />} />
+						<Route path="/genre/:genre/:storyId/read" element={<Read />} />
+						<Route path="/fiction/:genre" element={<Genre />} />
+					</Route>
 					<Route path="/reset-password" element={<ResetPassword />} />
 					<Route path="*" element={<NotFound />} />
 				</Routes>
