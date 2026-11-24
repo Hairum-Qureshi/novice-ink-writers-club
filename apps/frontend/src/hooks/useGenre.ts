@@ -28,6 +28,7 @@ export default function useGenre(): UseGenreHook {
 				content: string;
 				title: string;
 				authorName: string;
+				createdAt: string;
 			}>(`/api/genres/${storyId}/content`);
 			return data;
 		}
