@@ -11,7 +11,7 @@ export default function Read() {
 			<div className="mx-auto max-w-6xl">
 				<button
 					onClick={() => navigate(-1)}
-					className="text-sm text-green-200/70 transition-colors hover:text-green-200"
+					className="text-sm hover:cursor-pointer text-green-200/70 transition-colors hover:text-green-200"
 				>
 					<FaArrowLeftLong className="inline-block mr-2" />
 					Back to Genre
