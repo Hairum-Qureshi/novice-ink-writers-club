@@ -120,6 +120,20 @@
       "when": 1794808270519,
       "tag": "0016_oval_medusa",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1795483084935,
+      "tag": "0017_lonely_king_bedlam",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1795483161861,
+      "tag": "0018_premium_gauntlet",
+      "breakpoints": true
     }
   ]
 }
