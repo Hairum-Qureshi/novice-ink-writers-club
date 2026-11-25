@@ -15,6 +15,7 @@ export class UserRepository {
       columns: {
         password: false,
       },
+      orderBy: (users, { desc }) => [desc(users.createdAt)],
     });
   }
 
