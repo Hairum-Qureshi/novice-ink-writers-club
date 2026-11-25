@@ -1,0 +1,27 @@
+[
+	{
+		"number": "01",
+		"title": "Additional information",
+		"description": "Providing side information is optional. Use the field to include relevant notes about your submission."
+	},
+	{
+		"number": "02",
+		"title": "Contact inquiries",
+		"description": "The submission form is not a contact form. Direct questions and concerns to the contact page."
+	},
+	{
+		"number": "03",
+		"title": "Appropriate submissions",
+		"description": "Spam and inappropriate messages are not permitted."
+	},
+	{
+		"number": "04",
+		"title": "Complete information",
+		"description": "Submissions must contain the requested information relevant to the story."
+	},
+	{
+		"number": "05",
+		"title": "Multi-part stories",
+		"description": "When submitting stories in parts, include the part number in the title."
+	}
+]

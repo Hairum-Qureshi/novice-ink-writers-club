@@ -1,0 +1,27 @@
+[
+	{
+		"number": "01",
+		"title": "File Format",
+		"description": "We only accept .docx files. Please convert your document to the required format before submitting."
+	},
+	{
+		"number": "02",
+		"title": "Submission guidelines",
+		"description": "Please read the club's guidelines before submitting your work."
+	},
+	{
+		"number": "03",
+		"title": "Permission form",
+		"description": "Complete the permission form before submitting your story."
+	},
+	{
+		"number": "04",
+		"title": "Email address",
+		"description": "Your email must not be your school email."
+	},
+	{
+		"number": "05",
+		"title": "Additional policies",
+		"description": "You may also review the Terms and Conditions and Privacy Policy."
+	}
+]
