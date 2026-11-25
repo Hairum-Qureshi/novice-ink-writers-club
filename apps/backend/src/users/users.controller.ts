@@ -9,6 +9,7 @@ import {
   UseInterceptors,
   UploadedFile,
   Body,
+  Delete,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UsersService } from './users.service';
@@ -69,5 +70,12 @@ export class UsersController {
     @Body({ schema: userSettingsSchema }) signInFormDto: UserSettingsFormDto,
   ) {
     return this.usersService.updateUser(currUserId, signInFormDto);
+  }
+
+  @Delete('delete-account')
+  @UseGuards(AuthGuard('jwt'), LegacyProfileGuard)
+  @HttpCode(HttpStatus.OK)
+  deleteAccount(@CurrentUser('sub') currUserId: string) {
+    return this.usersService.deleteAccount(currUserId);
   }
 }

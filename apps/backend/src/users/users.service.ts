@@ -1,6 +1,10 @@
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import { UserRepository } from '../repositories/user.repository';
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import {
+  DeleteObjectCommand,
+  PutObjectCommand,
+  S3Client,
+} from '@aws-sdk/client-s3';
 import { SafeUser } from '@repo/shared-types';
 import * as cacheManager from 'cache-manager';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
@@ -18,6 +22,16 @@ export class UsersService {
     @Inject(CACHE_MANAGER) private cacheManager: cacheManager.Cache,
     private readonly configService: ConfigService,
   ) {}
+
+  private profilePictureObject = (userId: string) => ({
+    Bucket: 'profile-pictures',
+    Key: `${userId}/profilePicture`,
+  });
+
+  private backdropObject = (userId: string) => ({
+    Bucket: 'backdrops',
+    Key: `${userId}/backgroundPicture`,
+  });
 
   async getAllUsers() {
     return this.userRepository.getAllUsers();
@@ -51,12 +65,11 @@ export class UsersService {
     if (!profilePictureFile)
       throw new NotFoundException('Profile picture file not found');
 
-    const S3_BUCKET = 'profile-pictures';
-    const OBJECT_KEY = `${currUserId}/profilePicture`;
+    const { Bucket, Key } = this.profilePictureObject(currUserId);
 
     const publicFileUrl = await this.uploadToS3(
-      S3_BUCKET,
-      OBJECT_KEY,
+      Bucket,
+      Key,
       profilePictureFile,
     );
 
@@ -79,12 +92,11 @@ export class UsersService {
     if (!backdropPictureFile)
       throw new NotFoundException('Backdrop picture file not found');
 
-    const S3_BUCKET = 'backdrops';
-    const OBJECT_KEY = `${currUserId}/backgroundPicture`;
+    const { Bucket, Key } = this.backdropObject(currUserId);
 
     const publicFileUrl = await this.uploadToS3(
-      S3_BUCKET,
-      OBJECT_KEY,
+      Bucket,
+      Key,
       backdropPictureFile,
     );
 
@@ -114,5 +126,22 @@ export class UsersService {
     await this.cacheManager.set(`user:${currUserId}`, user);
 
     return user;
+  }
+
+  private async deleteUserImages(currUserId: string) {
+    await this.s3Client.send(
+      new DeleteObjectCommand(this.backdropObject(currUserId)),
+    );
+    await this.s3Client.send(
+      new DeleteObjectCommand(this.profilePictureObject(currUserId)),
+    );
+  }
+
+  async deleteAccount(currUserId: string) {
+    await this.deleteUserImages(currUserId);
+
+    // delete the user's account
+    await this.userRepository.deleteUser(currUserId);
+    await this.cacheManager.del(`user:${currUserId}`);
   }
 }
