@@ -56,7 +56,6 @@ export default function Genre() {
 						</div>
 					</section>
 
-					{/* Stories */}
 					<section className="space-y-6 mb-5">
 						<div className="flex items-end justify-between border-b border-green-800/50 pb-4">
 							<div className="space-y-1">
@@ -67,7 +66,16 @@ export default function Genre() {
 							</div>
 
 							<span className="text-sm text-white/50 font-alike-angular">
-								{getAllPublishedStories.data?.length ?? 0} stories
+								{getAllPublishedStories.data?.length ?? 0}{" "}
+								{(() => {
+									const count = getAllPublishedStories.data?.length ?? 0;
+
+									if (fillerWord === "poem" || fillerWord === "essay") {
+										return count === 1 ? fillerWord : `${fillerWord}s`;
+									}
+
+									return count === 1 ? "story" : "stories";
+								})()}
 							</span>
 						</div>
 
