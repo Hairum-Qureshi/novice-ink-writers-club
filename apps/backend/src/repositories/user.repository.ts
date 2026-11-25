@@ -75,7 +75,12 @@ export class UserRepository {
     return user;
   }
 
-  //   async deleteUser(id: string) {}
+  async deleteUser(id: string) {
+    const [user]: SafeUser[] = await this.db
+      .delete(usersTable)
+      .where(eq(usersTable.id, id))
+      .returning();
 
-  //   async updateUserRole(id: string, role: Role) {}
+    return user;
+  }
 }
