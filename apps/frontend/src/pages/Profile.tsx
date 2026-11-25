@@ -186,10 +186,47 @@ export default function Profile() {
 						</div>
 					) : (
 						<div
-							className="flex items-center justify-between p-6"
+							className="flex items-center flex-col justify-between p-6"
 							role="tabpanel"
 						>
 							<SettingsForm />
+
+							<div className="mt-4 overflow-hidden rounded-lg border border-red-800 bg-red-900/90">
+								{/* Header */}
+								<div className="border-b border-red-400/30 px-6 py-5">
+									<h2 className="font-alike-angular text-xl font-semibold text-red-50">
+										Danger Zone
+									</h2>
+									<p className="mt-1 text-sm leading-relaxed text-red-200">
+										Manage irreversible actions associated with your account.
+									</p>
+								</div>
+
+								{/* Delete Account */}
+								<div className="flex flex-col gap-5 px-6 py-6 sm:flex-row sm:items-center sm:justify-between">
+									<div className="space-y-1">
+										<h3 className="font-alike-angular text-base font-medium text-red-50">
+											Delete Account
+										</h3>
+										{
+											<p className="max-w-lg text-sm leading-relaxed text-red-200">
+												Permanently delete your account and associated data.
+												This action cannot be undone.
+											</p>
+										}
+									</div>
+
+									<button
+										type="button"
+										onClick={() => {
+											// Open account deletion confirmation dialog
+										}}
+										className="shrink-0 cursor-pointer rounded-md border border-red-200 bg-white px-5 py-2.5 text-sm font-medium text-red-800 transition-colors hover:bg-red-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-300"
+									>
+										Delete Account
+									</button>
+								</div>
+							</div>
 						</div>
 					)}
 				</div>
@@ -254,7 +291,7 @@ export default function Profile() {
 								<MdVerified className="mt-0.5 shrink-0 text-yellow-600" />
 								<div>
 									<p className="text-xs font-semibold uppercase tracking-widest text-yellow-600">
-										This user is a legacy member
+										{isYourProfile ? "You are a legacy member" : "This user is a legacy member"}
 									</p>
 								</div>
 							</li>
