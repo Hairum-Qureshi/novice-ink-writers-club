@@ -147,7 +147,7 @@ export default function SignUpForm() {
 						: "Unable to sign up. Please try again."}
 				</p>
 			)}
-			<p className="text-center mt-2 text-sm text-slate-600">
+			<p className="text-center mt-2 text-sm text-slate-600 lg:mb-0 mb-10">
 				By signing up, you agree to our{" "}
 				<Link to="/terms" className="text-blue-800">
 					Terms of Service
