@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { UserRepository } from '../repositories/user.repository';
+import { CommentRepository } from '../repositories/comment.repository';
 import { NeonDBProvider } from '../providers/postgres-db';
 import { S3ClientProvider } from '../providers/s3Client';
 import { CookieService } from '../auth/services/cookie.service';
@@ -13,6 +14,7 @@ import { CookieService } from '../auth/services/cookie.service';
     NeonDBProvider,
     S3ClientProvider,
     CookieService,
+    CommentRepository,
   ],
   controllers: [UsersController],
 })
