@@ -31,8 +31,8 @@ export class CommentRepository {
           },
         },
       },
+      orderBy: (comments, { desc }) => [desc(comments.createdAt)],
     });
-
     return comments;
   }
 
