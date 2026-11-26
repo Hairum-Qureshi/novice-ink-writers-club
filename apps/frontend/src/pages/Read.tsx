@@ -80,6 +80,7 @@ export default function Read() {
 										getPublishedStoryContent?.data?.author.id
 									}
 									commentId={comment.id}
+									updatedAt={comment.updatedAt}
 								/>
 							))}
 						</div>
