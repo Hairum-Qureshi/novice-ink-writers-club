@@ -87,16 +87,16 @@ export default function Contact() {
 					</button>
 				</form>
 			</div>
-			<div className="h-1/2 flex items-center border-t border-amber-300 p-20 justify-center flex-col bg-[#1d2c1a]">
-				<h1 className="text-4xl font-bold text-white mb-4 font-alike-angular">
+			<div className="h-1/2 flex items-center border-t border-amber-300 p-8 lg:p-20 justify-center flex-col bg-[#1d2c1a]">
+				<h1 className="text-4xl font-bold text-white text-center mb-4 font-alike-angular">
 					Consider Joining Our Newsletter!
 				</h1>
-				<p className="text-white/80 text-center font-alike-angular w-1/2 my-5">
+				<p className="text-white/80 text-center font-alike-angular w-full lg:w-1/2 my-5">
 					Please consider joining our newsletter to obtain emails on what's new
 					with the club! Your email will be sent as soon as you press
 					"Subscribe".
 				</p>
-				<div className="my-5 w-1/2 flex overflow-hidden rounded-lg border border-white/15 bg-white/5 transition-colors duration-200 focus-within:border-yellow-400">
+				<div className="my-5 w-full lg:w-1/2 flex overflow-hidden rounded-lg border border-white/15 bg-white/5 transition-colors duration-200 focus-within:border-yellow-400">
 					<input
 						type="email"
 						placeholder="Enter your email"
