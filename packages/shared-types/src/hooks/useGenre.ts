@@ -15,6 +15,9 @@ interface UseGenreHook {
 					authorName: string;
 					createdAt: string;
 					title: string;
+					author: {
+						id: string;
+					};
 			  }
 			| undefined;
 		isPending: boolean;
