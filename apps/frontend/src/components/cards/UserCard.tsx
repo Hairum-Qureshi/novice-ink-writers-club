@@ -7,7 +7,7 @@ export default function UserCard({ user }: { user: SafeUser }) {
 			<img
 				src={user.profilePicture}
 				alt="User Profile"
-				className="w-16 h-16 rounded-full mb-2"
+				className="w-16 h-16 rounded-full mb-2 object-cover"
 			/>
 			<div className="ml-4">
 				<Link
