@@ -47,7 +47,7 @@ export class CommentsController {
     return this.commentsService.deleteComment(commentId);
   }
 
-  @Get(':contentId')
+  @Get(':contentId/all')
   @HttpCode(HttpStatus.OK)
   getComments(@Param('contentId') contentId: string) {
     return this.commentsService.getComments(contentId);
