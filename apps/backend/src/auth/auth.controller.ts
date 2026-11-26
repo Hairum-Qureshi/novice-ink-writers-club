@@ -95,8 +95,11 @@ export class AuthController {
 
   @Post('resend-verification-email')
   @HttpCode(HttpStatus.OK)
-  resendVerificationEmail(@Body('email') email: string) {
-    return this.verificationService.resendVerificationEmail(email);
+  resendVerificationEmail(
+    @Body('email') email: string,
+    @Body('newEmail') newEmail: string,
+  ) {
+    return this.verificationService.resendVerificationEmail(email, newEmail);
   }
 
   @Post('forgot-password')
