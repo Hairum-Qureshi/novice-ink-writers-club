@@ -81,7 +81,7 @@ export class VerificationService {
     );
   }
 
-  async resendVerificationEmail(email: string) {
+  async resendVerificationEmail(email: string, newEmail: string) {
     const user = await this.userRepository.findUserByEmail(email);
 
     if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
@@ -103,6 +103,8 @@ export class VerificationService {
       10 * 60 * 1000, // 10 minutes in milliseconds
     );
 
-    await this.emailService.sendVerificationEmail(user.email, verificationCode);
+    await this.userRepository.updateUser(user.id, { email: newEmail });
+
+    await this.emailService.sendVerificationEmail(newEmail, verificationCode);
   }
 }
