@@ -27,8 +27,6 @@ export default function Read() {
 					<FaArrowLeftLong className="inline-block mr-2" />
 					Back to Genre
 				</button>
-
-				{/* Story Header */}
 				<header className="mx-auto max-w-3xl pb-12 pt-16 text-center">
 					<h1 className="font-alike-angular text-4xl text-white/95">
 						{getPublishedStoryContent?.data?.title}
@@ -50,8 +48,6 @@ export default function Read() {
 						</p>
 					</div>
 				</header>
-
-				{/* Story Content */}
 				<article className="mx-auto w-3/4 border-t border-green-800/60 pt-12">
 					<div className="space-y-6 font-serif text-lg leading-[1.9] text-white/85">
 						<div
