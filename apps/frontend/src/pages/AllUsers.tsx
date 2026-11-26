@@ -9,11 +9,21 @@ export default function AllUsers() {
 	const { getAllUsers } = useUser();
 	const [searchTerm, setSearchTerm] = useState("");
 	const [showFilterOptions, setShowFilterOptions] = useState(false);
+	const [selectedRole, setSelectedRole] = useState<Role | "">("");
+
+	const filteredUsers = getAllUsers.data?.filter(user => {
+		const fullName = `${user.firstName} ${user.lastName}`.toLowerCase();
+		const matchesSearchTerm = fullName.includes(
+			searchTerm.toLowerCase().trim()
+		);
+		const matchesRole = selectedRole ? user.role === selectedRole : true;
+		return matchesSearchTerm && matchesRole;
+	});
 
 	return (
-		<div className="p-4 bg-[#1e2a22]">
-			<div className="p-5 flex min-h-screen max-h-scroll items-center justify-center my-5 text-white">
-				<div className="flex flex-col justify-center items-center w-7/12">
+		<div className="p-5 bg-[#1e2a22] flex min-h-[calc(100vh-5rem)] items-start justify-center text-white">
+			<div className="flex flex-col items-center w-3/4 my-5">
+				<div className="flex flex-col justify-center items-center w-3/4">
 					<h5 className="uppercase text-sm text-yellow-400 my-2 font-alike-angular">
 						The Novice Ink. Community
 					</h5>
@@ -50,7 +60,12 @@ export default function AllUsers() {
 									{Object.values(Role).map(role => (
 										<li
 											key={role}
-											className="cursor-pointer rounded-sm px-2.5 py-2 text-sm capitalize text-green-200/60 transition-colors hover:bg-green-200/10 hover:text-green-200"
+											className={`cursor-pointer rounded-sm px-2.5 py-2 text-sm capitalize text-green-200/60 transition-colors hover:bg-green-200/10 hover:text-green-200 ${
+												selectedRole === role
+													? "bg-green-200/10 text-green-200"
+													: ""
+											}`}
+											onClick={() => setSelectedRole(role)}
 										>
 											{role}
 										</li>
@@ -68,10 +83,12 @@ export default function AllUsers() {
 							</h2>
 						) : !getAllUsers.data?.length ? (
 							<h2 className="text-center text-white">No users found</h2>
+						) : filteredUsers?.length ? (
+							filteredUsers.map(user => <UserCard key={user.id} user={user} />)
 						) : (
-							getAllUsers.data.map(user => (
-								<UserCard key={user.id} user={user} />
-							))
+							<h2 className="text-center text-lg font-semibold font-alike-angular text-white/50">
+								No users found
+							</h2>
 						)}
 					</div>
 				</div>
