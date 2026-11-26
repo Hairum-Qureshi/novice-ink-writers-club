@@ -18,3 +18,4 @@ export { Grade } from "./enums/grade.js";
 export { Gender } from "./enums/gender.js";
 export { Genre } from "./enums/genres.js";
 export type { PublishedGenre } from "./types/publishedGenre.js";
+export type { Comment } from "./types/comment.js";
