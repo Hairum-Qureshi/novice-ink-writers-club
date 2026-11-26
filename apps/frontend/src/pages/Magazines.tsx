@@ -37,7 +37,7 @@ export default function Magazines() {
 							<FaBook className="shrink-0 text-xl text-novice-ink-yellow" />
 
 							<div className="flex-1">
-								<h3 className="font-medium text-white group-hover:text-novice-ink-yellow transition-colors">
+								<h3 className="font-medium font-alike-angular text-white group-hover:text-novice-ink-yellow transition-colors">
 									{magazine.title}
 								</h3>
 								<p className="mt-1 text-xs text-white/50">PDF Document</p>
