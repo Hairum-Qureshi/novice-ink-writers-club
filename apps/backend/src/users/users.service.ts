@@ -1,4 +1,11 @@
-import { Injectable, Inject, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  Inject,
+  NotFoundException,
+  HttpStatus,
+  HttpException,
+} from '@nestjs/common';
+import { CookieService } from '../auth/services/cookie.service';
 import { UserRepository } from '../repositories/user.repository';
 import {
   DeleteObjectCommand,
@@ -13,6 +20,7 @@ import type {
   User,
   UserSettingsFormData as UserSettingsFormDto,
 } from '@repo/shared-types';
+import type { Response } from 'express';
 
 @Injectable()
 export class UsersService {
@@ -21,6 +29,7 @@ export class UsersService {
     @Inject('S3ClientProvider') private readonly s3Client: S3Client,
     @Inject(CACHE_MANAGER) private cacheManager: cacheManager.Cache,
     private readonly configService: ConfigService,
+    private readonly cookieService: CookieService,
   ) {}
 
   private profilePictureObject = (userId: string) => ({
@@ -137,11 +146,23 @@ export class UsersService {
     );
   }
 
-  async deleteAccount(currUserId: string) {
+  async deleteAccount(currUserId: string, res: Response, sessionId: string) {
     await this.deleteUserImages(currUserId);
-
-    // delete the user's account
     await this.userRepository.deleteUser(currUserId);
     await this.cacheManager.del(`user:${currUserId}`);
+
+    const RT_KEY = `rt:${sessionId}`;
+    const sessionData = await this.cacheManager.get<{
+      refreshTokenHash: string;
+      userId: string;
+    }>(RT_KEY);
+
+    if (!sessionData || sessionData.userId !== currUserId)
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+
+    await this.cacheManager.del(RT_KEY);
+
+    this.cookieService.removeCookies(res);
+    return { message: 'Account successfully deleted' };
   }
 }
