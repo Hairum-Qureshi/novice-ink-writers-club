@@ -103,7 +103,8 @@ export class VerificationService {
       10 * 60 * 1000, // 10 minutes in milliseconds
     );
 
-    await this.userRepository.updateUser(user.id, { email: newEmail });
+    if (email !== newEmail)
+      await this.userRepository.updateUser(user.id, { email: newEmail });
 
     await this.emailService.sendVerificationEmail(newEmail, verificationCode);
   }
