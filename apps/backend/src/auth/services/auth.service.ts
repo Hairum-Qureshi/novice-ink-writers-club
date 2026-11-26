@@ -92,6 +92,9 @@ export class AuthService {
       10 * 60 * 1000, // 10 minutes in milliseconds
     );
 
+    // delete the cached list of all users since it is now outdated
+    await this.cacheManager.del('users:all');
+
     await this.emailService.sendVerificationEmail(user.email, verificationCode);
   }
 

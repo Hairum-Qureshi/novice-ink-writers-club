@@ -98,8 +98,8 @@ export class UsersService {
       updatedAt: new Date(),
     });
 
-    // update and set the user's data in the cache
-    await this.cacheManager.set(`user:${currUserId}`, user);
+    // delete the cached list of all users since it is now outdated
+    await this.cacheManager.del('users:all');
 
     return user;
   }
@@ -125,8 +125,8 @@ export class UsersService {
       updatedAt: new Date(),
     });
 
-    // update and set the user's data in the cache
-    await this.cacheManager.set(`user:${currUserId}`, user);
+    // delete the cached list of all users since it is now outdated
+    await this.cacheManager.del('users:all');
 
     return user;
   }
@@ -142,7 +142,8 @@ export class UsersService {
       updateData,
     );
 
-    await this.cacheManager.set(`user:${currUserId}`, user);
+    // delete the cached list of all users since it is now outdated
+    await this.cacheManager.del('users:all');
 
     return user;
   }
@@ -172,6 +173,9 @@ export class UsersService {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
 
     await this.cacheManager.del(RT_KEY);
+
+    // delete the cached list of all users since it is now outdated
+    await this.cacheManager.del('users:all');
 
     this.cookieService.removeCookies(res);
     return { message: 'Account successfully deleted' };
