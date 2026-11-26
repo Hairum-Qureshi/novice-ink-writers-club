@@ -21,6 +21,7 @@ import type {
   UserSettingsFormData as UserSettingsFormDto,
 } from '@repo/shared-types';
 import type { Response } from 'express';
+import { CommentRepository } from '../repositories/comment.repository';
 
 @Injectable()
 export class UsersService {
@@ -30,6 +31,7 @@ export class UsersService {
     @Inject(CACHE_MANAGER) private cacheManager: cacheManager.Cache,
     private readonly configService: ConfigService,
     private readonly cookieService: CookieService,
+    private readonly commentRepository: CommentRepository,
   ) {}
 
   private profilePictureObject = (userId: string) => ({
@@ -150,6 +152,7 @@ export class UsersService {
     await this.deleteUserImages(currUserId);
     await this.userRepository.deleteUser(currUserId);
     await this.cacheManager.del(`user:${currUserId}`);
+    await this.commentRepository.deleteAllCommentsByUserId(currUserId);
 
     const RT_KEY = `rt:${sessionId}`;
     const sessionData = await this.cacheManager.get<{
