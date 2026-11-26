@@ -150,9 +150,9 @@ export class UsersService {
 
   async deleteAccount(currUserId: string, res: Response, sessionId: string) {
     await this.deleteUserImages(currUserId);
+    await this.commentRepository.deleteAllCommentsByUserId(currUserId);
     await this.userRepository.deleteUser(currUserId);
     await this.cacheManager.del(`user:${currUserId}`);
-    await this.commentRepository.deleteAllCommentsByUserId(currUserId);
 
     const RT_KEY = `rt:${sessionId}`;
     const sessionData = await this.cacheManager.get<{
