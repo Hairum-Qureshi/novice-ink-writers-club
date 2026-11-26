@@ -1,10 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import useGenre from "../hooks/useGenre";
+import CommentForm from "../components/CommentForm";
+import Comment from "../components/Comment";
+import useComment from "../hooks/useComment";
+import type { Comment as CommentType } from "@shared-types";
+import { useAuthStore } from "../stores/auth.store";
 
 export default function Read() {
 	const navigate = useNavigate();
 	const { getPublishedStoryContent } = useGenre();
+	const { getComments } = useComment();
+	const comments = getComments?.data ?? [];
+	const currUser = useAuthStore(state => state.user);
 
 	return (
 		<main className="min-h-[calc(100vh-5rem)] bg-[#0d1a10] px-5 py-10 text-white">
@@ -51,8 +59,22 @@ export default function Read() {
 					</div>
 					<div className="border-t border-green-800/60 w-full mt-10">
 						<h2 className="font-alike-angular my-5 text-2xl text-white/95">
-							Comments
+							Comments ({comments.length})
 						</h2>
+						<CommentForm />
+						<div className="space-y-4 my-10">
+							{comments.map((comment: CommentType) => (
+								<Comment
+									key={comment.id}
+									userId={comment.author.id}
+									author={`${comment.author.firstName} ${comment.author.lastName}`}
+									avatar={comment.author.profilePicture}
+									createdAt={comment.createdAt}
+									content={comment.content}
+									isOwner={currUser?.id === comment.author.id}
+								/>
+							))}
+						</div>
 					</div>
 				</article>
 			</div>
