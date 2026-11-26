@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import FooterDisplay from "./middleware/FooterDisplay";
 import AllUsers from "../pages/AllUsers";
 import NavDisplay from "./middleware/NavDisplay";
 import Home from "../pages/Home";
@@ -50,7 +51,9 @@ export default function App() {
 					<Route path="/reset-password" element={<ResetPassword />} />
 					<Route path="*" element={<NotFound />} />
 				</Routes>
-				<Footer />
+				<FooterDisplay>
+					<Footer />
+				</FooterDisplay>
 			</main>
 		</BrowserRouter>
 	);
