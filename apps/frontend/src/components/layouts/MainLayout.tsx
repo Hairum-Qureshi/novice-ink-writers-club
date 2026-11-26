@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import NavDisplay from "../middleware/NavDisplay";
-import Navbar from "../Navbar";
+import Navbar from "../navbar-views/Navbar";
 import FooterDisplay from "../middleware/FooterDisplay";
 import Footer from "../Footer";
 
