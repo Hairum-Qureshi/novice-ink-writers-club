@@ -10,7 +10,10 @@ import {
   UploadedFile,
   Body,
   Delete,
+  Res,
+  Req,
 } from '@nestjs/common';
+import type { Response, Request } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -75,7 +78,13 @@ export class UsersController {
   @Delete('delete-account')
   @UseGuards(AuthGuard('jwt'), LegacyProfileGuard)
   @HttpCode(HttpStatus.OK)
-  deleteAccount(@CurrentUser('sub') currUserId: string) {
-    return this.usersService.deleteAccount(currUserId);
+  deleteAccount(
+    @CurrentUser('sub') currUserId: string,
+    @Res({ passthrough: true }) res: Response,
+    @Req() request: Request,
+  ) {
+    const sessionId = request.cookies['sessionId'] as string;
+
+    return this.usersService.deleteAccount(currUserId, res, sessionId);
   }
 }
