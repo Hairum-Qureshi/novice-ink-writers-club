@@ -9,11 +9,13 @@ import { IoFemale } from "react-icons/io5";
 import { FaRegCalendarAlt, FaUserGraduate } from "react-icons/fa";
 import { MdVerified } from "react-icons/md";
 import { SettingsForm } from "../components/SettingsForm";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Profile() {
 	const currentUser = useAuthStore(state => state.user);
-	const { getUserById, updateUserPfp, updateUserBackdrop } = useUser();
+	const { getUserById, updateUserPfp, updateUserBackdrop, deleteAccount } =
+		useUser();
+	const navigate = useNavigate();
 	const [activeTab, setActiveTab] = useState<"stories" | "settings">("stories");
 
 	const profileUser = getUserById.data ?? null;
@@ -218,14 +220,28 @@ export default function Profile() {
 
 									<button
 										type="button"
+										disabled={deleteAccount.isPending}
 										onClick={() => {
-											// Open account deletion confirmation dialog
+											if (
+												window.confirm(
+													"Permanently delete your account? This action cannot be undone."
+												)
+											) {
+												deleteAccount.mutate(undefined, {
+													onSuccess: () => navigate("/", { replace: true })
+												});
+											}
 										}}
-										className="shrink-0 cursor-pointer rounded-md border border-red-200 bg-white px-5 py-2.5 text-sm font-medium text-red-800 transition-colors hover:bg-red-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-300"
+										className="shrink-0 cursor-pointer rounded-md border border-red-200 bg-white px-5 py-2.5 text-sm font-medium text-red-800 transition-colors hover:bg-red-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-300 disabled:cursor-wait disabled:opacity-70"
 									>
-										Delete Account
+										{deleteAccount.isPending ? "Deleting..." : "Delete Account"}
 									</button>
 								</div>
+								{deleteAccount.isError && (
+									<p className="px-6 pb-6 text-sm text-red-100" role="alert">
+										Unable to delete your account. Please try again.
+									</p>
+								)}
 							</div>
 						</div>
 					)}

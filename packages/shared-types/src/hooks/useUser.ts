@@ -29,6 +29,15 @@ interface UseUserHook {
 		error: unknown;
 		mutate: (variables: FormData) => void;
 	};
+	deleteAccount: {
+		isPending: boolean;
+		isError: boolean;
+		error: unknown;
+		mutate: (
+			variables?: void,
+			options?: { onSuccess?: () => void }
+		) => void;
+	};
 }
 
 export type { UseUserHook };
