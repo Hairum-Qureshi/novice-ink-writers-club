@@ -29,6 +29,12 @@ export class StoryRepository {
         authorName: true,
         createdAt: true,
       },
+      with: {
+        author: true,
+        columns: {
+          id: true,
+        },
+      },
     });
     return storyContent;
   }
