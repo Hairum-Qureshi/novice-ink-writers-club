@@ -2,6 +2,7 @@ import { relations } from 'drizzle-orm';
 import {
   pgTable,
   text,
+  varchar,
   timestamp,
   pgEnum,
   boolean,
@@ -61,7 +62,9 @@ export const commentsTable = pgTable('comments', {
   authorId: text('author_id')
     .notNull()
     .references(() => usersTable.id),
-  content: text('content').notNull(),
+  content: varchar('content', {
+    length: 500,
+  }).notNull(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 });
