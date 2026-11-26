@@ -45,7 +45,15 @@ export class UsersService {
   });
 
   async getAllUsers() {
-    return this.userRepository.getAllUsers();
+    const cachedUsers = await this.cacheManager.get<SafeUser[]>('users:all');
+
+    if (cachedUsers != null) return cachedUsers;
+
+    const allUsers = await this.userRepository.getAllUsers();
+
+    await this.cacheManager.set('users:all', allUsers);
+
+    return allUsers;
   }
 
   async getUserById(id: string) {
