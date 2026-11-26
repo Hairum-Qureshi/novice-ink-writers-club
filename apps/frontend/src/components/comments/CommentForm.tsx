@@ -11,6 +11,7 @@ export default function CommentForm() {
 			onSubmit={e => {
 				e.preventDefault();
 				createComment.mutate(comment);
+				setComment("");
 			}}
 		>
 			<div className="overflow-hidden rounded-xl border border-green-700/50 bg-green-800/30 transition-colors focus-within:border-green-500/70">
