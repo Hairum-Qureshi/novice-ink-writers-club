@@ -78,4 +78,11 @@ export class CommentRepository {
 
     return updatedComment;
   }
+
+  async deleteAllCommentsByUserId(userId: string) {
+    await this.db
+      .delete(commentsTable)
+      .where(eq(commentsTable.authorId, userId))
+      .returning();
+  }
 }
