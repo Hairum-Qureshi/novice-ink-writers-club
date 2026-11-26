@@ -183,6 +183,13 @@
       "when": 1795498378723,
       "tag": "0025_bumpy_norrin_radd",
       "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1795664517599,
+      "tag": "0026_natural_sauron",
+      "breakpoints": true
     }
   ]
 }
