@@ -1,11 +1,11 @@
-import FAQs from "../components/FAQs";
-import Timeline from "../components/Timeline";
+import Timeline from "../components/timeline/Timeline";
 import { Link } from "react-router-dom";
 import { IoVideocam } from "react-icons/io5";
 import { FaFileUpload } from "react-icons/fa";
 import { FaUserEdit } from "react-icons/fa";
 import { FaBookOpen } from "react-icons/fa";
 import clubServices from "../json/club-services.json";
+import FAQs from "../components/faqs/FAQs";
 
 const icons = {
 	IoVideocam,
@@ -100,8 +100,8 @@ export default function Home() {
 					</div>
 				</div>
 			</section>
-			<div className="bg-[#121510] h-auto p-20">
-				<h1 className="text-5xl font-bold uppercase font-lusitana text-amber-300 text-center">
+			<div className="bg-[#121510] h-auto p-3 lg:p-20">
+				<h1 className="text-5xl font-bold uppercase lg:py-0 py-5 font-lusitana text-amber-300 text-center">
 					History of Novice Ink.
 				</h1>
 				<div>
