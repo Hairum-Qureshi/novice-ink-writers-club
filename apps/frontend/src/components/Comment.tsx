@@ -1,6 +1,7 @@
 import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import useComment from "../hooks/useComment";
 
 export default function Comment({
 	userId,
@@ -9,7 +10,8 @@ export default function Comment({
 	createdAt,
 	content,
 	isOwner,
-	isAuthor
+	isAuthor,
+	commentId
 }: {
 	userId: string;
 	author: string;
@@ -18,7 +20,10 @@ export default function Comment({
 	content: string;
 	isOwner: boolean;
 	isAuthor: boolean;
+	commentId: string;
 }) {
+	const { deleteComment } = useComment();
+
 	return (
 		<article className="flex items-start gap-3 rounded-xl border border-green-700/30 bg-green-800/20 p-4">
 			<img
@@ -31,7 +36,8 @@ export default function Comment({
 					<div>
 						<Link to={`/user/${userId}/profile`}>
 							<h4 className="text-sm underline hover:cursor-pointer hover:text-green-300 font-semibold text-white">
-								{author} {isAuthor && <span className="text-yellow-400">(Author)</span>}
+								{author}{" "}
+								{isAuthor && <span className="text-yellow-400">(Author)</span>}
 							</h4>
 						</Link>
 						<time className="text-xs text-green-200/50">
@@ -43,7 +49,13 @@ export default function Comment({
 							<button className="text-green-200/50 hover:cursor-pointer hover:text-green-200">
 								<FaEdit />
 							</button>
-							<button className="text-green-200/50 hover:cursor-pointer hover:text-green-200">
+							<button
+								className="text-green-200/50 hover:cursor-pointer hover:text-green-200"
+								onClick={() => {
+									if (confirm("Are you sure you want to delete this comment?"))
+										deleteComment.mutate(commentId);
+								}}
+							>
 								<FaTrash />
 							</button>
 						</div>
