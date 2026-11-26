@@ -1,7 +1,7 @@
 import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import useComment from "../hooks/useComment";
+import useComment from "../../hooks/useComment";
 import { useState } from "react";
 import { MdCancel } from "react-icons/md";
 

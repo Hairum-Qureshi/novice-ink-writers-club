@@ -1,6 +1,6 @@
 import { useState } from "react";
 import FAQ from "./FAQ";
-import FAQJSON from "../json/FAQs.json";
+import FAQJSON from "../../json/FAQs.json";
 
 export default function FAQs() {
 	const [openIndex, setOpenIndex] = useState<number | null>(null);

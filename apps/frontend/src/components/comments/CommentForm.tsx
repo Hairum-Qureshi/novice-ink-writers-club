@@ -1,4 +1,4 @@
-import useComment from "../hooks/useComment";
+import useComment from "../../hooks/useComment";
 import { useState } from "react";
 
 export default function CommentForm() {

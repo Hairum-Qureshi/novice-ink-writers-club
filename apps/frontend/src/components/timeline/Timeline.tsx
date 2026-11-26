@@ -1,5 +1,5 @@
+import timeline from "../../json/timeline.json";
 import TimelineEvent from "./TimelineEvent";
-import timeline from "../json/timeline.json";
 
 export default function Timeline() {
 	return (
