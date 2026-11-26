@@ -8,6 +8,7 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { EmailModule } from './email/email.module';
 import { UsersModule } from './users/users.module';
 import { GenresModule } from './genres/genres.module';
+import { CommentsModule } from './comments/comments.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { GenresModule } from './genres/genres.module';
     EmailModule,
     UsersModule,
     GenresModule,
+    CommentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
