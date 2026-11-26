@@ -55,4 +55,17 @@ export class CommentRepository {
 
     return deletedComment;
   }
+
+  async editComment(comment: string, commentId: string) {
+    const updatedComment = await this.db
+      .update(commentsTable)
+      .set({
+        content: comment,
+        updatedAt: new Date(),
+      })
+      .where(eq(commentsTable.id, commentId))
+      .returning();
+
+    return updatedComment;
+  }
 }
