@@ -44,19 +44,13 @@ export class CommentsController {
   @Delete(':commentId/delete')
   @UseGuards(AuthGuard('jwt'), IsOwnerGuard)
   @HttpCode(HttpStatus.OK)
-  deleteComment(
-    @CurrentUser('sub') currUserId: string,
-    @Param('commentId') commentId: string,
-  ) {
-    return this.commentsService.deleteComment(currUserId, commentId);
+  deleteComment(@Param('commentId') commentId: string) {
+    return this.commentsService.deleteComment(commentId);
   }
 
   @Get(':contentId')
   @HttpCode(HttpStatus.OK)
-  getComments(
-    @CurrentUser('sub') currUserId: string,
-    @Param('contentId') contentId: string,
-  ) {
-    return this.commentsService.getComments(currUserId, contentId);
+  getComments(@Param('contentId') contentId: string) {
+    return this.commentsService.getComments(contentId);
   }
 }
