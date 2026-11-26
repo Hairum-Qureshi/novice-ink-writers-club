@@ -16,4 +16,12 @@ export class CommentRepository {
 
     return comment;
   }
+
+  async getCommentsByContentId(contentId: string) {
+    const comments = await this.db.query.commentsTable.findMany({
+      where: eq(commentsTable.storyId, contentId),
+    });
+
+    return comments;
+  }
 }
