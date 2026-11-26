@@ -34,11 +34,10 @@ export class CommentsController {
   @UseGuards(AuthGuard('jwt'), IsOwnerGuard)
   @HttpCode(HttpStatus.OK)
   editComment(
-    @CurrentUser('sub') currUserId: string,
     @Body('comment') comment: string,
     @Param('commentId') commentId: string,
   ) {
-    return this.commentsService.editComment(currUserId, comment, commentId);
+    return this.commentsService.editComment(comment, commentId);
   }
 
   @Delete(':commentId/delete')
