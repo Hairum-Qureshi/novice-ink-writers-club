@@ -1,11 +1,26 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import type { SafeUser, UserSettingsFormData } from "@repo/shared-types";
 import { api } from "../lib/api";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { useAuthStore } from "../stores/auth.store";
 
 export default function useUser() {
 	const { userId } = useParams();
 	const queryClient = useQueryClient();
+	const clearSession = useAuthStore(state => state.clearSession);
+	const navigate = useNavigate();
+
+	const deleteAccount = useMutation({
+		mutationFn: async () => {
+			await api.delete("/api/users/delete-account");
+		},
+		onSuccess: async () => {
+			await queryClient.cancelQueries();
+			queryClient.clear();
+			clearSession();
+			navigate("/");
+		}
+	});
 
 	const updateUser = useMutation({
 		mutationFn: async (settings: UserSettingsFormData) => {
@@ -71,6 +86,7 @@ export default function useUser() {
 		getUserById,
 		updateUser,
 		updateUserPfp,
-		updateUserBackdrop
+		updateUserBackdrop,
+		deleteAccount
 	};
 }
