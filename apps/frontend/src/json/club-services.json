@@ -1,0 +1,22 @@
+[
+	{
+		"title": "Live Zoom Meetings",
+		"description": "Every Thursday's weekly, we offer Zoom meetings to go over and share our writing experience. While some may not have a lot, that's totally fine! We take this 1 hour meeting to practice our writing skills, putting in our effort with different types of plots to write about, converse with one another and share what we have created, exchange questions, and learning new forms of writing in the process.",
+		"icon": "IoVideocam"
+	},
+	{
+		"title": "Submission",
+		"description": "Novice Ink.'s programmer, Hairum, is proud to announce the website now has a built-in submission form for you to upload your stories for our editors to review! Through uploading your story and getting it reviewed + edited, you have a chance for people to experience your writing and creativity in a presentable manner.",
+		"icon": "FaFileUpload"
+	},
+	{
+		"title": "Editing",
+		"description": "Our club consists of group members that are in charge of editing any stories that are submitted through the website. You essentially send in a draft of your story/essay/poem, and our editors will edit your story so they will have a final copy ready to publish (if you wish). This service is free, but please be warned not to use this service to your advantage in terms of academic gain and/or cheating. That will not be tolerated!",
+		"icon": "FaUserEdit"
+	},
+	{
+		"title": "Publication",
+		"description": "With your given permission, we will respectively publish your story on the website in the correct genre. Of course, this is only if you give us permission and after our editors edit your story for any grammar and punctuation errors. Publishing your story is not mandatory.",
+		"icon": "FaBookOpen"
+	}
+]
