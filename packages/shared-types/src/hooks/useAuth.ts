@@ -37,8 +37,13 @@ interface UseAuthHook {
 	};
 	resendVerificationEmail: {
 		mutate: (
-			email: string,
-			options?: { onSuccess?: (data: void, email: string) => void }
+			emails: { email: string; newEmail: string },
+			options?: {
+				onSuccess?: (
+					data: void,
+					emails: { email: string; newEmail: string }
+				) => void;
+			}
 		) => void;
 		reset: () => void;
 		isPending: boolean;

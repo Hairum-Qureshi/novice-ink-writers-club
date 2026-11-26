@@ -40,10 +40,10 @@ export default function useAuth() {
 	});
 
 	const resendMutation = useMutation({
-		mutationFn: async (email: string) => {
+		mutationFn: async (emails: { email: string; newEmail: string }) => {
 			await axios.post(
 				`${import.meta.env.VITE_BACKEND_URL}/api/auth/resend-verification-email`,
-				{ email },
+				emails,
 				{
 					withCredentials: true
 				}

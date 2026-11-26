@@ -108,15 +108,18 @@ export default function VerifyEmail() {
 		if (!normalizedEmail || resendMutation.isPending) return;
 
 		resendMutation.reset();
-		resendMutation.mutate(normalizedEmail, {
-			onSuccess: (_, sentEmail) => {
-				setEmail(sentEmail);
-				setEmailInput(sentEmail);
-				setEnteringEmail(false);
-				setCode(Array(CODE_LENGTH).fill(""));
-				setTimeLeft(RESEND_COOLDOWN);
+		resendMutation.mutate(
+			{ email: email || normalizedEmail, newEmail: normalizedEmail },
+			{
+				onSuccess: (_, sentEmails) => {
+					setEmail(sentEmails.newEmail);
+					setEmailInput(sentEmails.newEmail);
+					setEnteringEmail(false);
+					setCode(Array(CODE_LENGTH).fill(""));
+					setTimeLeft(RESEND_COOLDOWN);
+				}
 			}
-		});
+		);
 	};
 
 	const handleVerify = () => {
