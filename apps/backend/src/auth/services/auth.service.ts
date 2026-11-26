@@ -20,7 +20,6 @@ import {
 } from '@repo/shared-types';
 import { EmailService } from '../../email/email.service';
 import * as argon2 from 'argon2';
-import * as postgresDb from '../../providers/postgres-db';
 import { UserRepository } from '../../repositories/user.repository';
 import { customAlphabet, nanoid } from 'nanoid';
 import { TokensService } from './tokens.service';
@@ -33,7 +32,6 @@ import { Gender } from '@repo/shared-types';
 @Injectable()
 export class AuthService {
   constructor(
-    @Inject('NeonDBProvider') private readonly db: postgresDb.Database,
     private userRepository: UserRepository,
     private tokensService: TokensService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
