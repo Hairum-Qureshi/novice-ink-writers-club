@@ -30,6 +30,6 @@ import { VerificationService } from './services/verification.service';
     VerificationService,
   ],
   controllers: [AuthController],
-  exports: [PassportModule, AuthService],
+  exports: [PassportModule, AuthService, CookieService],
 })
 export class AuthModule {}
