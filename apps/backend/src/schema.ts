@@ -105,3 +105,14 @@ export const storiesRelations = relations(storiesTable, ({ one }) => ({
     references: [usersTable.id],
   }),
 }));
+
+export const commentsRelations = relations(commentsTable, ({ one }) => ({
+  author: one(usersTable, {
+    fields: [commentsTable.authorId],
+    references: [usersTable.id],
+  }),
+  story: one(storiesTable, {
+    fields: [commentsTable.storyId],
+    references: [storiesTable.id],
+  }),
+}));
