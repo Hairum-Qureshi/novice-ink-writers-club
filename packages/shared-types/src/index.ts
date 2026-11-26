@@ -4,6 +4,7 @@ export type { ApiError } from "./types/apiError.js";
 export type { UseAuthHook } from "./hooks/useAuth.js";
 export type { UseUserHook } from "./hooks/useUser.js";
 export type { UseGenreHook } from "./hooks/useGenre.js";
+export type { UseCommentHook } from "./hooks/useComment.js";
 export type { SignInFormData } from "./schemas/signIn.schema.js";
 export type { SignUpFormData } from "./schemas/signUp.schema.js";
 export { signUpSchema } from "./schemas/signUp.schema.js";
