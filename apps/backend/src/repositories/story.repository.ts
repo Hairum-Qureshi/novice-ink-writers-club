@@ -30,9 +30,10 @@ export class StoryRepository {
         createdAt: true,
       },
       with: {
-        author: true,
-        columns: {
-          id: true,
+        author: {
+          columns: {
+            id: true,
+          },
         },
       },
     });
