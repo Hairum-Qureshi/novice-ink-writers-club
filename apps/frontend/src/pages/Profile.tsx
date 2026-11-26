@@ -223,8 +223,8 @@ export default function Profile() {
 										disabled={deleteAccount.isPending}
 										onClick={() => {
 											if (
-												window.confirm(
-													"Permanently delete your account? This action cannot be undone."
+												confirm(
+													"Are you sure you want to delete your account? This action cannot be undone."
 												)
 											) {
 												deleteAccount.mutate(undefined, {
@@ -307,7 +307,9 @@ export default function Profile() {
 								<MdVerified className="mt-0.5 shrink-0 text-yellow-600" />
 								<div>
 									<p className="text-xs font-semibold uppercase tracking-widest text-yellow-600">
-										{isYourProfile ? "You are a legacy member" : "This user is a legacy member"}
+										{isYourProfile
+											? "You are a legacy member"
+											: "This user is a legacy member"}
 									</p>
 								</div>
 							</li>
