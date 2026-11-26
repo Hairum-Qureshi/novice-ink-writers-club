@@ -3,9 +3,9 @@ import { FaBook, FaArrowUpRightFromSquare } from "react-icons/fa6";
 
 export default function Magazines() {
 	return (
-		<div className="min-h-[calc(100vh-5rem)] bg-[#1b2d1f] px-6 py-10">
+		<div className="min-h-[calc(100vh-5rem)] bg-[#111c0f] px-6 py-10">
 			<header className="mb-12 text-center">
-				<h1 className="text-4xl text-novice-ink-yellow font-dancing-script">
+				<h1 className="text-5xl text-novice-ink-yellow font-dancing-script">
 					Magazine Editions
 				</h1>
 				<p className="mt-3 text-sm text-white/60 font-alike-angular">
