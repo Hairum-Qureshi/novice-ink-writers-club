@@ -21,6 +21,16 @@ export class CommentRepository {
   async getCommentsByContentId(contentId: string) {
     const comments = await this.db.query.commentsTable.findMany({
       where: eq(commentsTable.storyId, contentId),
+      with: {
+        author: {
+          columns: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            profilePicture: true,
+          },
+        },
+      },
     });
 
     return comments;
