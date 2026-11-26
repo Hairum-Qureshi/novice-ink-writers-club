@@ -46,4 +46,13 @@ export class CommentRepository {
 
     return newComment;
   }
+
+  async deleteComment(commentId: string) {
+    const deletedComment = await this.db
+      .delete(commentsTable)
+      .where(eq(commentsTable.id, commentId))
+      .returning();
+
+    return deletedComment;
+  }
 }
