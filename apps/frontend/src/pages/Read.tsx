@@ -6,6 +6,7 @@ import Comment from "../components/Comment";
 import useComment from "../hooks/useComment";
 import type { Comment as CommentType } from "@shared-types";
 import { useAuthStore } from "../stores/auth.store";
+import NotFound from "./NotFound";
 
 export default function Read() {
 	const navigate = useNavigate();
@@ -13,6 +14,8 @@ export default function Read() {
 	const { getComments } = useComment();
 	const comments = getComments?.data ?? [];
 	const currUser = useAuthStore(state => state.user);
+
+	if (!getPublishedStoryContent?.data) return <NotFound />;
 
 	return (
 		<main className="min-h-[calc(100vh-5rem)] bg-[#0d1a10] px-5 py-10 text-white">
@@ -72,6 +75,11 @@ export default function Read() {
 									createdAt={comment.createdAt}
 									content={comment.content}
 									isOwner={currUser?.id === comment.author.id}
+									isAuthor={
+										comment.author.id ===
+										getPublishedStoryContent?.data?.author.id
+									}
+									commentId={comment.id}
 								/>
 							))}
 						</div>
