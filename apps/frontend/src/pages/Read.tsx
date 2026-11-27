@@ -76,7 +76,7 @@ export default function Read() {
 										}
 										isAuthor={
 											(comment.author.id as unknown as string) ===
-											(getPublishedStoryContent?.data?.author.id as unknown as string)
+											(getPublishedStoryContent?.data?.author?.id as unknown as string)
 										}
 										commentId={comment.id}
 										updatedAt={comment.updatedAt}
