@@ -4,7 +4,7 @@ import useGenre from "../hooks/useGenre";
 import CommentForm from "../components/comments/CommentForm";
 import Comment from "../components/comments/Comment";
 import useComment from "../hooks/useComment";
-import type { Comment as CommentType } from "@shared-types";
+import type { Comment as CommentType } from "@repo/shared-types";
 import { useAuthStore } from "../stores/auth.store";
 import NotFound from "./NotFound";
 
