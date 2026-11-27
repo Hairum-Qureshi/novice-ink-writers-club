@@ -1,0 +1,9 @@
+const Role = {
+    ADMIN: "admin",
+    PRESIDENT: "president",
+    VICE_PRESIDENT: "vice president",
+    SECRETARY: "secretary",
+    MAGAZINE_SELECTOR: "magazine selector",
+    MEMBER: "member"
+};
+export { Role };

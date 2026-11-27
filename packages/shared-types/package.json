@@ -3,8 +3,8 @@
 	"version": "0.0.0",
 	"private": true,
 	"type": "module",
-	"main": "./src/index.ts",
-	"types": "./src/index.ts",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
@@ -12,6 +12,8 @@
 		}
 	},
 	"scripts": {
-		"build": "tsc -p tsconfig.json --outDir dist"
+		"build": "tsc -p tsconfig.json --outDir dist",
+		"dev": "tsc -p tsconfig.json --outDir dist --watch",
+		"test": "node --test test/*.test.cjs"
 	}
 }

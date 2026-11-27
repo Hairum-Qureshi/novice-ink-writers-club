@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { Grade } from "../enums/grade";
-import { Gender } from "../enums/gender";
+import { Grade } from "../enums/grade.js";
+import { Gender } from "../enums/gender.js";
 
 export const userSettingsSchema = z.object({
 	firstName: z.string().min(1).optional(),
