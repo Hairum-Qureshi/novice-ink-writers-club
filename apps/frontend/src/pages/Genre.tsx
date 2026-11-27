@@ -1,6 +1,6 @@
 import { Navigate, useParams } from "react-router-dom";
 import type { Genre as GenreEnum } from "@repo/shared-types";
-import StoryCard from "../components/StoryCard";
+import StoryCard from "../components/cards/StoryCard";
 import useGenre from "../hooks/useGenre";
 import { useState } from "react";
 import prerequisites from "../json/prerequisites.json";
@@ -39,7 +39,7 @@ export default function Genre() {
 
 	return (
 		<main>
-			<div className="min-h-[calc(100vh-5rem)] bg-[#0d1a10] py-8 text-white">
+			<div className="min-h-[calc(100vh-5rem)] bg-[#111c0f] py-8 text-white">
 				<div className="mx-auto max-w-6xl space-y-10 px-4">
 					{/* Genre introduction */}
 					<section className="flex min-h-64 items-end rounded-lg border border-green-800/70 bg-[#0f200f] p-8 md:p-10">

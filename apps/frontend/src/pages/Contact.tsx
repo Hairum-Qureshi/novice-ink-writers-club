@@ -1,6 +1,6 @@
 export default function Contact() {
 	return (
-		<div className="min-h-[calc(100vh-5rem)] w-full bg-[#0e1b0c] text-white">
+		<div className="min-h-[calc(100vh-5rem)] w-full bg-[#111c0f] text-white">
 			<div className="mx-auto flex px-5 py-20 w-full max-w-2xl flex-col items-center">
 				{/* Header */}
 				<div className="mb-12 text-center">
