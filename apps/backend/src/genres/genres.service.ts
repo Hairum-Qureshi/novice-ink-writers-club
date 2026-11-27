@@ -27,7 +27,7 @@ export class GenresService {
   }
 
   async getPublishedGenreContentByUserId(userId: string) {
-    const userExists = await this.userRepository.getUserById(userId);
+    const userExists = await this.userRepository.getCachedUserById(userId);
     if (!userExists) throw new NotFoundException('User not found');
 
     const publishedGenreContent =

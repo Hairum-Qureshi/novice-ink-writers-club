@@ -1,7 +1,5 @@
 import { ConfigService } from '@nestjs/config';
 import { createKeyv } from '@keyv/redis';
-import { Keyv } from 'keyv';
-import { KeyvCacheableMemory } from 'cacheable';
 import { Logger } from '@nestjs/common';
 
 const logger = new Logger('Redis');
@@ -32,15 +30,8 @@ export const CacheConfig = {
     await redisStore.has('__healthcheck__');
 
     return {
-      stores: [
-        new Keyv({
-          store: new KeyvCacheableMemory({
-            ttl: 60000,
-            lruSize: 5000,
-          }),
-        }),
-        redisStore,
-      ],
+      // A process-local tier would retain stale entries after another instance invalidates Redis.
+      stores: [redisStore],
     };
   },
 };

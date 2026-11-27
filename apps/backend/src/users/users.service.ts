@@ -57,7 +57,7 @@ export class UsersService {
   }
 
   async getUserById(id: string) {
-    return this.userRepository.getUserById(id);
+    return this.userRepository.getCachedUserById(id);
   }
 
   private async uploadToS3(
@@ -98,9 +98,6 @@ export class UsersService {
       updatedAt: new Date(),
     });
 
-    // delete the cached list of all users since it is now outdated
-    await this.cacheManager.del('users:all');
-
     return user;
   }
 
@@ -125,9 +122,6 @@ export class UsersService {
       updatedAt: new Date(),
     });
 
-    // delete the cached list of all users since it is now outdated
-    await this.cacheManager.del('users:all');
-
     return user;
   }
 
@@ -141,9 +135,6 @@ export class UsersService {
       currUserId,
       updateData,
     );
-
-    // delete the cached list of all users since it is now outdated
-    await this.cacheManager.del('users:all');
 
     return user;
   }
@@ -161,7 +152,6 @@ export class UsersService {
     await this.deleteUserImages(currUserId);
     await this.commentRepository.deleteAllCommentsByUserId(currUserId);
     await this.userRepository.deleteUser(currUserId);
-    await this.cacheManager.del(`user:${currUserId}`);
 
     const RT_KEY = `rt:${sessionId}`;
     const sessionData = await this.cacheManager.get<{
@@ -173,9 +163,6 @@ export class UsersService {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
 
     await this.cacheManager.del(RT_KEY);
-
-    // delete the cached list of all users since it is now outdated
-    await this.cacheManager.del('users:all');
 
     this.cookieService.removeCookies(res);
     return { message: 'Account successfully deleted' };

@@ -11,7 +11,6 @@ import type { Response } from 'express';
 import type { Cache } from 'cache-manager';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import {
-  User,
   SignUpFormData as SignUpFormDataDto,
   SignInFormData as SignInFormDataDto,
   Role,
@@ -91,9 +90,6 @@ export class AuthService {
       },
       10 * 60 * 1000, // 10 minutes in milliseconds
     );
-
-    // delete the cached list of all users since it is now outdated
-    await this.cacheManager.del('users:all');
 
     await this.emailService.sendVerificationEmail(user.email, verificationCode);
   }
@@ -274,16 +270,10 @@ export class AuthService {
   }
 
   async getCurrentUser(userId: string): Promise<SafeUser> {
-    const key = `user:${userId}`;
-    const cachedUser = await this.cacheManager.get<User>(key);
-
-    if (cachedUser) return cachedUser;
-
-    const user = await this.userRepository.getUserById(userId);
+    const user = await this.userRepository.getCachedUserById(userId);
 
     if (!user) throw new NotFoundException('User not found');
 
-    await this.cacheManager.set(key, user, 30 * 60 * 1000); // expires after 30 minutes
     return user;
   }
 }
