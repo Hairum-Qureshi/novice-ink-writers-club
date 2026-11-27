@@ -108,8 +108,8 @@ export default function Home() {
 					<Timeline />
 				</div>
 			</div>
-			<div className="bg-[#172118] h-auto p-20">
-				<h1 className="text-5xl font-bold uppercase font-lusitana text-amber-300 text-center">
+			<div className="bg-[#111a13] h-auto p-20">
+				<h1 className="text-5xl font-bold uppercase font-lusitana text-amber-200 text-center">
 					Frequently Asked Questions
 				</h1>
 				<div>

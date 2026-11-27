@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import useGenre from "../hooks/useGenre";
-import CommentForm from "../components/CommentForm";
-import Comment from "../components/Comment";
+import CommentForm from "../components/comments/CommentForm";
+import Comment from "../components/comments/Comment";
 import useComment from "../hooks/useComment";
 import type { Comment as CommentType } from "@shared-types";
 import { useAuthStore } from "../stores/auth.store";

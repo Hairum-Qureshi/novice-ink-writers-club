@@ -1,4 +1,4 @@
-import UserStoryCard from "../components/UserStoryCard";
+import UserStoryCard from "../components/cards/UserStoryCard";
 import { FiBookOpen, FiCamera, FiUser } from "react-icons/fi";
 import { useRef, useState } from "react";
 import { useAuthStore } from "../stores/auth.store";
