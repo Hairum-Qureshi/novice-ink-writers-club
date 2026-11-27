@@ -1,6 +1,5 @@
 import ClubMemberCard from "../components/cards/ClubMemberCard";
 import ClubFoundersJSON from "../json/club-founders.json";
-import ClubPhoto from "../public/assets/ClubPhoto.jpg";
 
 export default function ClubMembers() {
 	return (
@@ -21,7 +20,7 @@ export default function ClubMembers() {
 			</div>
 			<div>
 				<img
-					src={ClubPhoto}
+					src="/assets/ClubPhoto.jpg"
 					alt="Club Photo"
 					className="w-full max-w-4xl mx-auto mt-10 rounded-lg border border-gray-600"
 				/>
