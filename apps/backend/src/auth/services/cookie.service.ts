@@ -7,14 +7,16 @@ export class CookieService {
   constructor(private configService: ConfigService) {}
 
   createCookie(res: Response, name: string, token: string, age: number) {
+    const isProduction =
+      this.configService.get<string>('NODE_ENV') === 'production';
+
     res.cookie(name, token, {
       httpOnly: true,
-      secure: this.configService.get<string>('NODE_ENV') === 'production',
-      sameSite: 'lax',
+      secure: isProduction,
+      sameSite: isProduction ? 'none' : 'lax',
       maxAge: age,
     });
   }
-
   setAuthCookies(
     res: Response,
     refreshToken: string,
