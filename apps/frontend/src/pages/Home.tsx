@@ -34,7 +34,7 @@ export default function Home() {
 					</div>
 				</div>
 			</div>
-			<div className="bg-[#211d1a] h-auto p-20 flex items-center justify-between">
+			<div className="bg-[#211d1a] h-auto p-20 flex lg:flex-row flex-col items-center justify-between">
 				<div className="flex-1">
 					<h1 className="text-5xl font-bold uppercase font-lusitana text-amber-300">
 						About Us
@@ -58,7 +58,7 @@ export default function Home() {
 					<img
 						src="/assets/Christiana-High-School-Logo.png"
 						alt="Christiana High School Logo"
-						className="w-1/2 h-1/2 rounded-full border border-yellow-300"
+						className="lg:w-1/2 lg:h-1/2 w-70 h-70 lg:mt-0 mt-10 rounded-full border border-yellow-300"
 					/>
 				</div>
 			</div>
