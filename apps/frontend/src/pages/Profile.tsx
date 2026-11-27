@@ -248,7 +248,7 @@ export default function Profile() {
 				</div>
 
 				{/* Sidebar card */}
-				<aside className="order-1 h-fit rounded-lg border border-[#d6dcd5] bg-[#f3f4f0] px-6 pb-6 shadow-lg shadow-[#29352b]/10 lg:order-2">
+				<aside className="order-1 h-fit rounded-lg border border-[#d6dcd5] bg-[#f3f4f0] px-6 pb-6 shadow-lg shadow-[#29352b]/10 lg:order-2 lg:mt-0 mt-10">
 					<div className="group relative mx-auto -mt-16 h-32 w-32 overflow-hidden rounded-full border-4 border-novice-ink-yellow shadow-md">
 						<img
 							src={
