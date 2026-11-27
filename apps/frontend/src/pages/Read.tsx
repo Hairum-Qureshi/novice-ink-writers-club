@@ -62,23 +62,29 @@ export default function Read() {
 						</h2>
 						<CommentForm />
 						<div className="space-y-4 my-10">
-							{comments.map((comment: CommentType) => (
-								<Comment
-									key={comment.id}
-									userId={comment.author.id}
-									author={`${comment.author.firstName} ${comment.author.lastName}`}
-									avatar={comment.author.profilePicture}
-									createdAt={comment.createdAt}
-									content={comment.content}
-									isOwner={currUser?.id === comment.author.id}
-									isAuthor={
-										comment.author.id ===
-										getPublishedStoryContent?.data?.author.id
-									}
-									commentId={comment.id}
-									updatedAt={comment.updatedAt}
-								/>
-							))}
+							{comments.length ? (
+								comments?.map((comment: CommentType) => (
+									<Comment
+										key={comment.id}
+										userId={comment.author.id as unknown as string}
+										author={`${comment.author.firstName} ${comment.author.lastName}`}
+										avatar={comment.author.profilePicture as unknown as string}
+										createdAt={comment.createdAt}
+										content={comment.content}
+										isOwner={
+											currUser?.id === (comment.author.id as unknown as string)
+										}
+										isAuthor={
+											(comment.author.id as unknown as string) ===
+											(getPublishedStoryContent?.data?.author.id as unknown as string)
+										}
+										commentId={comment.id}
+										updatedAt={comment.updatedAt}
+									/>
+								))
+							) : (
+								<p className="text-white/75 text-center">No comments yet.</p>
+							)}
 						</div>
 					</div>
 				</article>
