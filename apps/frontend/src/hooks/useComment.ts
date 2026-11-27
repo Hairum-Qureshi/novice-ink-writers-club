@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { api } from "../lib/api";
-import { UseCommentHook } from "@repo/shared-types";
+import type { UseCommentHook } from "@repo/shared-types";
 
 export default function useComment(): UseCommentHook {
 	const { storyId } = useParams<{ storyId: string }>();
