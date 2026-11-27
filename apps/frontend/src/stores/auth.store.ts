@@ -2,6 +2,8 @@ import { create } from "zustand";
 import { api } from "../lib/api";
 import type { User } from "@repo/shared-types";
 
+const authChannel = new BroadcastChannel("auth");
+
 interface AuthStore {
 	user: User | null;
 	isLoading: boolean;
@@ -49,6 +51,8 @@ export const useAuthStore = create<AuthStore>(set => ({
 	logout: async () => {
 		try {
 			await api.post("/api/auth/sign-out");
+
+			authChannel.postMessage({ type: "LOGOUT" });
 		} finally {
 			set({ user: null });
 		}
@@ -58,3 +62,7 @@ export const useAuthStore = create<AuthStore>(set => ({
 		set({ user: null });
 	}
 }));
+
+authChannel.onmessage = event => {
+	if (event.data.type === "LOGOUT") useAuthStore.getState().clearSession();
+};

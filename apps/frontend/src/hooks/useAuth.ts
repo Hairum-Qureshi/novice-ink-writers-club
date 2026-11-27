@@ -8,6 +8,7 @@ export default function useAuth() {
 	const queryClient = useQueryClient();
 	const [searchParams] = useSearchParams();
 	const login = useAuthStore(state => state.login);
+	const clearSession = useAuthStore(state => state.clearSession);
 
 	const token = searchParams.get("token") ?? "";
 
@@ -85,6 +86,7 @@ export default function useAuth() {
 		},
 		onSuccess: () => {
 			queryClient.setQueryData(["currentUser"], null);
+			clearSession();
 		}
 	});
 
