@@ -2,10 +2,12 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { SignUpFormData, SignInFormData } from "@repo/shared-types";
 import { useSearchParams } from "react-router-dom";
+import { useAuthStore } from "../stores/auth.store";
 
 export default function useAuth() {
 	const queryClient = useQueryClient();
 	const [searchParams] = useSearchParams();
+	const login = useAuthStore(state => state.login);
 
 	const token = searchParams.get("token") ?? "";
 
@@ -53,13 +55,7 @@ export default function useAuth() {
 
 	const signInMutation = useMutation({
 		mutationFn: async (formData: SignInFormData) => {
-			await axios.post(
-				`${import.meta.env.VITE_BACKEND_URL}/api/auth/sign-in`,
-				formData,
-				{
-					withCredentials: true
-				}
-			);
+			await login(formData.email, formData.password);
 		},
 		onSuccess: () =>
 			queryClient.invalidateQueries({ queryKey: ["currentUser"] })

@@ -4,8 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signInSchema } from "@repo/shared-types";
 import { z } from "zod";
 import useAuth from "../../hooks/useAuth";
-import axios from "axios";
-import { useAuthStore } from "../../stores/auth.store";
+import { getAuthErrorMessage } from "../../lib/authError";
 
 export default function SignInForm() {
 	const {
@@ -18,14 +17,12 @@ export default function SignInForm() {
 
 	const { signIn } = useAuth();
 	const navigate = useNavigate();
-	const login = useAuthStore(state => state.login);
 
 	return (
 		<form
 			className="w-1/2 space-y-4"
 			onSubmit={handleSubmit((data, e) => {
 				e?.preventDefault();
-				login(data.email, data.password);
 				signIn.mutate(data, {
 					onSuccess: () => {
 						navigate("/");
@@ -98,10 +95,11 @@ export default function SignInForm() {
 			</button>
 			{signIn.isError && (
 				<p role="alert" className="text-center text-sm text-red-600">
-					{axios.isAxiosError<ApiError>(signIn.error)
-						? (signIn.error.response?.data?.message ??
-							"Unable to sign in. Please check your credentials and try again.")
-						: "Unable to sign in. Please check your credentials and try again."}
+					{getAuthErrorMessage(
+						signIn.error,
+						"Unable to sign in. Please try again.",
+						"Incorrect email or password. Please try again."
+					)}
 				</p>
 			)}
 		</form>
