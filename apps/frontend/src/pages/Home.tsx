@@ -34,6 +34,7 @@ export default function Home() {
 					</div>
 				</div>
 			</div>
+			<div className="h-20 bg-gradient-to-b from-[#161515] to-[#211d1a]" />
 			<div className="bg-[#211d1a] h-auto p-20 flex lg:flex-row flex-col items-center justify-between">
 				<div className="flex-1">
 					<h1 className="text-5xl font-bold uppercase font-lusitana text-amber-300">
@@ -62,6 +63,7 @@ export default function Home() {
 					/>
 				</div>
 			</div>
+			<div className="h-20 bg-gradient-to-b from-[#211d1a] to-[#16130f]" />
 			<section className="bg-[#16130f] px-6 py-20 md:px-12 lg:px-20">
 				<div className="max-w-7xl mx-auto">
 					<div className="flex flex-col items-center mb-12">
@@ -100,6 +102,7 @@ export default function Home() {
 					</div>
 				</div>
 			</section>
+			<div className="h-15 bg-gradient-to-b from-[#16130f] to-[#121510]" />
 			<div className="bg-[#121510] h-auto p-3 lg:p-20">
 				<h1 className="text-5xl font-bold uppercase lg:py-0 py-5 font-lusitana text-amber-300 text-center">
 					History of Novice Ink.
@@ -108,6 +111,7 @@ export default function Home() {
 					<Timeline />
 				</div>
 			</div>
+			<div className="h-20 bg-gradient-to-b from-[#121510] to-[#111a13]" />
 			<div className="bg-[#111a13] h-auto p-20">
 				<h1 className="text-5xl font-bold uppercase font-lusitana text-amber-200 text-center">
 					Frequently Asked Questions
