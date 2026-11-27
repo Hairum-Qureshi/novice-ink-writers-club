@@ -25,7 +25,7 @@ export default function Read() {
 					className="text-sm hover:cursor-pointer text-green-200/70 transition-colors hover:text-green-200"
 				>
 					<FaArrowLeftLong className="inline-block mr-2" />
-					Back to Genre
+					Go Back
 				</button>
 				<header className="mx-auto max-w-3xl pb-12 pt-16 text-center">
 					<h1 className="font-alike-angular text-4xl text-white/95">
@@ -76,7 +76,8 @@ export default function Read() {
 										}
 										isAuthor={
 											(comment.author.id as unknown as string) ===
-											(getPublishedStoryContent?.data?.author?.id as unknown as string)
+											(getPublishedStoryContent?.data?.author
+												?.id as unknown as string)
 										}
 										commentId={comment.id}
 										updatedAt={comment.updatedAt}
