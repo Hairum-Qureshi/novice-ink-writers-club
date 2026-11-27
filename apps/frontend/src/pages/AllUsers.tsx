@@ -22,8 +22,8 @@ export default function AllUsers() {
 
 	return (
 		<div className="p-5 bg-[#111c0f] flex min-h-[calc(100vh-5rem)] items-start justify-center text-white">
-			<div className="flex flex-col items-center w-3/4 my-5">
-				<div className="flex flex-col justify-center items-center w-3/4">
+			<div className="flex flex-col items-center w-full lg:w-3/4 my-5">
+				<div className="flex flex-col justify-center items-center w-full lg:w-3/4">
 					<h5 className="uppercase text-sm text-yellow-400 my-2 font-alike-angular">
 						The Novice Ink. Community
 					</h5>
